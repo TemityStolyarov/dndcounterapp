@@ -10,16 +10,20 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Hive.initFlutter();
   Hive.registerAdapter(CharacterAdapter());
   Hive.registerAdapter(WeaponAdapter());
   Hive.registerAdapter(SpellAdapter());
   await Hive.openBox<Character>('characters');
-  runApp(const MainApp());
+  Box<Character> box = Hive.box<Character>('characters');
+
+  runApp(MainApp(box: box));
 }
 
 class MainApp extends StatefulWidget {
-  const MainApp({super.key});
+  final Box<Character> box;
+  const MainApp({super.key, required this.box});
 
   @override
   State<MainApp> createState() => _MainAppState();
@@ -28,15 +32,17 @@ class MainApp extends StatefulWidget {
 class _MainAppState extends State<MainApp> {
   bool colorScheme = true;
   List<Character> chars = [];
-  Box<Character> box = Hive.box<Character>('characters');
-  // final box = Hive.openBox('chars').then((value) {
-  //   chars.add(value.values.);
-  // });
 
   @override
   void initState() {
     _getDataFromHive();
     super.initState();
+  }
+
+  @override
+  void dispose() async {
+    await widget.box.close();
+    super.dispose();
   }
 
   @override
@@ -103,105 +109,102 @@ class _MainAppState extends State<MainApp> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Column(
-                  children: [
-                    const Text(
-                      'Save',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    InkWell(
-                      borderRadius: const BorderRadius.all(Radius.circular(8)),
-                      onTap: () async {
-                        await box.close();
-                        await Hive.openBox<Character>('characters');
-                        box = Hive.box<Character>('characters');
-                      },
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: ColorPalette.attAgility,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(8)),
-                          border: Border.all(
-                            color: ColorPalette.fontBaseColor.withOpacity(0.7),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: colorScheme
-                                  ? ColorPalette.alternativeshadowColor
-                                  : ColorPalette.shadowColor,
-                              offset: const Offset(0, 5),
-                              blurRadius: 10,
-                              spreadRadius: 4,
-                            ),
-                          ],
-                        ),
-                        child: const Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.save,
-                              color: ColorPalette.fontBaseColor,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(width: 20),
-                Column(
-                  children: [
-                    const Text(
-                      'Update',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    InkWell(
-                      borderRadius: const BorderRadius.all(Radius.circular(8)),
-                      onTap: () {
-                        setState(() {
-                          box = Hive.box<Character>('characters');
-                          chars = box.values.toList();
-                        });
-                      },
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: ColorPalette.cubeColor,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(8)),
-                          border: Border.all(
-                            color: ColorPalette.fontBaseColor.withOpacity(0.7),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: colorScheme
-                                  ? ColorPalette.alternativeshadowColor
-                                  : ColorPalette.shadowColor,
-                              offset: const Offset(0, 5),
-                              blurRadius: 10,
-                              spreadRadius: 4,
-                            ),
-                          ],
-                        ),
-                        child: const Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.refresh,
-                              color: ColorPalette.fontBaseColor,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(width: 40),
+                // Column(
+                //   children: [
+                //     const Text(
+                //       'Save',
+                //       style: TextStyle(fontWeight: FontWeight.bold),
+                //     ),
+                //     const SizedBox(height: 8),
+                //     InkWell(
+                //       borderRadius: const BorderRadius.all(Radius.circular(8)),
+                //       onTap: () {
+                //         chars = widget.box.values.toList();
+                //       },
+                //       child: Container(
+                //         width: 50,
+                //         height: 50,
+                //         decoration: BoxDecoration(
+                //           color: ColorPalette.attAgility,
+                //           borderRadius:
+                //               const BorderRadius.all(Radius.circular(8)),
+                //           border: Border.all(
+                //             color: ColorPalette.fontBaseColor.withOpacity(0.7),
+                //           ),
+                //           boxShadow: [
+                //             BoxShadow(
+                //               color: colorScheme
+                //                   ? ColorPalette.alternativeshadowColor
+                //                   : ColorPalette.shadowColor,
+                //               offset: const Offset(0, 5),
+                //               blurRadius: 10,
+                //               spreadRadius: 4,
+                //             ),
+                //           ],
+                //         ),
+                //         child: const Column(
+                //           mainAxisAlignment: MainAxisAlignment.center,
+                //           children: [
+                //             Icon(
+                //               Icons.save,
+                //               color: ColorPalette.fontBaseColor,
+                //             ),
+                //           ],
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // const SizedBox(width: 20),
+                // Column(
+                //   children: [
+                //     const Text(
+                //       'Update',
+                //       style: TextStyle(fontWeight: FontWeight.bold),
+                //     ),
+                //     const SizedBox(height: 8),
+                //     InkWell(
+                //       borderRadius: const BorderRadius.all(Radius.circular(8)),
+                //       onTap: () {
+                //         setState(() {
+                //           chars = widget.box.values.toList();
+                //         });
+                //       },
+                //       child: Container(
+                //         width: 50,
+                //         height: 50,
+                //         decoration: BoxDecoration(
+                //           color: ColorPalette.cubeColor,
+                //           borderRadius:
+                //               const BorderRadius.all(Radius.circular(8)),
+                //           border: Border.all(
+                //             color: ColorPalette.fontBaseColor.withOpacity(0.7),
+                //           ),
+                //           boxShadow: [
+                //             BoxShadow(
+                //               color: colorScheme
+                //                   ? ColorPalette.alternativeshadowColor
+                //                   : ColorPalette.shadowColor,
+                //               offset: const Offset(0, 5),
+                //               blurRadius: 10,
+                //               spreadRadius: 4,
+                //             ),
+                //           ],
+                //         ),
+                //         child: const Column(
+                //           mainAxisAlignment: MainAxisAlignment.center,
+                //           children: [
+                //             Icon(
+                //               Icons.refresh,
+                //               color: ColorPalette.fontBaseColor,
+                //             ),
+                //           ],
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                const SizedBox(width: 80),
                 Column(
                   children: [
                     const Text(
@@ -299,18 +302,23 @@ class _MainAppState extends State<MainApp> {
                           CharacterCard(
                             colorScheme: colorScheme,
                             character: chars[index],
-                            box: box,
+                            box: widget.box,
                             index: index,
                             onClose: () {
-                              box.deleteAt(index);
+                              widget.box.deleteAt(index);
                               setState(() {
-                                chars = box.values.toList();
+                                chars = widget.box.values.toList();
                               });
                             },
                           ),
                         CharacterCardAdd(
                           colorScheme: colorScheme,
-                          box: box,
+                          box: widget.box,
+                          onAdd: () {
+                            setState(() {
+                              chars = widget.box.values.toList();
+                            });
+                          },
                         ),
                       ],
                     ),
@@ -325,12 +333,8 @@ class _MainAppState extends State<MainApp> {
   }
 
   void _getDataFromHive() {
-    final box = Hive.box<Character>('characters');
-
     setState(() {
-      chars = box.values.toList();
+      chars = widget.box.values.toList();
     });
-
-    // await box.close();
   }
 }

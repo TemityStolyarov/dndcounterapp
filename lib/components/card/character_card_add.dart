@@ -6,9 +6,14 @@ import 'package:hive_flutter/hive_flutter.dart';
 class CharacterCardAdd extends StatelessWidget {
   final Box box;
   final bool colorScheme;
+  final VoidCallback onAdd;
 
-  const CharacterCardAdd(
-      {super.key, required this.box, required this.colorScheme});
+  const CharacterCardAdd({
+    super.key,
+    required this.box,
+    required this.colorScheme,
+    required this.onAdd,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +74,7 @@ class CharacterCardAdd extends StatelessWidget {
         final ctrATL = TextEditingController();
         final ctrCAR = TextEditingController();
         final ctrWIS = TextEditingController();
-        final TextEditingController ctrDesc = TextEditingController();
+        final ctrDesc = TextEditingController();
 
         return AlertDialog(
           title: const Text('Добавление персонажа'),
@@ -255,7 +260,7 @@ class CharacterCardAdd extends StatelessWidget {
           ),
           actions: <Widget>[
             TextButton(
-              onPressed: () async {
+              onPressed: () {
                 final Character newChar = Character(
                   name: ctrName.text,
                   race: ctrRace.text,
@@ -273,6 +278,7 @@ class CharacterCardAdd extends StatelessWidget {
                   spells: [],
                 );
                 box.add(newChar);
+                _updateScreen();
                 ctrName.dispose();
                 ctrRace.dispose();
                 ctrClass.dispose();
@@ -297,5 +303,10 @@ class CharacterCardAdd extends StatelessWidget {
         );
       },
     );
+  }
+
+  void _updateScreen() {
+    onAdd();
+    print('Character added!');
   }
 }

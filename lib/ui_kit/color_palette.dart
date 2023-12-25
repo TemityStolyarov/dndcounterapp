@@ -11,12 +11,12 @@ class ColorPalette {
   static const accentColor = Color.fromARGB(255, 255, 211, 78);
   static const accentActiveColor = Color.fromARGB(255, 255, 197, 23);
 
-  static const attStrength = Color(0xFFAC4141);
-  static const attAgility = Color(0xFF659753);
-  static const attIntelligence = Color(0xFF4AA5A5);
-  static const attAthletics = Color(0xFF9D6614);
+  static const attStrength = Color.fromARGB(255, 208, 68, 68);
+  static const attAgility = Color.fromARGB(255, 77, 163, 79);
+  static const attIntelligence = Color(0xFF0E72AB);
+  static const attAthletics = Color.fromARGB(255, 185, 119, 21);
   static const attCharisma = Color(0xFF87B527);
-  static const attWisdom = Color(0xFF0E72AB);
+  static const attWisdom = Color(0xFF4AA5A5);
 
   static const attHP = Color(0xFF9D4343);
   static const attKD = Color(0xFF6D7172);
