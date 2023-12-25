@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:dndcounterapp/components/card/character_description_blocks/character_attr_badges.dart';
 import 'package:dndcounterapp/components/card/character_description_blocks/character_card_header.dart';
 import 'package:dndcounterapp/models/character.dart';
