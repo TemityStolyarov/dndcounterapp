@@ -1,6 +1,6 @@
 import 'package:dndcounterapp/components/card/character_card.dart';
 import 'package:dndcounterapp/components/card/character_card_add.dart';
-import 'package:dndcounterapp/components/dice.dart';
+import 'package:dndcounterapp/components/dice_row.dart';
 import 'package:dndcounterapp/models/character.dart';
 import 'package:dndcounterapp/models/spell.dart';
 import 'package:dndcounterapp/models/weapon.dart';
@@ -47,19 +47,6 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    // final Character char = Character(
-    //   name: 'Хельга Галтунг',
-    //   race: 'Высший эльф',
-    //   crClass: 'Жрец',
-    //   hp: 20,
-    //   kd: 10,
-    //   strength: 20,
-    //   agility: 18,
-    //   intelligence: 16,
-    //   athletics: 14,
-    //   charisma: 12,
-    //   wisdom: 10,
-    //   description: 'Creating story',
     //   inventory: [
     //     Weapon(
     //       name: 'Крутой меч',
@@ -103,187 +90,17 @@ class _MainAppState extends State<MainApp> {
             : ColorPalette.backgroundColor,
         appBar: PreferredSize(
           preferredSize: const Size(0, 100),
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Column(
-                //   children: [
-                //     const Text(
-                //       'Save',
-                //       style: TextStyle(fontWeight: FontWeight.bold),
-                //     ),
-                //     const SizedBox(height: 8),
-                //     InkWell(
-                //       borderRadius: const BorderRadius.all(Radius.circular(8)),
-                //       onTap: () {
-                //         chars = widget.box.values.toList();
-                //       },
-                //       child: Container(
-                //         width: 50,
-                //         height: 50,
-                //         decoration: BoxDecoration(
-                //           color: ColorPalette.attAgility,
-                //           borderRadius:
-                //               const BorderRadius.all(Radius.circular(8)),
-                //           border: Border.all(
-                //             color: ColorPalette.fontBaseColor.withOpacity(0.7),
-                //           ),
-                //           boxShadow: [
-                //             BoxShadow(
-                //               color: colorScheme
-                //                   ? ColorPalette.alternativeshadowColor
-                //                   : ColorPalette.shadowColor,
-                //               offset: const Offset(0, 5),
-                //               blurRadius: 10,
-                //               spreadRadius: 4,
-                //             ),
-                //           ],
-                //         ),
-                //         child: const Column(
-                //           mainAxisAlignment: MainAxisAlignment.center,
-                //           children: [
-                //             Icon(
-                //               Icons.save,
-                //               color: ColorPalette.fontBaseColor,
-                //             ),
-                //           ],
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                // const SizedBox(width: 20),
-                // Column(
-                //   children: [
-                //     const Text(
-                //       'Update',
-                //       style: TextStyle(fontWeight: FontWeight.bold),
-                //     ),
-                //     const SizedBox(height: 8),
-                //     InkWell(
-                //       borderRadius: const BorderRadius.all(Radius.circular(8)),
-                //       onTap: () {
-                //         setState(() {
-                //           chars = widget.box.values.toList();
-                //         });
-                //       },
-                //       child: Container(
-                //         width: 50,
-                //         height: 50,
-                //         decoration: BoxDecoration(
-                //           color: ColorPalette.cubeColor,
-                //           borderRadius:
-                //               const BorderRadius.all(Radius.circular(8)),
-                //           border: Border.all(
-                //             color: ColorPalette.fontBaseColor.withOpacity(0.7),
-                //           ),
-                //           boxShadow: [
-                //             BoxShadow(
-                //               color: colorScheme
-                //                   ? ColorPalette.alternativeshadowColor
-                //                   : ColorPalette.shadowColor,
-                //               offset: const Offset(0, 5),
-                //               blurRadius: 10,
-                //               spreadRadius: 4,
-                //             ),
-                //           ],
-                //         ),
-                //         child: const Column(
-                //           mainAxisAlignment: MainAxisAlignment.center,
-                //           children: [
-                //             Icon(
-                //               Icons.refresh,
-                //               color: ColorPalette.fontBaseColor,
-                //             ),
-                //           ],
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                const SizedBox(width: 80),
-                Column(
-                  children: [
-                    const Text(
-                      'd20',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    Dice(d: 20, colorScheme: colorScheme),
-                  ],
-                ),
-                const SizedBox(width: 20),
-                Column(
-                  children: [
-                    const Text(
-                      'd12',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    Dice(d: 12, colorScheme: colorScheme),
-                  ],
-                ),
-                const SizedBox(width: 20),
-                Column(
-                  children: [
-                    const Text(
-                      'd10',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    Dice(d: 10, colorScheme: colorScheme),
-                  ],
-                ),
-                const SizedBox(width: 20),
-                Column(
-                  children: [
-                    const Text(
-                      'd8',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    Dice(d: 8, colorScheme: colorScheme),
-                  ],
-                ),
-                const SizedBox(width: 20),
-                Column(
-                  children: [
-                    const Text(
-                      'd6',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    Dice(d: 6, colorScheme: colorScheme),
-                  ],
-                ),
-                const SizedBox(width: 20),
-                Column(
-                  children: [
-                    const Text(
-                      'd4',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    Dice(d: 4, colorScheme: colorScheme),
-                  ],
-                ),
-                const Spacer(),
-                Switch.adaptive(
-                  activeColor: ColorPalette.accentColor,
-                  splashRadius: 0,
-                  value: colorScheme,
-                  onChanged: (value) => {
-                    setState(
-                      () {
-                        colorScheme = value;
-                      },
-                    )
-                  },
-                ),
-              ],
+          child: DiceRow(
+            colorScheme: colorScheme,
+            child: Switch.adaptive(
+              activeColor: ColorPalette.accentColor,
+              splashRadius: 0,
+              value: colorScheme,
+              onChanged: (value) {
+                setState(() {
+                  colorScheme = value;
+                });
+              },
             ),
           ),
         ),
