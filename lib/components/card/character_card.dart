@@ -11,6 +11,7 @@ class CharacterCard extends StatefulWidget {
   final bool colorScheme;
   final Character character;
   final int? index;
+  final VoidCallback onEdit;
   final VoidCallback onClose;
   final Box box;
 
@@ -20,6 +21,7 @@ class CharacterCard extends StatefulWidget {
     required this.colorScheme,
     required this.box,
     this.index,
+    required this.onEdit,
     required this.onClose,
   });
 
@@ -99,13 +101,22 @@ class _CharacterCardState extends State<CharacterCard> {
                     Padding(
                       padding: const EdgeInsets.all(4),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          InkWell(
+                            onTap: widget.onEdit,
+                            child: const Icon(
+                              Icons.edit,
+                              size: 20,
+                              color: ColorPalette.attKD,
+                            ),
+                          ),
                           InkWell(
                             onTap: widget.onClose,
                             child: const Icon(
-                              Icons.close,
-                              color: ColorPalette.fontBaseColor,
+                              Icons.delete_forever,
+                              size: 22,
+                              color: ColorPalette.attKD,
                             ),
                           ),
                         ],

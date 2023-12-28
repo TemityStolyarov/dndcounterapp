@@ -1,5 +1,6 @@
 import 'package:dndcounterapp/components/card/character_card.dart';
 import 'package:dndcounterapp/components/card/character_card_add.dart';
+import 'package:dndcounterapp/components/card/character_description_blocks/character_main_modal_edit.dart';
 import 'package:dndcounterapp/components/dice_row.dart';
 import 'package:dndcounterapp/models/character.dart';
 import 'package:dndcounterapp/models/spell.dart';
@@ -18,7 +19,13 @@ void main() async {
   await Hive.openBox<Character>('characters');
   Box<Character> box = Hive.box<Character>('characters');
 
-  runApp(MainApp(box: box));
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    theme: ThemeData(
+        fontFamily: 'Inter',
+        colorScheme: const ColorScheme.light().copyWith(primary: Colors.brown)),
+    home: MainApp(box: box),
+  ));
 }
 
 class MainApp extends StatefulWidget {
@@ -78,72 +85,73 @@ class _MainAppState extends State<MainApp> {
     //   ],
     // );
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          fontFamily: 'Inter',
-          colorScheme:
-              const ColorScheme.light().copyWith(primary: Colors.brown)),
-      home: Scaffold(
-        backgroundColor: colorScheme
-            ? ColorPalette.alternativeBackgroundColor
-            : ColorPalette.backgroundColor,
-        appBar: PreferredSize(
-          preferredSize: const Size(0, 100),
-          child: DiceRow(
-            colorScheme: colorScheme,
-            child: Switch.adaptive(
-              activeColor: ColorPalette.accentColor,
-              splashRadius: 0,
-              value: colorScheme,
-              onChanged: (value) {
-                setState(() {
-                  colorScheme = value;
-                });
-              },
-            ),
+    return Scaffold(
+      backgroundColor: colorScheme
+          ? ColorPalette.alternativeBackgroundColor
+          : ColorPalette.backgroundColor,
+      appBar: PreferredSize(
+        preferredSize: const Size(0, 100),
+        child: DiceRow(
+          colorScheme: colorScheme,
+          child: Switch.adaptive(
+            activeColor: ColorPalette.accentColor,
+            splashRadius: 0,
+            value: colorScheme,
+            onChanged: (value) {
+              setState(() {
+                colorScheme = value;
+              });
+            },
           ),
         ),
-        body: Align(
-          alignment: Alignment.topRight,
-          child: Row(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                  child: Center(
-                    child: Wrap(
-                      alignment: WrapAlignment.center,
-                      children: [
-                        for (int index = 0; index < chars.length; index++)
-                          CharacterCard(
-                            colorScheme: colorScheme,
-                            character: chars[index],
-                            box: widget.box,
-                            index: index,
-                            onClose: () {
-                              widget.box.deleteAt(index);
-                              setState(() {
-                                chars = widget.box.values.toList();
-                              });
-                            },
-                          ),
-                        CharacterCardAdd(
+      ),
+      body: Align(
+        alignment: Alignment.topRight,
+        child: Row(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: Center(
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
+                    children: [
+                      for (int index = 0; index < chars.length; index++)
+                        CharacterCard(
                           colorScheme: colorScheme,
+                          character: chars[index],
                           box: widget.box,
-                          onAdd: () {
+                          index: index,
+                          onClose: () {
+                            widget.box.deleteAt(index);
                             setState(() {
                               chars = widget.box.values.toList();
                             });
                           },
+                          onEdit: () {
+                            final cmme = CharacterMainModalEdit(
+                              box: widget.box,
+                              onSave: _getDataFromHive,
+                              index: index,
+                            );
+                            cmme.showCharacterMainModalEdit(context);
+                          },
                         ),
-                      ],
-                    ),
+                      CharacterCardAdd(
+                        colorScheme: colorScheme,
+                        box: widget.box,
+                        onAdd: () {
+                          setState(() {
+                            chars = widget.box.values.toList();
+                          });
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
