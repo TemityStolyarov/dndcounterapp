@@ -17,8 +17,8 @@ class CharacterAdapter extends TypeAdapter<Character> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Character(
-      race: fields[1] as String?,
-      crClass: fields[2] as String?,
+      race: fields[1] as String,
+      crClass: fields[2] as String,
       description: fields[11] as String,
       inventory: (fields[12] as List).cast<Weapon>(),
       spells: (fields[13] as List).cast<Spell>(),

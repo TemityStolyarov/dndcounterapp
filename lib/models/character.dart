@@ -9,9 +9,9 @@ class Character extends HiveObject {
   @HiveField(0)
   final String name;
   @HiveField(1)
-  final String? race;
+  final String race;
   @HiveField(2)
-  final String? crClass;
+  final String crClass;
   @HiveField(3)
   final int hp;
   @HiveField(4)
@@ -38,8 +38,8 @@ class Character extends HiveObject {
   final List<Spell> spells;
 
   Character({
-    this.race,
-    this.crClass,
+    required this.race,
+    required this.crClass,
     required this.description,
     required this.inventory,
     required this.spells,
@@ -52,5 +52,22 @@ class Character extends HiveObject {
     required this.name,
     required this.hp,
     required this.kd,
+  });
+
+  Character.empty({
+    this.race = '',
+    this.crClass = '',
+    this.description = '',
+    this.inventory = const [],
+    this.spells = const [],
+    this.strength = 0,
+    this.agility = 0,
+    this.intelligence = 0,
+    this.athletics = 0,
+    this.charisma = 0,
+    this.wisdom = 0,
+    this.name = '',
+    this.hp = 0,
+    this.kd = 0,
   });
 }
