@@ -103,19 +103,22 @@ class _CharacterCardState extends State<CharacterCard> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          InkWell(
-                            onTap: widget.onEdit,
-                            child: const Icon(
-                              Icons.edit,
-                              size: 20,
-                              color: ColorPalette.attKD,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 4.0),
+                            child: InkWell(
+                              onTap: widget.onEdit,
+                              child: const Icon(
+                                Icons.edit,
+                                size: 18,
+                                color: ColorPalette.attKD,
+                              ),
                             ),
                           ),
                           InkWell(
                             onTap: widget.onClose,
                             child: const Icon(
                               Icons.delete_forever,
-                              size: 22,
+                              size: 20,
                               color: ColorPalette.attKD,
                             ),
                           ),
@@ -125,43 +128,71 @@ class _CharacterCardState extends State<CharacterCard> {
                     CharacterCardHeader(character: widget.character),
                     const SizedBox(height: 6),
                     CharacterAttrBadges(character: widget.character),
+                    const SizedBox(height: 6),
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Инвентарь: ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          InkWell(
+                            onTap: widget.onClose, // TODO
+                            child: const Icon(
+                              Icons.add_box_outlined,
+                              size: 18,
+                              color: ColorPalette.attKD,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                     widget.character.inventory.isEmpty
-                        ? Container()
-                        : const SizedBox(height: 6),
-                    widget.character.inventory.isEmpty
-                        ? Container()
+                        ? const SizedBox.shrink()
                         : Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
-                                  'Инвентарь: ',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
                                 Text(_convertWeaponToText(
                                     widget.character.inventory)),
                               ],
                             ),
                           ),
+                    const SizedBox(height: 6),
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Книга заклинаний: ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          InkWell(
+                            onTap: widget.onClose, //TODO
+                            child: const Icon(
+                              Icons.add_box_outlined,
+                              size: 18,
+                              color: ColorPalette.attKD,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                     widget.character.spells.isEmpty
-                        ? Container()
-                        : const SizedBox(height: 6),
-                    widget.character.spells.isEmpty
-                        ? Container()
+                        ? const SizedBox.shrink()
                         : Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
-                                  'Книга заклинаний: ',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
                                 Text(_convertSpellsToText(
                                     widget.character.spells)),
                               ],
@@ -194,15 +225,11 @@ class _CharacterCardState extends State<CharacterCard> {
                           isWrapped = !isWrapped;
                         });
                       },
-                      child: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.more_horiz,
-                            color: ColorPalette.fontBaseColor,
-                          )
-                        ],
+                      child: const Center(
+                        child: Icon(
+                          Icons.more_horiz,
+                          color: ColorPalette.fontBaseColor,
+                        ),
                       ),
                     )
                   ],
