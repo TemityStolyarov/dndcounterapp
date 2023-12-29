@@ -158,6 +158,17 @@ class _MainAppState extends State<MainApp> {
                               chars = widget.box.values.toList();
                             });
                           },
+                          onReturnDefaultHP: () {
+                            widget.box.putAt(
+                              index,
+                              chars[index].copyWith(
+                                hpModifier: 0,
+                              ),
+                            );
+                            setState(() {
+                              chars = widget.box.values.toList();
+                            });
+                          },
                         ),
                       CharacterCardAdd(
                         colorScheme: colorScheme,

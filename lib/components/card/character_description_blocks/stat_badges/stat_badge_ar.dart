@@ -1,11 +1,11 @@
 import 'package:dndcounterapp/ui_kit/color_palette.dart';
 import 'package:flutter/material.dart';
 
-class StatBadgeAlt extends StatelessWidget {
+class StatBadgeAR extends StatelessWidget {
   final String info;
   final Color color;
 
-  const StatBadgeAlt({
+  const StatBadgeAR({
     super.key,
     required this.info,
     required this.color,
@@ -19,13 +19,14 @@ class StatBadgeAlt extends StatelessWidget {
           decoration: BoxDecoration(
             border: Border.all(
               color: ColorPalette.shadowColor,
+              width: 0.5,
             ),
             borderRadius: const BorderRadius.all(Radius.circular(6)),
             color: color,
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(
-              // vertical: 2,
+              vertical: 1,
               horizontal: 4,
             ),
             child: Text(

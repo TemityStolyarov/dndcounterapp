@@ -15,8 +15,8 @@ class StatBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double maxWidth = 114;
-    const double whitePartWidth = maxWidth - 70;
+    const double maxWidth = 102;
+    const double colorPartWidth = 102 - 40;
 
     return Row(
       children: [
@@ -32,27 +32,19 @@ class StatBadge extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 4,
-                  top: 2,
-                  bottom: 2,
+              const Spacer(),
+              Text(
+                label ?? '',
+                style: const TextStyle(
+                  fontSize: 12,
+                  height: 14 / 12,
                 ),
-                child: SizedBox(
-                  width: whitePartWidth,
-                  child: Text(
-                    label ?? '',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      height: 14 / 12,
-                    ),
-                    textAlign: TextAlign.start,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
+                textAlign: TextAlign.start,
+                overflow: TextOverflow.ellipsis,
               ),
               const Spacer(),
               Container(
+                width: colorPartWidth,
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: ColorPalette.shadowColor,
