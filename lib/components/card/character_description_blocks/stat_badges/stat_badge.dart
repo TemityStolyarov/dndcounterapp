@@ -15,15 +15,19 @@ class StatBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const double maxWidth = 114;
+    const double whitePartWidth = maxWidth - 70;
+
     return Row(
       children: [
         Container(
-          width: 90,
+          width: maxWidth,
           decoration: BoxDecoration(
             border: Border.all(
               color: ColorPalette.alternativeshadowColor,
+              width: 0.5,
             ),
-            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            borderRadius: const BorderRadius.all(Radius.circular(6)),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -31,15 +35,20 @@ class StatBadge extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(
                   left: 4,
-                  top: 4,
-                  bottom: 4,
+                  top: 2,
+                  bottom: 2,
                 ),
-                child: Text(
-                  label ?? '',
-                  style: const TextStyle(
-                    fontSize: 12,
+                child: SizedBox(
+                  width: whitePartWidth,
+                  child: Text(
+                    label ?? '',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      height: 14 / 12,
+                    ),
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  textAlign: TextAlign.center,
                 ),
               ),
               const Spacer(),
@@ -47,17 +56,21 @@ class StatBadge extends StatelessWidget {
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: ColorPalette.shadowColor,
+                    width: 0.5,
                   ),
-                  borderRadius: const BorderRadius.all(Radius.circular(6)),
+                  borderRadius: const BorderRadius.all(Radius.circular(5)),
                   color: color,
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(4),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 2,
+                    horizontal: 4,
+                  ),
                   child: Text(
                     info,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
-                      fontSize: 12,
+                      fontSize: 14,
                       color: ColorPalette.cardColor,
                       fontWeight: FontWeight.w500,
                     ),

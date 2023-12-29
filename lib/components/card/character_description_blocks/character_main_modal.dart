@@ -222,10 +222,12 @@ class CharacterMainModal {
                   charisma: int.parse(ctrCAR.text),
                   wisdom: int.parse(ctrWIS.text),
                   hp: int.parse(ctrSTR.text),
+                  hpModifier: 0,
                   kd: 10,
                   description: ctrDesc.text,
                   inventory: [],
                   spells: [],
+                  imageUrl: '',
                 );
                 box.add(newChar);
                 _updateScreen();

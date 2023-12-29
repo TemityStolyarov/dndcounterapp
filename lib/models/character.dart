@@ -37,6 +37,11 @@ class Character extends HiveObject {
   @HiveField(13)
   final List<Spell> spells;
 
+  @HiveField(14)
+  final int hpModifier;
+  @HiveField(15)
+  final String imageUrl;
+
   Character({
     required this.race,
     required this.crClass,
@@ -52,6 +57,8 @@ class Character extends HiveObject {
     required this.name,
     required this.hp,
     required this.kd,
+    required this.hpModifier,
+    required this.imageUrl,
   });
 
   Character.empty({
@@ -68,6 +75,45 @@ class Character extends HiveObject {
     this.wisdom = 0,
     this.name = '',
     this.hp = 0,
+    this.hpModifier = 0,
     this.kd = 0,
+    this.imageUrl = '',
   });
+
+  Character copyWith({
+    String? name,
+    String? race,
+    String? crClass,
+    int? hp,
+    int? kd,
+    int? strength,
+    int? agility,
+    int? intelligence,
+    int? athletics,
+    int? charisma,
+    int? wisdom,
+    String? description,
+    List<Weapon>? inventory,
+    List<Spell>? spells,
+    int? hpModifier,
+    String? imageUrl,
+  }) =>
+      Character(
+        race: race ?? this.race,
+        crClass: crClass ?? this.crClass,
+        description: description ?? this.description,
+        inventory: inventory ?? this.inventory,
+        spells: spells ?? this.spells,
+        strength: strength ?? this.strength,
+        agility: agility ?? this.agility,
+        intelligence: intelligence ?? this.intelligence,
+        athletics: athletics ?? this.athletics,
+        charisma: charisma ?? this.charisma,
+        wisdom: wisdom ?? this.wisdom,
+        name: name ?? this.name,
+        hp: hp ?? this.hp,
+        kd: kd ?? this.kd,
+        hpModifier: hpModifier ?? this.hpModifier,
+        imageUrl: imageUrl ?? this.imageUrl,
+      );
 }

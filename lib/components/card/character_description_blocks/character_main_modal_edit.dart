@@ -32,6 +32,8 @@ class CharacterMainModalEdit {
         ctrClass.text = char.crClass;
         final ctrHP = TextEditingController();
         ctrHP.text = char.hp.toString();
+        final ctrHPMod = TextEditingController();
+        ctrHPMod.text = char.hpModifier.toString();
         final ctrAR = TextEditingController();
         ctrAR.text = char.kd.toString();
         final ctrSTR = TextEditingController();
@@ -283,10 +285,12 @@ class CharacterMainModalEdit {
                   charisma: int.parse(ctrCAR.text),
                   wisdom: int.parse(ctrWIS.text),
                   hp: int.parse(ctrHP.text),
+                  hpModifier: int.parse(ctrHPMod.text),
                   kd: int.parse(ctrAR.text),
                   description: ctrDesc.text,
                   inventory: char.inventory,
                   spells: char.spells,
+                  imageUrl: char.imageUrl,
                 );
                 box.putAt(index, newChar);
                 _updateScreen();
@@ -294,6 +298,7 @@ class CharacterMainModalEdit {
                 ctrRace.dispose();
                 ctrClass.dispose();
                 ctrHP.dispose();
+                ctrHPMod.dispose();
                 ctrAR.dispose();
                 ctrSTR.dispose();
                 ctrAGL.dispose();

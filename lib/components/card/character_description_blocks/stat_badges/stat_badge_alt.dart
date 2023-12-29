@@ -24,7 +24,10 @@ class StatBadgeAlt extends StatelessWidget {
             color: color,
           ),
           child: Padding(
-            padding: const EdgeInsets.all(4),
+            padding: const EdgeInsets.symmetric(
+              // vertical: 2,
+              horizontal: 4,
+            ),
             child: Text(
               info,
               textAlign: TextAlign.center,

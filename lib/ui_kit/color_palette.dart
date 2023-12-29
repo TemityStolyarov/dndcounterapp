@@ -18,8 +18,8 @@ class ColorPalette {
   static const attCharisma = Color(0xFF87B527);
   static const attWisdom = Color(0xFF4AA5A5);
 
-  static const attHP = Color(0xFF9D4343);
-  static const attKD = Color(0xFF6D7172);
+  static const attHP = Color.fromARGB(255, 170, 39, 39);
+  static const attKD = Color.fromARGB(255, 131, 135, 135);
 
   static const critLucky = Color.fromARGB(255, 199, 146, 0);
   static const critLuckyCubeColor = Color.fromARGB(239, 253, 236, 201);
