@@ -16,6 +16,7 @@ class CharacterCard extends StatefulWidget {
   final Box box;
   final VoidCallback onPlus;
   final VoidCallback onMinus;
+  final VoidCallback onReturnDefaultHP;
 
   const CharacterCard({
     super.key,
@@ -24,7 +25,10 @@ class CharacterCard extends StatefulWidget {
     required this.box,
     this.index,
     required this.onEdit,
-    required this.onClose, required this.onPlus, required this.onMinus,
+    required this.onClose,
+    required this.onPlus,
+    required this.onMinus,
+    required this.onReturnDefaultHP,
   });
 
   @override
@@ -39,7 +43,7 @@ class _CharacterCardState extends State<CharacterCard> {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Container(
-        width: 400, //340
+        width: 380, //340
         decoration: BoxDecoration(
           color: ColorPalette.cardColor,
           borderRadius: const BorderRadius.all(
@@ -73,6 +77,7 @@ class _CharacterCardState extends State<CharacterCard> {
                       character: widget.character,
                       onPlus: widget.onPlus,
                       onMinus: widget.onMinus,
+                      onReturnDefaultHP: widget.onReturnDefaultHP,
                     ),
                     // const SizedBox(height: 4),
                     CharacterAttrBadges(character: widget.character),
@@ -140,6 +145,7 @@ class _CharacterCardState extends State<CharacterCard> {
                       character: widget.character,
                       onPlus: widget.onPlus,
                       onMinus: widget.onMinus,
+                      onReturnDefaultHP: widget.onReturnDefaultHP,
                     ),
                     // const SizedBox(height: 4),
                     CharacterAttrBadges(character: widget.character),

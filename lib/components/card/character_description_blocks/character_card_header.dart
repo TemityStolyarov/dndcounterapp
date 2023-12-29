@@ -1,5 +1,6 @@
 import 'package:dndcounterapp/components/card/character_description_blocks/stat_badges/mini_button.dart';
-import 'package:dndcounterapp/components/card/character_description_blocks/stat_badges/stat_badge_alt.dart';
+import 'package:dndcounterapp/components/card/character_description_blocks/stat_badges/stat_badge_ar.dart';
+import 'package:dndcounterapp/components/card/character_description_blocks/stat_badges/stat_badge_hp.dart';
 import 'package:dndcounterapp/components/helpers.dart';
 import 'package:dndcounterapp/models/character.dart';
 import 'package:dndcounterapp/models/weapon.dart';
@@ -7,19 +8,22 @@ import 'package:dndcounterapp/ui_kit/color_palette.dart';
 import 'package:flutter/material.dart';
 
 class CharacterCardHeader extends StatelessWidget {
+  final Character character;
   final VoidCallback onPlus;
   final VoidCallback onMinus;
-  final Character character;
+  final VoidCallback onReturnDefaultHP;
 
   const CharacterCardHeader({
     super.key,
     required this.character,
     required this.onPlus,
     required this.onMinus,
+    required this.onReturnDefaultHP,
   });
 
   @override
   Widget build(BuildContext context) {
+    const double textFieldsWidth = 160;
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Row(
@@ -29,15 +33,15 @@ class CharacterCardHeader extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: Container(
-              width: 40,
-              height: 40,
-              decoration: const BoxDecoration(shape: BoxShape.circle),
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
               child: Image.network(
                 character.imageUrl,
                 errorBuilder: (context, error, stackTrace) {
                   return DecoratedBox(
                     decoration: BoxDecoration(
-                      shape: BoxShape.circle,
+                      borderRadius: BorderRadius.circular(8),
                       color: ColorPalette.cubeRolling.withOpacity(0.2),
                     ),
                   );
@@ -49,7 +53,7 @@ class CharacterCardHeader extends StatelessWidget {
           Column(
             children: [
               SizedBox(
-                width: 190,
+                width: textFieldsWidth,
                 child: Text(
                   character.name,
                   textAlign: TextAlign.start,
@@ -60,9 +64,9 @@ class CharacterCardHeader extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 6),
               SizedBox(
-                width: 190,
+                width: textFieldsWidth,
                 child: Text(
                   '${character.race} • ${character.crClass}',
                   textAlign: TextAlign.start,
@@ -79,6 +83,7 @@ class CharacterCardHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   MiniButton(
                     icon: Icons.add,
@@ -89,16 +94,22 @@ class CharacterCardHeader extends StatelessWidget {
                     icon: Icons.remove,
                     onTap: onMinus,
                   ),
-                  const SizedBox(width: 8),
-                  StatBadgeAlt(
-                    info:
-                        '${character.hp + character.hpModifier}/${character.hp} HP',
-                    color: ColorPalette.attHP,
+                  const SizedBox(width: 6),
+                  StatBadgeHP(
+                    hp: character.hp,
+                    hpModifier: character.hpModifier,
+                    info: '${character.hp + character.hpModifier} HP',
+                    onReturnDefaultHP: onReturnDefaultHP,
+                    color: character.hp > (character.hp + character.hpModifier)
+                        ? ColorPalette.critUnlucky
+                        : character.hp < (character.hp + character.hpModifier)
+                            ? ColorPalette.attHP
+                            : ColorPalette.attHP,
                   ),
                 ],
               ),
               const SizedBox(height: 4),
-              StatBadgeAlt(
+              StatBadgeAR(
                 info:
                     '${character.kd + _findKD(character.inventory) + modifier(character.athletics)} AR',
                 color: ColorPalette.attKD,
