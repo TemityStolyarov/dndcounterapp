@@ -14,6 +14,8 @@ class CharacterCard extends StatefulWidget {
   final VoidCallback onEdit;
   final VoidCallback onClose;
   final Box box;
+  final VoidCallback onPlus;
+  final VoidCallback onMinus;
 
   const CharacterCard({
     super.key,
@@ -22,7 +24,7 @@ class CharacterCard extends StatefulWidget {
     required this.box,
     this.index,
     required this.onEdit,
-    required this.onClose,
+    required this.onClose, required this.onPlus, required this.onMinus,
   });
 
   @override
@@ -35,9 +37,9 @@ class _CharacterCardState extends State<CharacterCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16),
       child: Container(
-        width: 340,
+        width: 400, //340
         decoration: BoxDecoration(
           color: ColorPalette.cardColor,
           borderRadius: const BorderRadius.all(
@@ -56,16 +58,25 @@ class _CharacterCardState extends State<CharacterCard> {
         ),
         child: isWrapped
             ? Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.only(
+                  left: 16,
+                  right: 16,
+                  top: 16,
+                  bottom: 8,
+                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    CharacterCardHeader(character: widget.character),
-                    const SizedBox(height: 6),
+                    CharacterCardHeader(
+                      character: widget.character,
+                      onPlus: widget.onPlus,
+                      onMinus: widget.onMinus,
+                    ),
+                    // const SizedBox(height: 4),
                     CharacterAttrBadges(character: widget.character),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 4),
                     InkWell(
                       onTap: () {
                         setState(() {
@@ -91,7 +102,7 @@ class _CharacterCardState extends State<CharacterCard> {
                   top: 8,
                   left: 16,
                   right: 16,
-                  bottom: 16,
+                  bottom: 8,
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -125,10 +136,14 @@ class _CharacterCardState extends State<CharacterCard> {
                         ],
                       ),
                     ),
-                    CharacterCardHeader(character: widget.character),
-                    const SizedBox(height: 6),
+                    CharacterCardHeader(
+                      character: widget.character,
+                      onPlus: widget.onPlus,
+                      onMinus: widget.onMinus,
+                    ),
+                    // const SizedBox(height: 4),
                     CharacterAttrBadges(character: widget.character),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: 4),
                     Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: Row(

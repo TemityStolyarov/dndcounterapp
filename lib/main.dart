@@ -136,6 +136,28 @@ class _MainAppState extends State<MainApp> {
                             );
                             cmme.showCharacterMainModalEdit(context);
                           },
+                          onPlus: () {
+                            widget.box.putAt(
+                              index,
+                              chars[index].copyWith(
+                                hpModifier: chars[index].hpModifier + 1,
+                              ),
+                            );
+                            setState(() {
+                              chars = widget.box.values.toList();
+                            });
+                          },
+                          onMinus: () {
+                            widget.box.putAt(
+                              index,
+                              chars[index].copyWith(
+                                hpModifier: chars[index].hpModifier - 1,
+                              ),
+                            );
+                            setState(() {
+                              chars = widget.box.values.toList();
+                            });
+                          },
                         ),
                       CharacterCardAdd(
                         colorScheme: colorScheme,
