@@ -1,6 +1,6 @@
 import 'package:dndcounterapp/components/card/character_card.dart';
 import 'package:dndcounterapp/components/card/character_card_add.dart';
-import 'package:dndcounterapp/components/card/character_description_blocks/character_main_modal_edit.dart';
+import 'package:dndcounterapp/components/card/character_description_blocks/character_main_edit_modal.dart';
 import 'package:dndcounterapp/components/dice_row.dart';
 import 'package:dndcounterapp/models/character.dart';
 import 'package:dndcounterapp/models/spell.dart';
@@ -129,7 +129,7 @@ class _MainAppState extends State<MainApp> {
                             });
                           },
                           onEdit: () {
-                            final cmme = CharacterMainModalEdit(
+                            final cmme = CharacterMainEditModal(
                               box: widget.box,
                               onSave: _getDataFromHive,
                               index: index,
@@ -165,6 +165,16 @@ class _MainAppState extends State<MainApp> {
                                 hpModifier: 0,
                               ),
                             );
+                            setState(() {
+                              chars = widget.box.values.toList();
+                            });
+                          },
+                          onAddItem: () {
+                            setState(() {
+                              chars = widget.box.values.toList();
+                            });
+                          },
+                          onAddSpell: () {
                             setState(() {
                               chars = widget.box.values.toList();
                             });

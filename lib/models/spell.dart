@@ -14,12 +14,15 @@ class Spell extends HiveObject {
   final int? cost;
   @HiveField(4)
   final String? description;
+  @HiveField(5)
+  final int? costModifier;
 
   Spell({
-    this.cost,
-    this.dice,
-    this.dmg,
-    this.description,
     required this.name,
+    this.description,
+    this.dmg,
+    this.dice,
+    this.cost,
+    this.costModifier,
   });
 }

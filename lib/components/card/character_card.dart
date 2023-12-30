@@ -1,5 +1,7 @@
 import 'package:dndcounterapp/components/card/character_description_blocks/character_attr_badges.dart';
 import 'package:dndcounterapp/components/card/character_description_blocks/character_card_header.dart';
+import 'package:dndcounterapp/components/card/character_description_blocks/character_description_inventory_modal.dart';
+import 'package:dndcounterapp/components/card/character_description_blocks/character_description_spell_modal.dart';
 import 'package:dndcounterapp/models/character.dart';
 import 'package:dndcounterapp/models/spell.dart';
 import 'package:dndcounterapp/models/weapon.dart';
@@ -10,25 +12,28 @@ import 'package:hive_flutter/hive_flutter.dart';
 class CharacterCard extends StatefulWidget {
   final bool colorScheme;
   final Character character;
-  final int? index;
+  final int index;
   final VoidCallback onEdit;
   final VoidCallback onClose;
   final Box box;
   final VoidCallback onPlus;
   final VoidCallback onMinus;
   final VoidCallback onReturnDefaultHP;
+  final VoidCallback onAddItem;
+  final VoidCallback onAddSpell;
 
   const CharacterCard({
     super.key,
     required this.character,
     required this.colorScheme,
     required this.box,
-    this.index,
+    required this.index,
     required this.onEdit,
     required this.onClose,
     required this.onPlus,
     required this.onMinus,
     required this.onReturnDefaultHP,
+    required this.onAddItem, required this.onAddSpell,
   });
 
   @override
@@ -162,7 +167,14 @@ class _CharacterCardState extends State<CharacterCard> {
                             ),
                           ),
                           InkWell(
-                            onTap: widget.onClose, // TODO
+                            onTap: () {
+                              final cdim = CharacterDescriptionInventoryModal(
+                                box: widget.box,
+                                index: widget.index,
+                                onAddItem: widget.onAddItem,
+                              );
+                              cdim.showCharacterInventoryModal(context);
+                            },
                             child: const Icon(
                               Icons.add_box_outlined,
                               size: 18,
@@ -197,7 +209,14 @@ class _CharacterCardState extends State<CharacterCard> {
                             ),
                           ),
                           InkWell(
-                            onTap: widget.onClose, //TODO
+                            onTap: () {
+                              final cdsm = CharacterDescriptionSpellModal(
+                                box: widget.box,
+                                index: widget.index,
+                                onAddSpell: widget.onAddItem,
+                              );
+                              cdsm.showCharacterSpellModal(context);
+                            },
                             child: const Icon(
                               Icons.add_box_outlined,
                               size: 18,

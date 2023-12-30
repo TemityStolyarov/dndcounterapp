@@ -2,12 +2,12 @@ import 'package:dndcounterapp/models/character.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class CharacterMainModalEdit {
+class CharacterMainEditModal {
   final Box box;
   final VoidCallback onSave;
   final int index;
 
-  CharacterMainModalEdit({
+  CharacterMainEditModal({
     required this.box,
     required this.onSave,
     required this.index,

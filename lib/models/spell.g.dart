@@ -17,18 +17,19 @@ class SpellAdapter extends TypeAdapter<Spell> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Spell(
-      cost: fields[3] as int?,
-      dice: fields[1] as int?,
-      dmg: fields[2] as int?,
-      description: fields[4] as String?,
       name: fields[0] as String,
+      description: fields[4] as String?,
+      dmg: fields[2] as int?,
+      dice: fields[1] as int?,
+      cost: fields[3] as int?,
+      costModifier: fields[5] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Spell obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class SpellAdapter extends TypeAdapter<Spell> {
       ..writeByte(3)
       ..write(obj.cost)
       ..writeByte(4)
-      ..write(obj.description);
+      ..write(obj.description)
+      ..writeByte(5)
+      ..write(obj.costModifier);
   }
 
   @override

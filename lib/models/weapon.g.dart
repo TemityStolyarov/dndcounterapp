@@ -19,8 +19,8 @@ class WeaponAdapter extends TypeAdapter<Weapon> {
     return Weapon(
       name: fields[0] as String,
       description: fields[1] as String?,
-      dice: fields[2] as int?,
       dmg: fields[3] as int?,
+      dice: fields[2] as int?,
       kd: fields[4] as int?,
     );
   }

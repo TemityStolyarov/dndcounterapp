@@ -2,11 +2,11 @@ import 'package:dndcounterapp/models/character.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class CharacterMainModal {
+class CharacterMainAddModal {
   final Box box;
   final VoidCallback onAdd;
 
-  CharacterMainModal({
+  CharacterMainAddModal({
     required this.box,
     required this.onAdd,
   });
