@@ -1,5 +1,5 @@
 import 'package:dndcounterapp/components/card/character_description_blocks/stat_badges/stat_badge_ar.dart';
-import 'package:dndcounterapp/ui_kit/color_palette.dart';
+import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
 import 'package:flutter/material.dart';
 
 class StatBadgeHP extends StatBadgeAR {

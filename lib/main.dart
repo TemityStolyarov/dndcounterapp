@@ -1,11 +1,12 @@
 import 'package:dndcounterapp/components/card/character_card.dart';
 import 'package:dndcounterapp/components/card/character_card_add.dart';
-import 'package:dndcounterapp/components/card/character_description_blocks/character_main_modal_edit.dart';
-import 'package:dndcounterapp/components/dice_row.dart';
-import 'package:dndcounterapp/models/character.dart';
-import 'package:dndcounterapp/models/spell.dart';
-import 'package:dndcounterapp/models/weapon.dart';
-import 'package:dndcounterapp/ui_kit/color_palette.dart';
+import 'package:dndcounterapp/components/card/character_modal/image_update_modal.dart';
+import 'package:dndcounterapp/components/card/character_modal/character_edit_modal.dart';
+import 'package:dndcounterapp/components/dice_row/dice_row.dart';
+import 'package:dndcounterapp/core/models/character.dart';
+import 'package:dndcounterapp/core/models/spell.dart';
+import 'package:dndcounterapp/core/models/weapon.dart';
+import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -42,7 +43,7 @@ class _MainAppState extends State<MainApp> {
 
   @override
   void initState() {
-    _getDataFromHive();
+    _updateCards();
     super.initState();
   }
 
@@ -124,17 +125,15 @@ class _MainAppState extends State<MainApp> {
                           index: index,
                           onClose: () {
                             widget.box.deleteAt(index);
-                            setState(() {
-                              chars = widget.box.values.toList();
-                            });
+                            _updateCards();
                           },
                           onEdit: () {
-                            final cmme = CharacterMainModalEdit(
+                            final characterEditModal = CharacterEditModal(
                               box: widget.box,
-                              onSave: _getDataFromHive,
+                              onSave: _updateCards,
                               index: index,
                             );
-                            cmme.showCharacterMainModalEdit(context);
+                            characterEditModal.show(context);
                           },
                           onPlus: () {
                             widget.box.putAt(
@@ -143,9 +142,7 @@ class _MainAppState extends State<MainApp> {
                                 hpModifier: chars[index].hpModifier + 1,
                               ),
                             );
-                            setState(() {
-                              chars = widget.box.values.toList();
-                            });
+                            _updateCards();
                           },
                           onMinus: () {
                             widget.box.putAt(
@@ -154,9 +151,7 @@ class _MainAppState extends State<MainApp> {
                                 hpModifier: chars[index].hpModifier - 1,
                               ),
                             );
-                            setState(() {
-                              chars = widget.box.values.toList();
-                            });
+                            _updateCards();
                           },
                           onReturnDefaultHP: () {
                             widget.box.putAt(
@@ -165,19 +160,23 @@ class _MainAppState extends State<MainApp> {
                                 hpModifier: 0,
                               ),
                             );
-                            setState(() {
-                              chars = widget.box.values.toList();
-                            });
+                            _updateCards();
+                          },
+                          onAddItem: _updateCards,
+                          onAddSpell: _updateCards,
+                          onImageUpdate: () {
+                            final imageUpdateModal = ImageUpdateModal(
+                              box: widget.box,
+                              index: index,
+                              onImageUpdate: _updateCards,
+                            );
+                            imageUpdateModal.show(context);
                           },
                         ),
                       CharacterCardAdd(
                         colorScheme: colorScheme,
                         box: widget.box,
-                        onAdd: () {
-                          setState(() {
-                            chars = widget.box.values.toList();
-                          });
-                        },
+                        onAdd: _updateCards,
                       ),
                     ],
                   ),
@@ -190,7 +189,7 @@ class _MainAppState extends State<MainApp> {
     );
   }
 
-  void _getDataFromHive() {
+  void _updateCards() {
     setState(() {
       chars = widget.box.values.toList();
     });

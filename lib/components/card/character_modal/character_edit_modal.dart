@@ -1,45 +1,73 @@
-import 'package:dndcounterapp/models/character.dart';
+import 'package:dndcounterapp/core/models/character.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class CharacterMainModal {
+class CharacterEditModal {
   final Box box;
-  final VoidCallback onAdd;
+  final VoidCallback onSave;
+  final int index;
 
-  CharacterMainModal({
+  CharacterEditModal({
     required this.box,
-    required this.onAdd,
+    required this.onSave,
+    required this.index,
   });
 
-  void showCharacterMainModal(BuildContext context) {
+  void show(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        Character char = Character.empty();
+        try {
+          char = box.getAt(index)!;
+        } catch (e) {
+          print(e);
+        }
+
         final ctrName = TextEditingController();
+        ctrName.text = char.name;
         final ctrRace = TextEditingController();
+        ctrRace.text = char.race;
         final ctrClass = TextEditingController();
+        ctrClass.text = char.crClass;
+        final ctrHP = TextEditingController();
+        ctrHP.text = char.hp.toString();
+        final ctrHPMod = TextEditingController();
+        ctrHPMod.text = char.hpModifier.toString();
+        final ctrAR = TextEditingController();
+        ctrAR.text = char.kd.toString();
         final ctrSTR = TextEditingController();
+        ctrSTR.text = char.strength.toString();
         final ctrAGL = TextEditingController();
+        ctrAGL.text = char.agility.toString();
         final ctrINT = TextEditingController();
+        ctrINT.text = char.intelligence.toString();
         final ctrATL = TextEditingController();
+        ctrATL.text = char.athletics.toString();
         final ctrCAR = TextEditingController();
+        ctrCAR.text = char.charisma.toString();
         final ctrWIS = TextEditingController();
+        ctrWIS.text = char.wisdom.toString();
         final ctrDesc = TextEditingController();
+        ctrDesc.text = char.description;
 
         return AlertDialog(
-          title: const Text('Добавление персонажа'),
+          title: const Text('Редактирование персонажа'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              TextField(
-                autofocus: true,
-                controller: ctrName,
-                decoration: const InputDecoration(
-                  labelStyle: TextStyle(fontSize: 14),
-                  labelText: 'Имя персонажа',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(12),
+              SizedBox(
+                width: 466,
+                child: TextField(
+                  autofocus: true,
+                  controller: ctrName,
+                  decoration: const InputDecoration(
+                    labelStyle: TextStyle(fontSize: 14),
+                    labelText: 'Имя персонажа',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(12),
+                      ),
                     ),
                   ),
                 ),
@@ -83,6 +111,44 @@ class CharacterMainModal {
                 ],
               ),
               const SizedBox(height: 24),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 230,
+                    child: TextField(
+                      autofocus: true,
+                      controller: ctrHP,
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(fontSize: 14),
+                        labelText: 'ХП',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 7),
+                  SizedBox(
+                    width: 230,
+                    child: TextField(
+                      autofocus: true,
+                      controller: ctrAR,
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(fontSize: 14),
+                        labelText: 'КД',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
               Row(
                 children: [
                   SizedBox(
@@ -193,15 +259,19 @@ class CharacterMainModal {
                 ],
               ),
               const SizedBox(height: 24),
-              TextField(
-                autofocus: true,
-                controller: ctrDesc,
-                decoration: const InputDecoration(
-                  labelText: 'Описание',
-                  labelStyle: TextStyle(fontSize: 14),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(12),
+              SizedBox(
+                width: 466,
+                child: TextField(
+                  autofocus: true,
+                  controller: ctrDesc,
+                  maxLines: 5,
+                  decoration: const InputDecoration(
+                    labelText: 'Описание',
+                    labelStyle: TextStyle(fontSize: 14),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(12),
+                      ),
                     ),
                   ),
                 ),
@@ -221,19 +291,23 @@ class CharacterMainModal {
                   athletics: int.parse(ctrATL.text),
                   charisma: int.parse(ctrCAR.text),
                   wisdom: int.parse(ctrWIS.text),
-                  hp: int.parse(ctrSTR.text),
-                  hpModifier: 0,
-                  kd: 10,
+                  hp: int.parse(ctrHP.text),
+                  hpModifier: int.parse(ctrHPMod.text),
+                  kd: int.parse(ctrAR.text),
                   description: ctrDesc.text,
-                  inventory: [],
-                  spells: [],
-                  imageUrl: '',
+                  inventory: char.inventory,
+                  spells: char.spells,
+                  imageUrl: char.imageUrl,
+                  isEnabled: char.isEnabled,
                 );
-                box.add(newChar);
+                box.putAt(index, newChar);
                 _updateScreen();
                 ctrName.dispose();
                 ctrRace.dispose();
                 ctrClass.dispose();
+                ctrHP.dispose();
+                ctrHPMod.dispose();
+                ctrAR.dispose();
                 ctrSTR.dispose();
                 ctrAGL.dispose();
                 ctrINT.dispose();
@@ -243,7 +317,7 @@ class CharacterMainModal {
                 ctrDesc.dispose();
                 Navigator.of(context).pop();
               },
-              child: const Text('Добавить'),
+              child: const Text('Готово'),
             ),
             TextButton(
               onPressed: () {
@@ -258,7 +332,7 @@ class CharacterMainModal {
   }
 
   void _updateScreen() {
-    onAdd();
+    onSave();
     print('Character added!');
   }
 }

@@ -1,10 +1,10 @@
 import 'package:dndcounterapp/components/card/character_description_blocks/stat_badges/mini_button.dart';
 import 'package:dndcounterapp/components/card/character_description_blocks/stat_badges/stat_badge_ar.dart';
 import 'package:dndcounterapp/components/card/character_description_blocks/stat_badges/stat_badge_hp.dart';
-import 'package:dndcounterapp/components/helpers.dart';
-import 'package:dndcounterapp/models/character.dart';
-import 'package:dndcounterapp/models/weapon.dart';
-import 'package:dndcounterapp/ui_kit/color_palette.dart';
+import 'package:dndcounterapp/core/helpers.dart';
+import 'package:dndcounterapp/core/models/character.dart';
+import 'package:dndcounterapp/core/models/weapon.dart';
+import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
 import 'package:flutter/material.dart';
 
 class CharacterCardHeader extends StatelessWidget {
@@ -12,6 +12,7 @@ class CharacterCardHeader extends StatelessWidget {
   final VoidCallback onPlus;
   final VoidCallback onMinus;
   final VoidCallback onReturnDefaultHP;
+  final VoidCallback onImageUpdate;
 
   const CharacterCardHeader({
     super.key,
@@ -19,6 +20,7 @@ class CharacterCardHeader extends StatelessWidget {
     required this.onPlus,
     required this.onMinus,
     required this.onReturnDefaultHP,
+    required this.onImageUpdate,
   });
 
   @override
@@ -30,22 +32,31 @@ class CharacterCardHeader extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
-              child: Image.network(
-                character.imageUrl,
-                errorBuilder: (context, error, stackTrace) {
-                  return DecoratedBox(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: ColorPalette.cubeRolling.withOpacity(0.2),
+          InkWell(
+            onTap: onImageUpdate,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: GestureDetector(
+                onTap: onImageUpdate,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: SizedBox(
+                    width: 44,
+                    height: 44,
+                    child: Image.network(
+                      character.imageUrl,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return DecoratedBox(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: ColorPalette.cubeRolling.withOpacity(0.2),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
+                  ),
+                ),
               ),
             ),
           ),

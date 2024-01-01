@@ -1,5 +1,5 @@
-import 'package:dndcounterapp/models/spell.dart';
-import 'package:dndcounterapp/models/weapon.dart';
+import 'package:dndcounterapp/core/models/spell.dart';
+import 'package:dndcounterapp/core/models/weapon.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 part 'character.g.dart';
@@ -42,6 +42,9 @@ class Character extends HiveObject {
   @HiveField(15)
   final String imageUrl;
 
+  @HiveField(16)
+  final bool isEnabled;
+
   Character({
     required this.race,
     required this.crClass,
@@ -59,6 +62,7 @@ class Character extends HiveObject {
     required this.kd,
     required this.hpModifier,
     required this.imageUrl,
+    required this.isEnabled,
   });
 
   Character.empty({
@@ -78,6 +82,7 @@ class Character extends HiveObject {
     this.hpModifier = 0,
     this.kd = 0,
     this.imageUrl = '',
+    this.isEnabled = true,
   });
 
   Character copyWith({
@@ -97,6 +102,7 @@ class Character extends HiveObject {
     List<Spell>? spells,
     int? hpModifier,
     String? imageUrl,
+    bool? isEnabled,
   }) =>
       Character(
         race: race ?? this.race,
@@ -115,5 +121,6 @@ class Character extends HiveObject {
         kd: kd ?? this.kd,
         hpModifier: hpModifier ?? this.hpModifier,
         imageUrl: imageUrl ?? this.imageUrl,
+        isEnabled: isEnabled ?? this.isEnabled,
       );
 }

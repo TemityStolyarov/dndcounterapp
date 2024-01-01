@@ -1,5 +1,5 @@
-import 'package:dndcounterapp/components/card/character_description_blocks/character_main_modal.dart';
-import 'package:dndcounterapp/ui_kit/color_palette.dart';
+import 'package:dndcounterapp/components/card/character_modal/character_add_modal.dart';
+import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -40,8 +40,11 @@ class CharacterCardAdd extends StatelessWidget {
         child: InkWell(
           borderRadius: const BorderRadius.all(Radius.circular(12)),
           onTap: () {
-            final cmm = CharacterMainModal(box: box, onAdd: onAdd);
-            cmm.showCharacterMainModal(context);
+            final characterAddModal = CharacterAddModal(
+              box: box,
+              onAdd: onAdd,
+            );
+            characterAddModal.show(context);
           },
           child: const Padding(
             padding: EdgeInsets.all(16.0),
@@ -61,6 +64,4 @@ class CharacterCardAdd extends StatelessWidget {
       ),
     );
   }
-
-  
 }

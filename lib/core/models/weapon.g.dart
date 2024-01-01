@@ -1,44 +1,44 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'spell.dart';
+part of 'weapon.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class SpellAdapter extends TypeAdapter<Spell> {
+class WeaponAdapter extends TypeAdapter<Weapon> {
   @override
-  final int typeId = 2;
+  final int typeId = 1;
 
   @override
-  Spell read(BinaryReader reader) {
+  Weapon read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Spell(
-      cost: fields[3] as int?,
-      dice: fields[1] as int?,
-      dmg: fields[2] as int?,
-      description: fields[4] as String?,
+    return Weapon(
       name: fields[0] as String,
+      description: fields[1] as String?,
+      dmg: fields[3] as int?,
+      dice: fields[2] as int?,
+      kd: fields[4] as int?,
     );
   }
 
   @override
-  void write(BinaryWriter writer, Spell obj) {
+  void write(BinaryWriter writer, Weapon obj) {
     writer
       ..writeByte(5)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
-      ..write(obj.dice)
+      ..write(obj.description)
       ..writeByte(2)
-      ..write(obj.dmg)
+      ..write(obj.dice)
       ..writeByte(3)
-      ..write(obj.cost)
+      ..write(obj.dmg)
       ..writeByte(4)
-      ..write(obj.description);
+      ..write(obj.kd);
   }
 
   @override
@@ -47,7 +47,7 @@ class SpellAdapter extends TypeAdapter<Spell> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SpellAdapter &&
+      other is WeaponAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

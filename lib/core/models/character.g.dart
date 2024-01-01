@@ -33,13 +33,14 @@ class CharacterAdapter extends TypeAdapter<Character> {
       kd: fields[4] as int,
       hpModifier: fields[14] as int,
       imageUrl: fields[15] as String,
+      isEnabled: fields[16] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Character obj) {
     writer
-      ..writeByte(16)
+      ..writeByte(17)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -71,7 +72,9 @@ class CharacterAdapter extends TypeAdapter<Character> {
       ..writeByte(14)
       ..write(obj.hpModifier)
       ..writeByte(15)
-      ..write(obj.imageUrl);
+      ..write(obj.imageUrl)
+      ..writeByte(16)
+      ..write(obj.isEnabled);
   }
 
   @override
