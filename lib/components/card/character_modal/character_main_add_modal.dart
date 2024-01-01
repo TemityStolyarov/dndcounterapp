@@ -1,4 +1,4 @@
-import 'package:dndcounterapp/models/character.dart';
+import 'package:dndcounterapp/core/models/character.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -31,15 +31,18 @@ class CharacterMainAddModal {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              TextField(
-                autofocus: true,
-                controller: ctrName,
-                decoration: const InputDecoration(
-                  labelStyle: TextStyle(fontSize: 14),
-                  labelText: 'Имя персонажа',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(12),
+              SizedBox(
+                width: 466,
+                child: TextField(
+                  autofocus: true,
+                  controller: ctrName,
+                  decoration: const InputDecoration(
+                    labelStyle: TextStyle(fontSize: 14),
+                    labelText: 'Имя персонажа',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(12),
+                      ),
                     ),
                   ),
                 ),
@@ -193,15 +196,19 @@ class CharacterMainAddModal {
                 ],
               ),
               const SizedBox(height: 24),
-              TextField(
-                autofocus: true,
-                controller: ctrDesc,
-                decoration: const InputDecoration(
-                  labelText: 'Описание',
-                  labelStyle: TextStyle(fontSize: 14),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(12),
+              SizedBox(
+                width: 466,
+                child: TextField(
+                  autofocus: true,
+                  controller: ctrDesc,
+                  maxLines: 5,
+                  decoration: const InputDecoration(
+                    labelText: 'Описание',
+                    labelStyle: TextStyle(fontSize: 14),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(12),
+                      ),
                     ),
                   ),
                 ),
@@ -228,6 +235,7 @@ class CharacterMainAddModal {
                   inventory: [],
                   spells: [],
                   imageUrl: '',
+                  isEnabled: true,
                 );
                 box.add(newChar);
                 _updateScreen();

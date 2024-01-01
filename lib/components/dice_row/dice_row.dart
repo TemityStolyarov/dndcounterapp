@@ -1,4 +1,4 @@
-import 'package:dndcounterapp/components/dice.dart';
+import 'package:dndcounterapp/components/dice_row/dice.dart';
 import 'package:flutter/material.dart';
 
 class DiceRow extends StatelessWidget {

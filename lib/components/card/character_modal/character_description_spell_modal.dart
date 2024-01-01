@@ -1,5 +1,5 @@
-import 'package:dndcounterapp/models/character.dart';
-import 'package:dndcounterapp/models/spell.dart';
+import 'package:dndcounterapp/core/models/character.dart';
+import 'package:dndcounterapp/core/models/spell.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -23,22 +23,58 @@ class CharacterDescriptionSpellModal {
         final dice = TextEditingController();
         final dmg = TextEditingController();
         final cost = TextEditingController();
-        final costModifier = TextEditingController();
 
+        // TODO
         return AlertDialog(
           title: const Text('Добавление заклинания'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Column(
+              SizedBox(
+                width: 490,
+                child: TextField(
+                  autofocus: true,
+                  controller: name,
+                  decoration: const InputDecoration(
+                    labelStyle: TextStyle(fontSize: 14),
+                    labelText: 'Название заклинания',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(12),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                width: 490,
+                child: TextField(
+                  autofocus: true,
+                  controller: description,
+                  maxLines: 3,
+                  decoration: const InputDecoration(
+                    labelStyle: TextStyle(fontSize: 14),
+                    labelText: 'Описание',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(12),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              Row(
                 children: [
                   SizedBox(
+                    width: 140,
                     child: TextField(
                       autofocus: true,
-                      controller: name,
+                      controller: dice,
                       decoration: const InputDecoration(
                         labelStyle: TextStyle(fontSize: 14),
-                        labelText: 'Название',
+                        labelText: 'Кубики',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(12),
@@ -47,14 +83,32 @@ class CharacterDescriptionSpellModal {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 7),
+                  const SizedBox(width: 10),
                   SizedBox(
+                    width: 140,
                     child: TextField(
                       autofocus: true,
-                      controller: description,
+                      controller: dmg,
                       decoration: const InputDecoration(
                         labelStyle: TextStyle(fontSize: 14),
-                        labelText: 'Класс',
+                        labelText: 'Урон',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  SizedBox(
+                    width: 180,
+                    child: TextField(
+                      autofocus: true,
+                      controller: cost,
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(fontSize: 14),
+                        labelText: 'Использования',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(12),
@@ -76,9 +130,7 @@ class CharacterDescriptionSpellModal {
                   dmg: dmg.text.isEmpty ? null : int.parse(dmg.text),
                   dice: dice.text.isEmpty ? null : int.parse(dice.text),
                   cost: cost.text.isEmpty ? null : int.parse(cost.text),
-                  costModifier: costModifier.text.isEmpty
-                      ? 0
-                      : int.parse(costModifier.text),
+                  costModifier: cost.text.isEmpty ? null : 0,
                 );
 
                 final Character character = box.getAt(index);
@@ -94,7 +146,6 @@ class CharacterDescriptionSpellModal {
                 dmg.dispose();
                 dice.dispose();
                 cost.dispose();
-                costModifier.dispose();
                 Navigator.of(context).pop();
               },
               child: const Text('Добавить'),

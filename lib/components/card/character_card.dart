@@ -1,11 +1,11 @@
 import 'package:dndcounterapp/components/card/character_description_blocks/character_attr_badges.dart';
 import 'package:dndcounterapp/components/card/character_description_blocks/character_card_header.dart';
-import 'package:dndcounterapp/components/card/character_description_blocks/character_description_inventory_modal.dart';
-import 'package:dndcounterapp/components/card/character_description_blocks/character_description_spell_modal.dart';
-import 'package:dndcounterapp/models/character.dart';
-import 'package:dndcounterapp/models/spell.dart';
-import 'package:dndcounterapp/models/weapon.dart';
-import 'package:dndcounterapp/ui_kit/color_palette.dart';
+import 'package:dndcounterapp/components/card/character_modal/character_description_inventory_modal.dart';
+import 'package:dndcounterapp/components/card/character_modal/character_description_spell_modal.dart';
+import 'package:dndcounterapp/core/models/character.dart';
+import 'package:dndcounterapp/core/models/spell.dart';
+import 'package:dndcounterapp/core/models/weapon.dart';
+import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -21,6 +21,7 @@ class CharacterCard extends StatefulWidget {
   final VoidCallback onReturnDefaultHP;
   final VoidCallback onAddItem;
   final VoidCallback onAddSpell;
+  final VoidCallback onImageUpdate;
 
   const CharacterCard({
     super.key,
@@ -33,7 +34,9 @@ class CharacterCard extends StatefulWidget {
     required this.onPlus,
     required this.onMinus,
     required this.onReturnDefaultHP,
-    required this.onAddItem, required this.onAddSpell,
+    required this.onAddItem,
+    required this.onAddSpell,
+    required this.onImageUpdate,
   });
 
   @override
@@ -83,10 +86,11 @@ class _CharacterCardState extends State<CharacterCard> {
                       onPlus: widget.onPlus,
                       onMinus: widget.onMinus,
                       onReturnDefaultHP: widget.onReturnDefaultHP,
+                      onImageUpdate: widget.onImageUpdate,
                     ),
-                    // const SizedBox(height: 4),
-                    CharacterAttrBadges(character: widget.character),
                     const SizedBox(height: 4),
+                    CharacterAttrBadges(character: widget.character),
+                    const SizedBox(height: 6),
                     InkWell(
                       onTap: () {
                         setState(() {
@@ -109,52 +113,26 @@ class _CharacterCardState extends State<CharacterCard> {
               )
             : Padding(
                 padding: const EdgeInsets.only(
-                  top: 8,
+                  top: 16,
                   left: 16,
                   right: 16,
-                  bottom: 8,
+                  bottom: 12,
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(4),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 4.0),
-                            child: InkWell(
-                              onTap: widget.onEdit,
-                              child: const Icon(
-                                Icons.edit,
-                                size: 18,
-                                color: ColorPalette.attKD,
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: widget.onClose,
-                            child: const Icon(
-                              Icons.delete_forever,
-                              size: 20,
-                              color: ColorPalette.attKD,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                     CharacterCardHeader(
                       character: widget.character,
                       onPlus: widget.onPlus,
                       onMinus: widget.onMinus,
                       onReturnDefaultHP: widget.onReturnDefaultHP,
+                      onImageUpdate: widget.onImageUpdate,
                     ),
-                    // const SizedBox(height: 4),
-                    CharacterAttrBadges(character: widget.character),
                     const SizedBox(height: 4),
+                    CharacterAttrBadges(character: widget.character),
+                    const SizedBox(height: 6),
                     Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: Row(
@@ -163,9 +141,27 @@ class _CharacterCardState extends State<CharacterCard> {
                           const Text(
                             'Инвентарь: ',
                             style: TextStyle(
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
+                          const Spacer(),
+                          InkWell(
+                            onTap: () {
+                              // TODO
+                              // final cdim = CharacterDescriptionInventoryModal(
+                              //   box: widget.box,
+                              //   index: widget.index,
+                              //   onAddItem: widget.onAddItem,
+                              // );
+                              // cdim.showCharacterInventoryModal(context);
+                            },
+                            child: const Icon(
+                              Icons.edit,
+                              size: 16,
+                              color: ColorPalette.attKD,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
                           InkWell(
                             onTap: () {
                               final cdim = CharacterDescriptionInventoryModal(
@@ -180,23 +176,21 @@ class _CharacterCardState extends State<CharacterCard> {
                               size: 18,
                               color: ColorPalette.attKD,
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
                     widget.character.inventory.isEmpty
                         ? const SizedBox.shrink()
                         : Padding(
-                            padding: const EdgeInsets.all(4.0),
+                            padding: const EdgeInsets.all(2.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(_convertWeaponToText(
-                                    widget.character.inventory)),
-                              ],
+                              children: _convertWeaponToText(
+                                widget.character.inventory,
+                              ),
                             ),
                           ),
-                    const SizedBox(height: 6),
                     Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: Row(
@@ -205,9 +199,27 @@ class _CharacterCardState extends State<CharacterCard> {
                           const Text(
                             'Книга заклинаний: ',
                             style: TextStyle(
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
+                          const Spacer(),
+                          InkWell(
+                            onTap: () {
+                              // TODO
+                              // final cdim = CharacterDescriptionInventoryModal(
+                              //   box: widget.box,
+                              //   index: widget.index,
+                              //   onAddItem: widget.onAddItem,
+                              // );
+                              // cdim.showCharacterInventoryModal(context);
+                            },
+                            child: const Icon(
+                              Icons.edit,
+                              size: 16,
+                              color: ColorPalette.attKD,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
                           InkWell(
                             onTap: () {
                               final cdsm = CharacterDescriptionSpellModal(
@@ -229,20 +241,16 @@ class _CharacterCardState extends State<CharacterCard> {
                     widget.character.spells.isEmpty
                         ? const SizedBox.shrink()
                         : Padding(
-                            padding: const EdgeInsets.all(4.0),
+                            padding: const EdgeInsets.all(2.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(_convertSpellsToText(
-                                    widget.character.spells)),
-                              ],
+                              children: _convertSpellsToText(
+                                widget.character.spells,
+                              ),
                             ),
                           ),
                     widget.character.description == ''
-                        ? Container()
-                        : const SizedBox(height: 6),
-                    widget.character.description == ''
-                        ? Container()
+                        ? const SizedBox.shrink()
                         : Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: Column(
@@ -251,26 +259,52 @@ class _CharacterCardState extends State<CharacterCard> {
                                 const Text(
                                   'Описание: ',
                                   style: TextStyle(
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
+                                const SizedBox(height: 6),
                                 Text(widget.character.description),
                               ],
                             ),
                           ),
-                    const SizedBox(height: 12),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          isWrapped = !isWrapped;
-                        });
-                      },
-                      child: const Center(
-                        child: Icon(
-                          Icons.more_horiz,
-                          color: ColorPalette.fontBaseColor,
+                    const SizedBox(height: 6),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 4.0),
+                          child: InkWell(
+                            onTap: widget.onEdit,
+                            child: const Icon(
+                              Icons.edit,
+                              size: 16,
+                              color: ColorPalette.attKD,
+                            ),
+                          ),
                         ),
-                      ),
+                        const Spacer(),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              isWrapped = !isWrapped;
+                            });
+                          },
+                          child: const Center(
+                            child: Icon(
+                              Icons.more_horiz,
+                              color: ColorPalette.fontBaseColor,
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        InkWell(
+                          onTap: widget.onClose,
+                          child: const Icon(
+                            Icons.delete_outline,
+                            size: 18,
+                            color: ColorPalette.attKD,
+                          ),
+                        ),
+                      ],
                     )
                   ],
                 ),
@@ -279,38 +313,57 @@ class _CharacterCardState extends State<CharacterCard> {
     );
   }
 
-  String _convertWeaponToText(List<Weapon> inventory) {
-    List<String> desc = [];
+  List<Widget> _convertWeaponToText(List<Weapon> inventory) {
+    List<Widget> desc = [];
     for (Weapon item in inventory) {
       String itemDesc = '';
-      itemDesc += '${item.name}: ';
-      if (item.dice != null) itemDesc += '${item.dice}d${item.dmg} урона ';
+      if (item.dice != null && item.kd == null) {
+        itemDesc += '${item.dice}d${item.dmg} урона ';
+      }
 
-      if (item.kd != null) {
+      if (item.kd != null && item.dice == null) {
         itemDesc +=
             'дает ${!item.kd!.isNegative ? '+' : ''}${item.kd} к защите ';
+      }
+
+      if (item.dice != null && item.kd != null) {
+        itemDesc +=
+            '${item.dice}d${item.dmg} урона, дает ${!item.kd!.isNegative ? '+' : ''}${item.kd} к защите ';
       }
 
       if (item.description != null && item.description != '') {
         itemDesc += '(${item.description})';
       }
-      desc.add(itemDesc);
+      desc.add(
+        Text(
+          item.name,
+          style: const TextStyle(fontWeight: FontWeight.w500),
+        ),
+      );
+      desc.add(Text(itemDesc));
+      desc.add(const SizedBox(height: 8));
     }
-    return desc.join('\n');
+    return desc;
   }
 
-  String _convertSpellsToText(List<Spell> spells) {
-    List<String> desc = [];
+  List<Widget> _convertSpellsToText(List<Spell> spells) {
+    List<Widget> desc = [];
     for (Spell spell in spells) {
       String itemDesc = '';
-      itemDesc += '${spell.name}: ';
       if (spell.dice != null) itemDesc += '${spell.dice}d${spell.dmg} урона ';
 
       if (spell.description != null && spell.description != '') {
         itemDesc += '(${spell.description})';
       }
-      desc.add(itemDesc);
+      desc.add(
+        Text(
+          spell.name,
+          style: const TextStyle(fontWeight: FontWeight.w500),
+        ),
+      );
+      desc.add(Text(itemDesc));
+      desc.add(const SizedBox(height: 8));
     }
-    return desc.join('\n');
+    return desc;
   }
 }
