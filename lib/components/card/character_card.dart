@@ -1,7 +1,8 @@
 import 'package:dndcounterapp/components/card/character_description_blocks/character_attr_badges.dart';
 import 'package:dndcounterapp/components/card/character_description_blocks/character_card_header.dart';
-import 'package:dndcounterapp/components/card/character_modal/character_description_inventory_modal.dart';
-import 'package:dndcounterapp/components/card/character_modal/character_description_spell_modal.dart';
+import 'package:dndcounterapp/components/card/character_modal/inventory_add_modal.dart';
+import 'package:dndcounterapp/components/card/character_modal/inventory_edit_modal.dart';
+import 'package:dndcounterapp/components/card/character_modal/spell_add_modal.dart';
 import 'package:dndcounterapp/core/models/character.dart';
 import 'package:dndcounterapp/core/models/spell.dart';
 import 'package:dndcounterapp/core/models/weapon.dart';
@@ -147,13 +148,13 @@ class _CharacterCardState extends State<CharacterCard> {
                           const Spacer(),
                           InkWell(
                             onTap: () {
-                              // TODO
-                              // final cdim = CharacterDescriptionInventoryModal(
-                              //   box: widget.box,
-                              //   index: widget.index,
-                              //   onAddItem: widget.onAddItem,
-                              // );
-                              // cdim.showCharacterInventoryModal(context);
+                              final inventoryEditModal = InventoryEditModal(
+                                box: widget.box,
+                                index: widget.index,
+                                onEdit: () {}, // TODO
+                                onDelete: () {}, // TODO
+                              );
+                              inventoryEditModal.show(context);
                             },
                             child: const Icon(
                               Icons.edit,
@@ -164,12 +165,12 @@ class _CharacterCardState extends State<CharacterCard> {
                           const SizedBox(width: 4),
                           InkWell(
                             onTap: () {
-                              final cdim = CharacterDescriptionInventoryModal(
+                              final inventoryAddModal = InventoryAddModal(
                                 box: widget.box,
                                 index: widget.index,
                                 onAddItem: widget.onAddItem,
                               );
-                              cdim.showCharacterInventoryModal(context);
+                              inventoryAddModal.show(context);
                             },
                             child: const Icon(
                               Icons.add_box_outlined,
@@ -183,7 +184,10 @@ class _CharacterCardState extends State<CharacterCard> {
                     widget.character.inventory.isEmpty
                         ? const SizedBox.shrink()
                         : Padding(
-                            padding: const EdgeInsets.all(2.0),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 2.0,
+                              horizontal: 4.0,
+                            ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: _convertWeaponToText(
@@ -222,12 +226,12 @@ class _CharacterCardState extends State<CharacterCard> {
                           const SizedBox(width: 4),
                           InkWell(
                             onTap: () {
-                              final cdsm = CharacterDescriptionSpellModal(
+                              final spellAddModal = SpellAddModal(
                                 box: widget.box,
                                 index: widget.index,
                                 onAddSpell: widget.onAddItem,
                               );
-                              cdsm.showCharacterSpellModal(context);
+                              spellAddModal.show(context);
                             },
                             child: const Icon(
                               Icons.add_box_outlined,
@@ -241,7 +245,10 @@ class _CharacterCardState extends State<CharacterCard> {
                     widget.character.spells.isEmpty
                         ? const SizedBox.shrink()
                         : Padding(
-                            padding: const EdgeInsets.all(2.0),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 2.0,
+                              horizontal: 4.0,
+                            ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: _convertSpellsToText(

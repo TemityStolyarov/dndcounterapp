@@ -1,7 +1,7 @@
 import 'package:dndcounterapp/components/card/character_card.dart';
 import 'package:dndcounterapp/components/card/character_card_add.dart';
-import 'package:dndcounterapp/components/card/character_modal/character_image_modal.dart';
-import 'package:dndcounterapp/components/card/character_modal/character_main_edit_modal.dart';
+import 'package:dndcounterapp/components/card/character_modal/image_update_modal.dart';
+import 'package:dndcounterapp/components/card/character_modal/character_edit_modal.dart';
 import 'package:dndcounterapp/components/dice_row/dice_row.dart';
 import 'package:dndcounterapp/core/models/character.dart';
 import 'package:dndcounterapp/core/models/spell.dart';
@@ -128,12 +128,12 @@ class _MainAppState extends State<MainApp> {
                             _updateCards();
                           },
                           onEdit: () {
-                            final cmme = CharacterMainEditModal(
+                            final characterEditModal = CharacterEditModal(
                               box: widget.box,
                               onSave: _updateCards,
                               index: index,
                             );
-                            cmme.showCharacterMainModalEdit(context);
+                            characterEditModal.show(context);
                           },
                           onPlus: () {
                             widget.box.putAt(
@@ -165,12 +165,12 @@ class _MainAppState extends State<MainApp> {
                           onAddItem: _updateCards,
                           onAddSpell: _updateCards,
                           onImageUpdate: () {
-                            final cim = CharacterImageModal(
+                            final imageUpdateModal = ImageUpdateModal(
                               box: widget.box,
                               index: index,
                               onImageUpdate: _updateCards,
                             );
-                            cim.showCharacterImageModal(context);
+                            imageUpdateModal.show(context);
                           },
                         ),
                       CharacterCardAdd(

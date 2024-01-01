@@ -3,18 +3,18 @@ import 'package:dndcounterapp/core/models/spell.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class CharacterDescriptionSpellModal {
+class SpellAddModal {
   final Box box;
   final int index;
   final VoidCallback onAddSpell;
 
-  CharacterDescriptionSpellModal({
+  SpellAddModal({
     required this.box,
     required this.index,
     required this.onAddSpell,
   });
 
-  void showCharacterSpellModal(BuildContext context) {
+  void show(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

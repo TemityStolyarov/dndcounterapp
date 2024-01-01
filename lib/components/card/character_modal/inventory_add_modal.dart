@@ -3,18 +3,18 @@ import 'package:dndcounterapp/core/models/weapon.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class CharacterDescriptionInventoryModal {
+class InventoryAddModal {
   final Box box;
   final int index;
   final VoidCallback onAddItem;
 
-  CharacterDescriptionInventoryModal({
+  InventoryAddModal({
     required this.box,
     required this.index,
     required this.onAddItem,
   });
 
-  void showCharacterInventoryModal(BuildContext context) {
+  void show(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

@@ -2,18 +2,18 @@ import 'package:dndcounterapp/core/models/character.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class CharacterImageModal {
+class ImageUpdateModal {
   final Box box;
   final int index;
   final VoidCallback onImageUpdate;
 
-  CharacterImageModal({
+  ImageUpdateModal({
     required this.box,
     required this.index,
     required this.onImageUpdate,
   });
 
-  void showCharacterImageModal(BuildContext context) {
+  void show(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
