@@ -108,7 +108,7 @@ class InventoryAddModal {
                       controller: kd,
                       decoration: const InputDecoration(
                         labelStyle: TextStyle(fontSize: 14),
-                        labelText: 'Использования',
+                        labelText: 'КД',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(12),
