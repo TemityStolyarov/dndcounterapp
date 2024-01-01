@@ -21,15 +21,17 @@ class SpellAdapter extends TypeAdapter<Spell> {
       description: fields[4] as String?,
       dmg: fields[2] as int?,
       dice: fields[1] as int?,
-      cost: fields[3] as int?,
-      costModifier: fields[5] as int?,
+      cast: fields[3] as int?,
+      castModifier: fields[5] as int?,
+      energyOnCast: fields[6] as int?,
+      energyDescription: fields[7] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Spell obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -37,11 +39,15 @@ class SpellAdapter extends TypeAdapter<Spell> {
       ..writeByte(2)
       ..write(obj.dmg)
       ..writeByte(3)
-      ..write(obj.cost)
+      ..write(obj.cast)
       ..writeByte(4)
       ..write(obj.description)
       ..writeByte(5)
-      ..write(obj.costModifier);
+      ..write(obj.castModifier)
+      ..writeByte(6)
+      ..write(obj.energyOnCast)
+      ..writeByte(7)
+      ..write(obj.energyDescription);
   }
 
   @override

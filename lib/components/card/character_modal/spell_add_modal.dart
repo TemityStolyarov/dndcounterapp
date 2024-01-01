@@ -22,7 +22,7 @@ class SpellAddModal {
         final description = TextEditingController();
         final dice = TextEditingController();
         final dmg = TextEditingController();
-        final cost = TextEditingController();
+        final cast = TextEditingController();
 
         // TODO
         return AlertDialog(
@@ -105,7 +105,7 @@ class SpellAddModal {
                     width: 180,
                     child: TextField(
                       autofocus: true,
-                      controller: cost,
+                      controller: cast,
                       decoration: const InputDecoration(
                         labelStyle: TextStyle(fontSize: 14),
                         labelText: 'Использования',
@@ -129,8 +129,8 @@ class SpellAddModal {
                   description: description.text,
                   dmg: dmg.text.isEmpty ? null : int.parse(dmg.text),
                   dice: dice.text.isEmpty ? null : int.parse(dice.text),
-                  cost: cost.text.isEmpty ? null : int.parse(cost.text),
-                  costModifier: cost.text.isEmpty ? null : 0,
+                  cast: cast.text.isEmpty ? null : int.parse(cast.text),
+                  castModifier: cast.text.isEmpty ? null : 0,
                 );
 
                 final Character character = box.getAt(index);
@@ -145,7 +145,7 @@ class SpellAddModal {
                 description.dispose();
                 dmg.dispose();
                 dice.dispose();
-                cost.dispose();
+                cast.dispose();
                 Navigator.of(context).pop();
               },
               child: const Text('Добавить'),

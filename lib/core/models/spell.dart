@@ -11,18 +11,24 @@ class Spell extends HiveObject {
   @HiveField(2)
   final int? dmg;
   @HiveField(3)
-  final int? cost;
+  final int? cast;
   @HiveField(4)
   final String? description;
   @HiveField(5)
-  final int? costModifier;
+  final int? castModifier;
+  @HiveField(6)
+  final int? energyOnCast;
+  @HiveField(7)
+  final String? energyDescription;
 
   Spell({
     required this.name,
     this.description,
     this.dmg,
     this.dice,
-    this.cost,
-    this.costModifier,
+    this.cast,
+    this.castModifier,
+    this.energyOnCast,
+    this.energyDescription,
   });
 }

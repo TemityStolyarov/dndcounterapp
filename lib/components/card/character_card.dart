@@ -3,6 +3,7 @@ import 'package:dndcounterapp/components/card/character_description_blocks/chara
 import 'package:dndcounterapp/components/card/character_modal/inventory_add_modal.dart';
 import 'package:dndcounterapp/components/card/character_modal/inventory_edit_modal.dart';
 import 'package:dndcounterapp/components/card/character_modal/spell_add_modal.dart';
+import 'package:dndcounterapp/components/card/character_modal/spell_edit_modal.dart';
 import 'package:dndcounterapp/core/models/character.dart';
 import 'package:dndcounterapp/core/models/spell.dart';
 import 'package:dndcounterapp/core/models/weapon.dart';
@@ -209,13 +210,13 @@ class _CharacterCardState extends State<CharacterCard> {
                           const Spacer(),
                           InkWell(
                             onTap: () {
-                              // TODO
-                              // final cdim = CharacterDescriptionInventoryModal(
-                              //   box: widget.box,
-                              //   index: widget.index,
-                              //   onAddItem: widget.onAddItem,
-                              // );
-                              // cdim.showCharacterInventoryModal(context);
+                              final spellEditModal = SpellEditModal(
+                                box: widget.box,
+                                index: widget.index,
+                                onEdit: () {}, // TODO
+                                onDelete: () {}, // TODO
+                              );
+                              spellEditModal.show(context);
                             },
                             child: const Icon(
                               Icons.edit,
