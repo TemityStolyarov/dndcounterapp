@@ -23,6 +23,8 @@ class SpellAddModal {
         final dice = TextEditingController();
         final dmg = TextEditingController();
         final cast = TextEditingController();
+        final energyOnCast = TextEditingController();
+        final energyDescription = TextEditingController();
 
         // TODO
         return AlertDialog(
@@ -119,6 +121,44 @@ class SpellAddModal {
                   ),
                 ],
               ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 100,
+                    child: TextField(
+                      autofocus: true,
+                      controller: energyOnCast,
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(fontSize: 14),
+                        labelText: 'Энергия',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  SizedBox(
+                    width: 380,
+                    child: TextField(
+                      autofocus: true,
+                      controller: energyDescription,
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(fontSize: 14),
+                        labelText: 'Описание энергии',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
           actions: <Widget>[
@@ -131,6 +171,12 @@ class SpellAddModal {
                   dice: dice.text.isEmpty ? null : int.parse(dice.text),
                   cast: cast.text.isEmpty ? null : int.parse(cast.text),
                   castModifier: cast.text.isEmpty ? null : 0,
+                  energyOnCast: energyOnCast.text.isEmpty
+                      ? null
+                      : int.parse(energyOnCast.text),
+                  energyDescription: energyDescription.text.isEmpty
+                      ? null
+                      : energyDescription.text,
                 );
 
                 final Character character = box.getAt(index);
@@ -146,6 +192,8 @@ class SpellAddModal {
                 dmg.dispose();
                 dice.dispose();
                 cast.dispose();
+                energyOnCast.dispose();
+                energyDescription.dispose();
                 Navigator.of(context).pop();
               },
               child: const Text('Добавить'),

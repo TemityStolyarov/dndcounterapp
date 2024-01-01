@@ -84,7 +84,7 @@ class SpellEditModal {
                             spells[i].cast != null &&
                             spells[i].castModifier != null)
                           Text(
-                              ' (${spells[i].dice}d${spells[i].dmg} DMG, ${spells[i].cast! + spells[i].castModifier!}/${spells[i].cast})'),
+                              ' (${spells[i].cast! + spells[i].castModifier!}/${spells[i].cast}, ${spells[i].dice}d${spells[i].dmg} DMG)'),
                         if (spells[i].dice != null &&
                             spells[i].dmg != null &&
                             spells[i].cast == null)
@@ -97,6 +97,13 @@ class SpellEditModal {
                               ' (${spells[i].cast! + spells[i].castModifier!}/${spells[i].cast})'),
                       ],
                     ),
+                    if (spells[i].energyOnCast != null &&
+                        spells[i].energyDescription != null)
+                      const SizedBox(height: 4),
+                    if (spells[i].energyOnCast != null &&
+                        spells[i].energyDescription != null)
+                      Text(
+                          'При применении -${spells[i].energyOnCast} ${spells[i].energyDescription}'),
                     const SizedBox(height: 4),
                     spells[i].description != null
                         ? Text(spells[i].description!)

@@ -213,8 +213,9 @@ class _CharacterCardState extends State<CharacterCard> {
                               final spellEditModal = SpellEditModal(
                                 box: widget.box,
                                 index: widget.index,
-                                onEdit: () {}, // TODO
-                                onDelete: () {}, // TODO
+                                onEdit: () {}, // TODO implement spell editing
+                                onDelete:
+                                    () {}, // TODO implement spell deleting
                               );
                               spellEditModal.show(context);
                             },
@@ -358,17 +359,57 @@ class _CharacterCardState extends State<CharacterCard> {
     List<Widget> desc = [];
     for (Spell spell in spells) {
       String itemDesc = '';
-      if (spell.dice != null) itemDesc += '${spell.dice}d${spell.dmg} урона ';
+      if (spell.dice != null && spell.dmg != null)
+        itemDesc += '${spell.dice}d${spell.dmg} урона';
 
-      if (spell.description != null && spell.description != '') {
-        itemDesc += '(${spell.description})';
+      if (spell.dice != null &&
+          spell.dmg != null &&
+          spell.energyOnCast != null &&
+          spell.energyDescription != null) {
+        itemDesc +=
+            ', при применении -${spell.energyOnCast} ${spell.energyDescription}';
       }
-      desc.add(
-        Text(
-          spell.name,
-          style: const TextStyle(fontWeight: FontWeight.w500),
-        ),
-      );
+
+      if (spell.dice == null &&
+          spell.dmg == null &&
+          spell.energyOnCast != null &&
+          spell.energyDescription != null) {
+        itemDesc +=
+            'При применении -${spell.energyOnCast} ${spell.energyDescription}';
+      }
+
+      if (((spell.dice != null && spell.dmg != null) ||
+              (spell.energyOnCast != null &&
+                  spell.energyDescription != null)) &&
+          spell.description != null &&
+          spell.description != '') {
+        itemDesc += ' (${spell.description})';
+      }
+
+      if ((spell.dice == null &&
+              spell.dmg == null &&
+              spell.energyOnCast == null &&
+              spell.energyDescription == null) &&
+          spell.description != null &&
+          spell.description != '') {
+        itemDesc += '${spell.description}';
+      }
+
+      if (spell.cast != null && spell.castModifier != null) {
+        desc.add(
+          Text(
+            '${spell.name} (${spell.cast! + spell.castModifier!}/${spell.cast})',
+            style: const TextStyle(fontWeight: FontWeight.w500),
+          ),
+        );
+      } else {
+        desc.add(
+          Text(
+            spell.name,
+            style: const TextStyle(fontWeight: FontWeight.w500),
+          ),
+        );
+      }
       desc.add(Text(itemDesc));
       desc.add(const SizedBox(height: 8));
     }
