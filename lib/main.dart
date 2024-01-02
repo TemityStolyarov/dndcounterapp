@@ -9,6 +9,7 @@ import 'package:dndcounterapp/core/models/weapon.dart';
 import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'dart:convert';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,6 +41,7 @@ class MainApp extends StatefulWidget {
 class _MainAppState extends State<MainApp> {
   bool colorScheme = true;
   List<Character> chars = [];
+  String json = '';
 
   @override
   void initState() {
@@ -55,6 +57,9 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      json = jsonEncode(chars.map((person) => person.toJson()).toList());
+    });
     return Scaffold(
       backgroundColor: colorScheme
           ? ColorPalette.alternativeBackgroundColor
@@ -62,8 +67,12 @@ class _MainAppState extends State<MainApp> {
       appBar: PreferredSize(
         preferredSize: const Size(0, 100),
         child: DiceRow(
+          json: json,
+          box: widget.box,
+          onImport: _updateCards,
+          chars: chars,
           colorScheme: colorScheme,
-          child: Switch.adaptive(
+          childSwitch: Switch.adaptive(
             activeColor: ColorPalette.accentColor,
             splashRadius: 0,
             value: colorScheme,
