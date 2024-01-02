@@ -33,7 +33,7 @@ class CharacterAdapter extends TypeAdapter<Character> {
       kd: fields[4] as int,
       hpModifier: fields[14] as int,
       imageUrl: fields[15] as String,
-      isEnabled: fields[16] as bool?,
+      isEnabled: fields[16] as bool,
     );
   }
 
