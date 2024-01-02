@@ -333,6 +333,6 @@ class CharacterEditModal {
 
   void _updateScreen() {
     onSave();
-    print('Character added!');
+    print('Character edited!');
   }
 }

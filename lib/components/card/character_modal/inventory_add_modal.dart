@@ -24,7 +24,6 @@ class InventoryAddModal {
         final dmg = TextEditingController();
         final kd = TextEditingController();
 
-        // TODO
         return AlertDialog(
           title: const Text('Добавление предмета'),
           content: Column(
@@ -165,6 +164,6 @@ class InventoryAddModal {
 
   void _updateScreen() {
     onAddItem();
-    print('Character added!');
+    print('Item added!');
   }
 }

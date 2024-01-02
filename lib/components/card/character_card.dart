@@ -1,9 +1,11 @@
 import 'package:dndcounterapp/components/card/character_description_blocks/character_attr_badges.dart';
 import 'package:dndcounterapp/components/card/character_description_blocks/character_card_header.dart';
+import 'package:dndcounterapp/components/card/character_description_blocks/stat_badges/mini_button.dart';
 import 'package:dndcounterapp/components/card/character_modal/inventory_add_modal.dart';
 import 'package:dndcounterapp/components/card/character_modal/inventory_edit_modal.dart';
 import 'package:dndcounterapp/components/card/character_modal/spell_add_modal.dart';
 import 'package:dndcounterapp/components/card/character_modal/spell_edit_modal.dart';
+import 'package:dndcounterapp/core/helpers.dart';
 import 'package:dndcounterapp/core/models/character.dart';
 import 'package:dndcounterapp/core/models/spell.dart';
 import 'package:dndcounterapp/core/models/weapon.dart';
@@ -28,6 +30,7 @@ class CharacterCard extends StatefulWidget {
   final VoidCallback onDeleteItem;
   final VoidCallback onEditSpell;
   final VoidCallback onDeleteSpell;
+  final VoidCallback onChangingModifierValue;
 
   const CharacterCard({
     super.key,
@@ -47,6 +50,7 @@ class CharacterCard extends StatefulWidget {
     required this.onDeleteItem,
     required this.onEditSpell,
     required this.onDeleteSpell,
+    required this.onChangingModifierValue,
   });
 
   @override
@@ -61,7 +65,7 @@ class _CharacterCardState extends State<CharacterCard> {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Container(
-        width: 380, //340
+        width: 380,
         decoration: BoxDecoration(
           color: ColorPalette.cardColor,
           borderRadius: const BorderRadius.all(
@@ -261,7 +265,10 @@ class _CharacterCardState extends State<CharacterCard> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: _convertSpellsToText(
-                                widget.character.spells,
+                                spells: widget.character.spells,
+                                box: widget.box,
+                                index: widget.index,
+                                character: widget.character,
                               ),
                             ),
                           ),
@@ -334,93 +341,154 @@ class _CharacterCardState extends State<CharacterCard> {
     for (Weapon item in inventory) {
       String itemDesc = '';
       if (item.dice != null && item.kd == null) {
-        itemDesc += '${item.dice}d${item.dmg} урона ';
+        itemDesc += '${item.dice}d${item.dmg} урона';
       }
 
       if (item.kd != null && item.dice == null) {
         itemDesc +=
-            'Дает ${!item.kd!.isNegative ? '+' : ''}${item.kd} к защите ';
+            'Дает ${!item.kd!.isNegative ? '+' : ''}${item.kd} к защите';
       }
 
       if (item.dice != null && item.kd != null) {
         itemDesc +=
-            '${item.dice}d${item.dmg} урона, дает ${!item.kd!.isNegative ? '+' : ''}${item.kd} к защите ';
+            '${item.dice}d${item.dmg} урона, дает ${!item.kd!.isNegative ? '+' : ''}${item.kd} к защите';
       }
 
-      if (item.description != null && item.description != '') {
-        itemDesc += '(${item.description})';
+      if ((item.dice != null && item.dmg != null) &&
+          item.description != null &&
+          item.description != '') {
+        itemDesc += ' (${item.description})';
       }
+
+      if ((item.dice == null && item.dmg == null) &&
+          item.description != null &&
+          item.description != '') {
+        itemDesc += uppercaseFirst(item.description);
+      }
+
       desc.add(
         Text(
           item.name,
           style: const TextStyle(fontWeight: FontWeight.w500),
         ),
       );
-      desc.add(Text(itemDesc));
+      if (itemDesc.isNotEmpty) {
+        desc.add(Text(itemDesc));
+      }
       desc.add(const SizedBox(height: 8));
     }
     return desc;
   }
 
-  List<Widget> _convertSpellsToText(List<Spell> spells) {
+  List<Widget> _convertSpellsToText({
+    required List<Spell> spells,
+    required Box box,
+    required int index,
+    required Character character,
+  }) {
     List<Widget> desc = [];
-    for (Spell spell in spells) {
-      String itemDesc = '';
-      if (spell.dice != null && spell.dmg != null) {
-        itemDesc += '${spell.dice}d${spell.dmg} урона';
+    for (int i = 0; i < spells.length; i++) {
+      String spellDesc = '';
+      if (spells[i].dice != null && spells[i].dmg != null) {
+        spellDesc += '${spells[i].dice}d${spells[i].dmg} урона';
       }
 
-      if (spell.dice != null &&
-          spell.dmg != null &&
-          spell.energyOnCast != null &&
-          spell.energyDescription != null) {
-        itemDesc +=
-            ', при применении -${spell.energyOnCast} ${spell.energyDescription}';
+      if (spells[i].dice != null &&
+          spells[i].dmg != null &&
+          spells[i].energyOnCast != null &&
+          spells[i].energyDescription != null) {
+        spellDesc +=
+            ', при применении -${spells[i].energyOnCast} ${spells[i].energyDescription}';
       }
 
-      if (spell.dice == null &&
-          spell.dmg == null &&
-          spell.energyOnCast != null &&
-          spell.energyDescription != null) {
-        itemDesc +=
-            'При применении -${spell.energyOnCast} ${spell.energyDescription}';
+      if (spells[i].dice == null &&
+          spells[i].dmg == null &&
+          spells[i].energyOnCast != null &&
+          spells[i].energyDescription != null) {
+        spellDesc +=
+            'При применении -${spells[i].energyOnCast} ${spells[i].energyDescription}';
       }
 
-      if (((spell.dice != null && spell.dmg != null) ||
-              (spell.energyOnCast != null &&
-                  spell.energyDescription != null)) &&
-          spell.description != null &&
-          spell.description != '') {
-        itemDesc += ' (${spell.description})';
+      if (((spells[i].dice != null && spells[i].dmg != null) ||
+              (spells[i].energyOnCast != null &&
+                  spells[i].energyDescription != null)) &&
+          spells[i].description != null &&
+          spells[i].description != '') {
+        spellDesc += ' (${spells[i].description})';
       }
 
-      if ((spell.dice == null &&
-              spell.dmg == null &&
-              spell.energyOnCast == null &&
-              spell.energyDescription == null) &&
-          spell.description != null &&
-          spell.description != '') {
-        itemDesc += '${spell.description}';
+      if ((spells[i].dice == null &&
+              spells[i].dmg == null &&
+              spells[i].energyOnCast == null &&
+              spells[i].energyDescription == null) &&
+          spells[i].description != null &&
+          spells[i].description != '') {
+        spellDesc += '${spells[i].description}';
       }
 
-      if (spell.cast != null && spell.castModifier != null) {
+      if (spells[i].cast != null && spells[i].castModifier != null) {
         desc.add(
-          Text(
-            '${spell.name} (${spell.cast! + spell.castModifier!}/${spell.cast})',
-            style: const TextStyle(fontWeight: FontWeight.w500),
+          Row(
+            children: [
+              Text(
+                '${spells[i].name} (${spells[i].cast! + spells[i].castModifier!}/${spells[i].cast})',
+                style: const TextStyle(fontWeight: FontWeight.w500),
+              ),
+              const Spacer(),
+              MiniButton(
+                icon: Icons.add,
+                onTap: () {
+                  Spell spell = spells[i];
+                  List<Spell> newSpellList = spells;
+                  int newCastModifier = spells[i].castModifier! + 1;
+
+                  newSpellList[i] =
+                      spell.copyWith(castModifier: newCastModifier);
+                  final changedCharacter = character.copyWith(
+                    spells: newSpellList,
+                  );
+                  box.putAt(index, changedCharacter);
+                  _updateScreen();
+                },
+              ),
+              const SizedBox(width: 4),
+              MiniButton(
+                icon: Icons.remove,
+                onTap: () {
+                  Spell spell = spells[i];
+                  List<Spell> newSpellList = spells;
+                  int newCastModifier = spells[i].castModifier! - 1;
+
+                  newSpellList[i] =
+                      spell.copyWith(castModifier: newCastModifier);
+                  final changedCharacter = character.copyWith(
+                    spells: newSpellList,
+                  );
+                  box.putAt(index, changedCharacter);
+                  _updateScreen();
+                },
+              ),
+            ],
           ),
         );
       } else {
         desc.add(
           Text(
-            spell.name,
+            spells[i].name,
             style: const TextStyle(fontWeight: FontWeight.w500),
           ),
         );
       }
-      desc.add(Text(itemDesc));
+      if (spellDesc.isNotEmpty) {
+        desc.add(Text(spellDesc));
+      }
       desc.add(const SizedBox(height: 8));
     }
     return desc;
+  }
+
+  void _updateScreen() {
+    widget.onChangingModifierValue();
+    print('Modifier value changed!');
   }
 }

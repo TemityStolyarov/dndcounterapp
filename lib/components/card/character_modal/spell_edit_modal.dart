@@ -74,7 +74,7 @@ class SpellEditModal {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
+                    Wrap(
                       children: [
                         Text('${i + 1}. '),
                         Text(

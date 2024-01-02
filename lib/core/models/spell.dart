@@ -31,4 +31,25 @@ class Spell extends HiveObject {
     this.energyOnCast,
     this.energyDescription,
   });
+
+  Spell copyWith({
+    String? name,
+    String? description,
+    int? dice,
+    int? dmg,
+    int? cast,
+    int? castModifier,
+    int? energyOnCast,
+    String? energyDescription,
+  }) =>
+      Spell(
+        name: name ?? this.name,
+        description: description ?? this.description,
+        dice: dice ?? this.dice,
+        dmg: dmg ?? this.dmg,
+        cast: cast ?? this.cast,
+        castModifier: castModifier ?? this.castModifier,
+        energyOnCast: energyOnCast ?? this.energyOnCast,
+        energyDescription: energyDescription ?? this.energyDescription,
+      );
 }
