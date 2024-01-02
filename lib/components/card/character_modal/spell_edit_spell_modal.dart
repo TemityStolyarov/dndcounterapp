@@ -192,7 +192,7 @@ class SpellEditSpellModal {
                   dice: dice.text.isEmpty ? null : int.parse(dice.text),
                   cast: cast.text.isEmpty ? null : int.parse(cast.text),
                   castModifier: cast.text.isEmpty
-                      ? null
+                      ? 0
                       : char.spells[spellIndex].castModifier,
                   energyOnCast: energyOnCast.text.isEmpty
                       ? null

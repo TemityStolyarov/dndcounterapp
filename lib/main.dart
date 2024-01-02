@@ -137,6 +137,7 @@ class _MainAppState extends State<MainApp> {
                           onEditSpell: _updateCards,
                           onDeleteItem: _updateCards,
                           onDeleteSpell: _updateCards,
+                          onChangingModifierValue: _updateCards,
                           onImageUpdate: () {
                             final imageUpdateModal = ImageUpdateModal(
                               box: widget.box,

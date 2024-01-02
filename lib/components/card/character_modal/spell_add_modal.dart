@@ -26,7 +26,6 @@ class SpellAddModal {
         final energyOnCast = TextEditingController();
         final energyDescription = TextEditingController();
 
-        // TODO
         return AlertDialog(
           title: const Text('Добавление заклинания'),
           content: Column(
