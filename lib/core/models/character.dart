@@ -43,7 +43,7 @@ class Character extends HiveObject {
   final String imageUrl;
 
   @HiveField(16)
-  final bool isEnabled;
+  final bool? isEnabled;
 
   Character({
     required this.race,
