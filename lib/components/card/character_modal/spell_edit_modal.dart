@@ -1,3 +1,5 @@
+import 'package:dndcounterapp/components/card/character_modal/spell_edit_spell_modal.dart';
+import 'package:dndcounterapp/core/helpers.dart';
 import 'package:dndcounterapp/core/models/character.dart';
 import 'package:dndcounterapp/core/models/spell.dart';
 import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
@@ -7,14 +9,14 @@ import 'package:hive_flutter/hive_flutter.dart';
 class SpellEditModal {
   final Box box;
   final int index;
-  final VoidCallback onDelete;
-  final VoidCallback onEdit;
+  final VoidCallback onDeleteSpell;
+  final VoidCallback onEditSpell;
 
   SpellEditModal({
     required this.box,
     required this.index,
-    required this.onDelete,
-    required this.onEdit,
+    required this.onDeleteSpell,
+    required this.onEditSpell,
   });
 
   void show(BuildContext context) {
@@ -31,7 +33,7 @@ class SpellEditModal {
                 mainAxisSize: MainAxisSize.min,
                 children: _spellsToList(
                   spells: char.spells,
-                  characterIndex: index,
+                  context: context,
                 ),
               ),
             ),
@@ -51,7 +53,7 @@ class SpellEditModal {
 
   List<Widget> _spellsToList({
     required List<Spell> spells,
-    required int characterIndex,
+    required BuildContext context,
   }) {
     List<Widget> list = [];
 
@@ -105,41 +107,64 @@ class SpellEditModal {
                       Text(
                           'При применении -${spells[i].energyOnCast} ${spells[i].energyDescription}'),
                     const SizedBox(height: 4),
-                    spells[i].description != null
-                        ? Text(spells[i].description!)
+                    uppercaseFirst(spells[i].description).isNotEmpty
+                        ? Text(uppercaseFirst(spells[i].description))
                         : const SizedBox.shrink(),
                   ],
                 ),
               ),
               const Spacer(),
-              // TODO: handle EDIT tap
-              Container(
-                decoration: BoxDecoration(
-                  color: ColorPalette.cubeRolling.withOpacity(0.75),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.edit_outlined,
-                    color: Colors.white,
-                    size: 18,
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                  final spellEditSpellModal = SpellEditSpellModal(
+                    box: box,
+                    index: index,
+                    spellIndex: i,
+                    onEditSpell: onEditSpell,
+                  );
+                  spellEditSpellModal.show(context);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: ColorPalette.cubeRolling.withOpacity(0.75),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.edit_outlined,
+                      color: Colors.white,
+                      size: 18,
+                    ),
                   ),
                 ),
               ),
               const SizedBox(width: 12),
-              // TODO: handle DELETE tap
-              Container(
-                decoration: BoxDecoration(
-                  color: ColorPalette.cubeRolling.withOpacity(0.75),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.delete_outline,
-                    color: Colors.white,
-                    size: 18,
+              InkWell(
+                onTap: () {
+                  final Character character = box.getAt(index);
+                  List<Spell> spellbook = spells;
+                  spellbook.removeAt(i);
+                  final Character changedCharacter = character.copyWith(
+                    spells: spellbook,
+                  );
+                  box.putAt(index, changedCharacter);
+                  _onDelete();
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: ColorPalette.cubeRolling.withOpacity(0.75),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.delete_outline,
+                      color: Colors.white,
+                      size: 18,
+                    ),
                   ),
                 ),
               ),
@@ -149,7 +174,11 @@ class SpellEditModal {
       );
       list.add(card);
     }
-
     return list;
+  }
+
+  void _onDelete() {
+    onDeleteSpell();
+    print('Spell deleted!');
   }
 }

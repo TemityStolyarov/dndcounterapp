@@ -24,6 +24,10 @@ class CharacterCard extends StatefulWidget {
   final VoidCallback onAddItem;
   final VoidCallback onAddSpell;
   final VoidCallback onImageUpdate;
+  final VoidCallback onEditItem;
+  final VoidCallback onDeleteItem;
+  final VoidCallback onEditSpell;
+  final VoidCallback onDeleteSpell;
 
   const CharacterCard({
     super.key,
@@ -39,6 +43,10 @@ class CharacterCard extends StatefulWidget {
     required this.onAddItem,
     required this.onAddSpell,
     required this.onImageUpdate,
+    required this.onEditItem,
+    required this.onDeleteItem,
+    required this.onEditSpell,
+    required this.onDeleteSpell,
   });
 
   @override
@@ -152,8 +160,8 @@ class _CharacterCardState extends State<CharacterCard> {
                               final inventoryEditModal = InventoryEditModal(
                                 box: widget.box,
                                 index: widget.index,
-                                onEdit: () {}, // TODO
-                                onDelete: () {}, // TODO
+                                onEditItem: widget.onEditItem,
+                                onDeleteItem: widget.onDeleteItem,
                               );
                               inventoryEditModal.show(context);
                             },
@@ -213,9 +221,8 @@ class _CharacterCardState extends State<CharacterCard> {
                               final spellEditModal = SpellEditModal(
                                 box: widget.box,
                                 index: widget.index,
-                                onEdit: () {}, // TODO implement spell editing
-                                onDelete:
-                                    () {}, // TODO implement spell deleting
+                                onEditSpell: widget.onEditSpell,
+                                onDeleteSpell: widget.onDeleteSpell,
                               );
                               spellEditModal.show(context);
                             },
@@ -332,7 +339,7 @@ class _CharacterCardState extends State<CharacterCard> {
 
       if (item.kd != null && item.dice == null) {
         itemDesc +=
-            'дает ${!item.kd!.isNegative ? '+' : ''}${item.kd} к защите ';
+            'Дает ${!item.kd!.isNegative ? '+' : ''}${item.kd} к защите ';
       }
 
       if (item.dice != null && item.kd != null) {
@@ -359,8 +366,9 @@ class _CharacterCardState extends State<CharacterCard> {
     List<Widget> desc = [];
     for (Spell spell in spells) {
       String itemDesc = '';
-      if (spell.dice != null && spell.dmg != null)
+      if (spell.dice != null && spell.dmg != null) {
         itemDesc += '${spell.dice}d${spell.dmg} урона';
+      }
 
       if (spell.dice != null &&
           spell.dmg != null &&
