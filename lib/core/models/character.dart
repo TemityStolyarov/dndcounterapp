@@ -123,4 +123,58 @@ class Character extends HiveObject {
         imageUrl: imageUrl ?? this.imageUrl,
         isEnabled: isEnabled ?? this.isEnabled,
       );
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'race': race,
+      'crClass': crClass,
+      'hp': hp,
+      'kd': kd,
+      'strength': strength,
+      'agility': agility,
+      'intelligence': intelligence,
+      'athletics': athletics,
+      'charisma': charisma,
+      'wisdom': wisdom,
+      'description': description,
+      'inventory': inventory.map((item) => item.toJson()).toList(),
+      'spells': spells.map((spell) => spell.toJson()).toList(),
+      'hpModifier': hpModifier,
+      'imageUrl': imageUrl,
+      'isEnabled': isEnabled,
+    };
+  }
+
+  factory Character.fromJson(Map<String, dynamic> json) {
+    var weaponsJson = json['inventory'] as List<dynamic>?;
+    List<Weapon> weaponParsed = weaponsJson != null
+        ? weaponsJson.map((weaponJson) => Weapon.fromJson(weaponJson)).toList()
+        : [];
+
+    var spellsJson = json['spells'] as List<dynamic>?;
+    List<Spell> spellsParsed = spellsJson != null
+        ? spellsJson.map((spellJson) => Spell.fromJson(spellJson)).toList()
+        : [];
+
+    return Character(
+      name: json['name'],
+      race: json['race'],
+      crClass: json['crClass'],
+      hp: json['hp'],
+      kd: json['kd'],
+      strength: json['strength'],
+      agility: json['agility'],
+      intelligence: json['intelligence'],
+      athletics: json['athletics'],
+      charisma: json['charisma'],
+      wisdom: json['wisdom'],
+      description: json['description'],
+      inventory: weaponParsed,
+      spells: spellsParsed,
+      hpModifier: json['hpModifier'],
+      imageUrl: json['imageUrl'],
+      isEnabled: json['isEnabled'],
+    );
+  }
 }

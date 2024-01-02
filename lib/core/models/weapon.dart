@@ -22,4 +22,24 @@ class Weapon extends HiveObject {
     this.dice,
     this.kd,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'description': description,
+      'dice': dice,
+      'dmg': dmg,
+      'kd': kd,
+    };
+  }
+
+  factory Weapon.fromJson(Map<String, dynamic> json) {
+    return Weapon(
+      name: json['name'],
+      description: json['description'],
+      dice: json['dice'],
+      dmg: json['dmg'],
+      kd: json['kd'],
+    );
+  }
 }

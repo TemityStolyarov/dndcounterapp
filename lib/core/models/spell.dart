@@ -52,4 +52,30 @@ class Spell extends HiveObject {
         energyOnCast: energyOnCast ?? this.energyOnCast,
         energyDescription: energyDescription ?? this.energyDescription,
       );
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'description': description,
+      'dice': dice,
+      'dmg': dmg,
+      'cast': cast,
+      'castModifier': castModifier,
+      'energyOnCast': energyOnCast,
+      'energyDescription': energyDescription,
+    };
+  }
+
+  factory Spell.fromJson(Map<String, dynamic> json) {
+    return Spell(
+      name: json['name'],
+      description: json['description'],
+      dice: json['dice'],
+      dmg: json['dmg'],
+      cast: json['cast'],
+      castModifier: json['castModifier'],
+      energyOnCast: json['energyOnCast'],
+      energyDescription: json['energyDescription'],
+    );
+  }
 }

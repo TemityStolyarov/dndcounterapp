@@ -1,13 +1,26 @@
+import 'package:dndcounterapp/components/card/character_modal/input_output_modal.dart';
 import 'package:dndcounterapp/components/dice_row/dice.dart';
+import 'package:dndcounterapp/core/models/character.dart';
+import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class DiceRow extends StatelessWidget {
   final bool colorScheme;
-  final Widget child;
+  final Widget childSwitch;
+  final String json;
+  final VoidCallback onImport;
+  final Box box;
+  final List<Character> chars;
+
   const DiceRow({
     super.key,
     required this.colorScheme,
-    required this.child,
+    required this.childSwitch,
+    required this.json,
+    required this.onImport,
+    required this.box,
+    required this.chars,
   });
 
   @override
@@ -20,6 +33,58 @@ class DiceRow extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              GestureDetector(
+                onTap: () {
+                  final inputOutputModal = CharacterIOModal(
+                    box: box,
+                    onImport: onImport,
+                    json: json,
+                    chars: chars,
+                  );
+                  inputOutputModal.show(context);
+                },
+                child: Column(
+                  children: [
+                    const Text(
+                      'i/o',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: ColorPalette.attCharisma,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8)),
+                        border: Border.all(
+                          color: ColorPalette.fontBaseColor.withOpacity(0.7),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: colorScheme
+                                ? ColorPalette.alternativeshadowColor
+                                : ColorPalette.shadowColor,
+                            offset: const Offset(0, 5),
+                            blurRadius: 10,
+                            spreadRadius: 4,
+                          ),
+                        ],
+                      ),
+                      child: const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.import_export_rounded,
+                            color: ColorPalette.fontBaseColor,
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 40),
               Column(
                 children: [
                   const Text(
@@ -93,7 +158,7 @@ class DiceRow extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: child,
+                child: childSwitch,
               )
             ],
           ),
