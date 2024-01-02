@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 int modifier(int attr) {
   if (attr >= 30) return 10;
   if (attr >= 28) return 9;
@@ -18,4 +20,15 @@ int modifier(int attr) {
   } else {
     return -5;
   }
+}
+
+String uppercaseFirst(String? string) {
+  String result = '';
+
+  if (string != null && string.isNotEmpty) {
+    result += string.toUpperCase().characters.first;
+    result += string.substring(1);
+  }
+
+  return result;
 }

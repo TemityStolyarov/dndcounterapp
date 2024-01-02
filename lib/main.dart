@@ -55,37 +55,6 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    //   inventory: [
-    //     Weapon(
-    //       name: 'Крутой меч',
-    //       dice: 3,
-    //       dmg: 6,
-    //       description: '',
-    //     ),
-    //     Weapon(
-    //       name: 'Крутой меч2',
-    //       dice: 3,
-    //       dmg: 6,
-    //       description: 'CRAZY!',
-    //     ),
-    //     Weapon(
-    //       name: 'Щит',
-    //       kd: 4,
-    //     ),
-    //     Weapon(
-    //       name: 'Кольчуга',
-    //       kd: 2,
-    //     ),
-    //   ],
-    //   spells: [
-    //     Spell(
-    //       name: 'Каст',
-    //       dice: 2,
-    //       dmg: 10,
-    //     ),
-    //   ],
-    // );
-
     return Scaffold(
       backgroundColor: colorScheme
           ? ColorPalette.alternativeBackgroundColor
@@ -164,6 +133,10 @@ class _MainAppState extends State<MainApp> {
                           },
                           onAddItem: _updateCards,
                           onAddSpell: _updateCards,
+                          onEditItem: _updateCards,
+                          onEditSpell: _updateCards,
+                          onDeleteItem: _updateCards,
+                          onDeleteSpell: _updateCards,
                           onImageUpdate: () {
                             final imageUpdateModal = ImageUpdateModal(
                               box: widget.box,
