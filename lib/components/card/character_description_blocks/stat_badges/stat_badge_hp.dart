@@ -79,7 +79,7 @@ class StatBadgeHP extends StatBadgeAR {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                    vertical: 1,
+                    vertical: 2,
                     horizontal: 4,
                   ),
                   child: Text(

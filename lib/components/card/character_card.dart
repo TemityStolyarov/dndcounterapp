@@ -1,5 +1,6 @@
 import 'package:dndcounterapp/components/card/character_description_blocks/character_attr_badges.dart';
 import 'package:dndcounterapp/components/card/character_description_blocks/character_card_header.dart';
+import 'package:dndcounterapp/components/card/character_description_blocks/character_card_wrapped_header.dart';
 import 'package:dndcounterapp/components/card/character_description_blocks/stat_badges/mini_button.dart';
 import 'package:dndcounterapp/components/card/character_modal/inventory_add_modal.dart';
 import 'package:dndcounterapp/components/card/character_modal/inventory_edit_modal.dart';
@@ -95,13 +96,21 @@ class _CharacterCardState extends State<CharacterCard> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    CharacterCardHeader(
-                      character: widget.character,
-                      onPlus: widget.onPlus,
-                      onMinus: widget.onMinus,
-                      onReturnDefaultHP: widget.onReturnDefaultHP,
-                      onImageUpdate: widget.onImageUpdate,
-                    ),
+                    isWrapped
+                        ? CharacterCardWrappedHeader(
+                            character: widget.character,
+                            onPlus: widget.onPlus,
+                            onMinus: widget.onMinus,
+                            onReturnDefaultHP: widget.onReturnDefaultHP,
+                            onImageUpdate: widget.onImageUpdate,
+                          )
+                        : CharacterCardHeader(
+                            character: widget.character,
+                            onPlus: widget.onPlus,
+                            onMinus: widget.onMinus,
+                            onReturnDefaultHP: widget.onReturnDefaultHP,
+                            onImageUpdate: widget.onImageUpdate,
+                          ),
                     const SizedBox(height: 4),
                     CharacterAttrBadges(character: widget.character),
                     const SizedBox(height: 6),
