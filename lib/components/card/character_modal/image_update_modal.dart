@@ -18,6 +18,11 @@ class ImageUpdateModal {
       context: context,
       builder: (BuildContext context) {
         final link = TextEditingController();
+        try {
+          link.text = box.getAt(index).imageUrl;
+        } catch (e) {
+          print(e);
+        }
 
         return AlertDialog(
           title: const Text('Загрузка аватарки'),
