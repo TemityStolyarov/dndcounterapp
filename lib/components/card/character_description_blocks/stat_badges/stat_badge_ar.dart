@@ -26,7 +26,7 @@ class StatBadgeAR extends StatelessWidget {
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(
-              vertical: 1,
+              vertical: 2,
               horizontal: 4,
             ),
             child: Text(
@@ -36,6 +36,7 @@ class StatBadgeAR extends StatelessWidget {
                 color: ColorPalette.cardColor,
                 fontWeight: FontWeight.w500,
                 fontSize: 14,
+                height: 14 / 12,
               ),
             ),
           ),
