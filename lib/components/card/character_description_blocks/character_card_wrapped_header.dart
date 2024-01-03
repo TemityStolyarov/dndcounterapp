@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:dndcounterapp/components/card/character_description_blocks/stat_badges/mini_button.dart';
 import 'package:dndcounterapp/components/card/character_description_blocks/stat_badges/stat_badge_ar.dart';
 import 'package:dndcounterapp/components/card/character_description_blocks/stat_badges/stat_badge_hp.dart';
@@ -35,27 +33,35 @@ class CharacterCardWrappedHeader extends StatelessWidget {
         children: [
           InkWell(
             onTap: onImageUpdate,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: GestureDetector(
-                onTap: onImageUpdate,
+            child: GestureDetector(
+              onTap: onImageUpdate,
+              child: Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 0.5,
+                    color: ColorPalette.shadowColor.withOpacity(0.5),
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
-                  child: SizedBox(
-                    width: 80,
-                    height: 80,
-                    child: Image.network(
-                      character.imageUrl,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return DecoratedBox(
+                  child: Image.network(
+                    character.imageUrl,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return ClipRRect(
+                        child: Container(
+                          width: 80,
+                          height: 80,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            color: ColorPalette.cubeRolling.withOpacity(0.2),
+                            color: ColorPalette.shadowColor.withOpacity(0.2),
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),
