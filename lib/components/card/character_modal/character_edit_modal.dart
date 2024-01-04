@@ -347,7 +347,7 @@ class CharacterEditModal {
                   imageUrl: char.imageUrl,
                   isEnabled: ctrEnabled.text.isEmpty
                       ? true
-                      : ctrEnabled.text == 'f'
+                      : (ctrEnabled.text == 'f' || ctrEnabled.text == 'false')
                           ? false
                           : true,
                 );
