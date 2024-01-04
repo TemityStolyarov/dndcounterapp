@@ -23,6 +23,21 @@ class Weapon extends HiveObject {
     this.kd,
   });
 
+  Weapon copyWith({
+    String? name,
+    String? description,
+    int? dice,
+    int? dmg,
+    int? kd,
+  }) =>
+      Weapon(
+        name: name ?? this.name,
+        description: description ?? this.description,
+        dice: dice ?? this.dice,
+        dmg: dmg ?? this.dmg,
+        kd: kd ?? this.kd,
+      );
+
   Map<String, dynamic> toJson() {
     return {
       'name': name,

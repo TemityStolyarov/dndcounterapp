@@ -1,19 +1,25 @@
 import 'package:dndcounterapp/components/card/character_modal/spell_edit_spell_modal.dart';
 import 'package:dndcounterapp/core/helpers.dart';
 import 'package:dndcounterapp/core/models/character.dart';
+import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:dndcounterapp/core/models/spell.dart';
 import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class SpellEditModal {
-  final Box box;
+  final Box charbookBox;
+  final List<CharBook> charbooks;
+  final int charbookIndex;
   final int index;
+  
   final VoidCallback onDeleteSpell;
   final VoidCallback onEditSpell;
 
   SpellEditModal({
-    required this.box,
+    required this.charbookBox,
+    required this.charbooks,
+    required this.charbookIndex,
     required this.index,
     required this.onDeleteSpell,
     required this.onEditSpell,
@@ -23,7 +29,7 @@ class SpellEditModal {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        final Character char = box.getAt(index);
+        final Character char = charbooks[charbookIndex].chars[index];
         return AlertDialog(
           title: const Text('Редактирование книги заклинаний'),
           content: SizedBox(
@@ -118,7 +124,9 @@ class SpellEditModal {
                 onTap: () {
                   Navigator.of(context).pop();
                   final spellEditSpellModal = SpellEditSpellModal(
-                    box: box,
+                                        charbookBox: charbookBox,
+                    charbooks: charbooks,
+                    charbookIndex: charbookIndex,
                     index: index,
                     spellIndex: i,
                     onEditSpell: onEditSpell,
@@ -143,13 +151,12 @@ class SpellEditModal {
               const SizedBox(width: 12),
               InkWell(
                 onTap: () {
-                  final Character character = box.getAt(index);
-                  List<Spell> spellbook = spells;
-                  spellbook.removeAt(i);
-                  final Character changedCharacter = character.copyWith(
-                    spells: spellbook,
-                  );
-                  box.putAt(index, changedCharacter);
+                                    List<Character> charList = charbooks[charbookIndex].chars;
+                  charList[index].spells.removeAt(i);
+                  final CharBook updatedCharbook =
+                      charbooks[charbookIndex].copyWith(chars: charList);
+                  charbookBox.putAt(charbookIndex, updatedCharbook);
+
                   _onDelete();
                   Navigator.of(context).pop();
                 },

@@ -1,15 +1,20 @@
 import 'package:dndcounterapp/core/models/character.dart';
+import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:dndcounterapp/core/models/weapon.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class InventoryAddModal {
-  final Box box;
+  final Box charbookBox;
+  final List<CharBook> charbooks;
+  final int charbookIndex;
   final int index;
   final VoidCallback onAddItem;
 
   InventoryAddModal({
-    required this.box,
+    required this.charbookBox,
+    required this.charbooks,
+    required this.charbookIndex,
     required this.index,
     required this.onAddItem,
   });
@@ -131,15 +136,15 @@ class InventoryAddModal {
                   kd: kd.text.isEmpty ? null : int.parse(kd.text),
                 );
 
-                final Character character = box.getAt(index);
-                List<Weapon> inventory = character.inventory;
-                inventory.add(newItem);
-                final Character newChar =
-                    character.copyWith(inventory: inventory);
+                List<Character> charList = charbooks[charbookIndex].chars;
+                charList[index].inventory.add(newItem);
+                final CharBook updatedCharbook =
+                    charbooks[charbookIndex].copyWith(
+                  chars: charList,
+                );
+                charbookBox.putAt(charbookIndex, updatedCharbook);
 
-                box.putAt(index, newChar);
                 _updateScreen();
-
                 name.dispose();
                 description.dispose();
                 dmg.dispose();

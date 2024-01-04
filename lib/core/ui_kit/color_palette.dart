@@ -3,8 +3,10 @@ import 'dart:ui';
 class ColorPalette {
   static const backgroundColor = Color.fromRGBO(235, 235, 235, 1);
   static const alternativeBackgroundColor = Color(0xFF93856C);
+  static const backgroundSectionName = Color.fromARGB(238, 227, 213, 192);
+  static const disabledBackgroundColor = Color.fromRGBO(224, 224, 224, 0.95);
 
-  static const cardColor = Color.fromRGBO(255, 255, 255, 0.95);
+  static const cardColor = Color.fromRGBO(250, 250, 250, 1);
   static const shadowColor = Color.fromRGBO(48, 49, 49, 0.2);
   static const alternativeshadowColor = Color.fromRGBO(48, 49, 49, 0.4);
 

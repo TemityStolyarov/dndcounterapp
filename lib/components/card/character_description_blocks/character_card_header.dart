@@ -97,13 +97,13 @@ class CharacterCardHeader extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   MiniButton(
-                    icon: Icons.add,
-                    onTap: onPlus,
+                    icon: Icons.remove,
+                    onTap: onMinus,
                   ),
                   const SizedBox(width: 4),
                   MiniButton(
-                    icon: Icons.remove,
-                    onTap: onMinus,
+                    icon: Icons.add,
+                    onTap: onPlus,
                   ),
                   const SizedBox(width: 6),
                   StatBadgeHP(
@@ -116,6 +116,7 @@ class CharacterCardHeader extends StatelessWidget {
                         : character.hp < (character.hp + character.hpModifier)
                             ? ColorPalette.attHP
                             : ColorPalette.attHP,
+                    isEnabled: character.isEnabled,
                   ),
                 ],
               ),

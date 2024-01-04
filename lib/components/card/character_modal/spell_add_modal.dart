@@ -1,15 +1,20 @@
 import 'package:dndcounterapp/core/models/character.dart';
+import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:dndcounterapp/core/models/spell.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class SpellAddModal {
-  final Box box;
+  final Box charbookBox;
+  final List<CharBook> charbooks;
+  final int charbookIndex;
   final int index;
   final VoidCallback onAddSpell;
 
   SpellAddModal({
-    required this.box,
+    required this.charbookBox,
+    required this.charbooks,
+    required this.charbookIndex,
     required this.index,
     required this.onAddSpell,
   });
@@ -178,14 +183,15 @@ class SpellAddModal {
                       : energyDescription.text,
                 );
 
-                final Character character = box.getAt(index);
-                List<Spell> spells = character.spells;
-                spells.add(newSpell);
-                final Character newChar = character.copyWith(spells: spells);
+                List<Character> charList = charbooks[charbookIndex].chars;
+                charList[index].spells.add(newSpell);
+                final CharBook updatedCharbook =
+                    charbooks[charbookIndex].copyWith(
+                  chars: charList,
+                );
+                charbookBox.putAt(charbookIndex, updatedCharbook);
 
-                box.putAt(index, newChar);
                 _updateScreen();
-
                 name.dispose();
                 description.dispose();
                 dmg.dispose();

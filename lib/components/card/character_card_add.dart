@@ -1,16 +1,12 @@
-import 'package:dndcounterapp/components/card/character_modal/character_add_modal.dart';
 import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 class CharacterCardAdd extends StatelessWidget {
-  final Box box;
   final bool colorScheme;
   final VoidCallback onAdd;
 
   const CharacterCardAdd({
     super.key,
-    required this.box,
     required this.colorScheme,
     required this.onAdd,
   });
@@ -39,13 +35,7 @@ class CharacterCardAdd extends StatelessWidget {
         ),
         child: InkWell(
           borderRadius: const BorderRadius.all(Radius.circular(12)),
-          onTap: () {
-            final characterAddModal = CharacterAddModal(
-              box: box,
-              onAdd: onAdd,
-            );
-            characterAddModal.show(context);
-          },
+          onTap: onAdd,
           child: const Padding(
             padding: EdgeInsets.all(16.0),
             child: Column(

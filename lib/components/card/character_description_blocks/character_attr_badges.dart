@@ -24,6 +24,7 @@ class CharacterAttrBadges extends StatelessWidget {
                 info:
                     '${character.strength} (${!modifier(character.strength).isNegative ? '+' : ''}${modifier(character.strength)})',
                 color: ColorPalette.attStrength,
+                isEnabled: character.isEnabled,
               ),
               const Spacer(),
               StatBadge(
@@ -31,6 +32,7 @@ class CharacterAttrBadges extends StatelessWidget {
                 info:
                     '${character.agility} (${!modifier(character.agility).isNegative ? '+' : ''}${modifier(character.agility)})',
                 color: ColorPalette.attAgility,
+                isEnabled: character.isEnabled,
               ),
               const Spacer(),
               StatBadge(
@@ -38,6 +40,7 @@ class CharacterAttrBadges extends StatelessWidget {
                 info:
                     '${character.intelligence} (${!modifier(character.intelligence).isNegative ? '+' : ''}${modifier(character.intelligence)})',
                 color: ColorPalette.attIntelligence,
+                isEnabled: character.isEnabled,
               ),
             ],
           ),
@@ -53,6 +56,7 @@ class CharacterAttrBadges extends StatelessWidget {
                 info:
                     '${character.athletics} (${!modifier(character.athletics).isNegative ? '+' : ''}${modifier(character.athletics)})',
                 color: ColorPalette.attAthletics,
+                isEnabled: character.isEnabled,
               ),
               const Spacer(),
               StatBadge(
@@ -60,6 +64,7 @@ class CharacterAttrBadges extends StatelessWidget {
                 info:
                     '${character.charisma} (${!modifier(character.charisma).isNegative ? '+' : ''}${modifier(character.charisma)})',
                 color: ColorPalette.attCharisma,
+                isEnabled: character.isEnabled,
               ),
               const Spacer(),
               StatBadge(
@@ -67,6 +72,7 @@ class CharacterAttrBadges extends StatelessWidget {
                 info:
                     '${character.wisdom} (${!modifier(character.wisdom).isNegative ? '+' : ''}${modifier(character.wisdom)})',
                 color: ColorPalette.attWisdom,
+                isEnabled: character.isEnabled,
               ),
             ],
           ),

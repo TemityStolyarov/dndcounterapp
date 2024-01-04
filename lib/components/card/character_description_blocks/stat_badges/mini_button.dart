@@ -18,7 +18,7 @@ class MiniButton extends StatelessWidget {
       child: Icon(
         icon,
         size: 14,
-        color: ColorPalette.cubeRolling,
+        color: ColorPalette.cubeRolling.withOpacity(0.7),
       ),
     );
   }

@@ -5,24 +5,29 @@ class StatBadge extends StatelessWidget {
   final String? label;
   final String info;
   final Color color;
+  final bool isEnabled;
 
   const StatBadge({
     super.key,
     required this.label,
     required this.info,
     required this.color,
+    required this.isEnabled,
   });
 
   @override
   Widget build(BuildContext context) {
-    const double maxWidth = 102;
-    const double colorPartWidth = 102 - 40;
+    const double maxWidth = 106;
+    const double colorPartWidth = 106 - 36;
 
     return Row(
       children: [
         Container(
           width: maxWidth,
           decoration: BoxDecoration(
+            color: isEnabled
+                ? ColorPalette.cardColor
+                : ColorPalette.cardColor.withOpacity(0.3),
             border: Border.all(
               color: ColorPalette.alternativeshadowColor,
               width: 0.5,

@@ -2,12 +2,9 @@ import 'package:dndcounterapp/components/card/character_description_blocks/chara
 import 'package:dndcounterapp/components/card/character_description_blocks/character_card_header.dart';
 import 'package:dndcounterapp/components/card/character_description_blocks/character_card_wrapped_header.dart';
 import 'package:dndcounterapp/components/card/character_description_blocks/stat_badges/mini_button.dart';
-import 'package:dndcounterapp/components/card/character_modal/inventory_add_modal.dart';
-import 'package:dndcounterapp/components/card/character_modal/inventory_edit_modal.dart';
-import 'package:dndcounterapp/components/card/character_modal/spell_add_modal.dart';
-import 'package:dndcounterapp/components/card/character_modal/spell_edit_modal.dart';
 import 'package:dndcounterapp/core/helpers.dart';
 import 'package:dndcounterapp/core/models/character.dart';
+import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:dndcounterapp/core/models/spell.dart';
 import 'package:dndcounterapp/core/models/weapon.dart';
 import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
@@ -16,42 +13,43 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 class CharacterCard extends StatefulWidget {
   final bool colorScheme;
-  final Character character;
+  final Box charbookBox;
+  final List<CharBook> charbooks;
+  final int charbookIndex;
   final int index;
+
   final VoidCallback onEdit;
   final VoidCallback onClose;
-  final Box box;
   final VoidCallback onPlus;
   final VoidCallback onMinus;
   final VoidCallback onReturnDefaultHP;
-  final VoidCallback onAddItem;
-  final VoidCallback onAddSpell;
   final VoidCallback onImageUpdate;
-  final VoidCallback onEditItem;
-  final VoidCallback onDeleteItem;
-  final VoidCallback onEditSpell;
-  final VoidCallback onDeleteSpell;
   final VoidCallback onChangingModifierValue;
+  final VoidCallback onInventoryAddModalOpen;
+  final VoidCallback onInventoryEditModalOpen;
+  final VoidCallback onSpellAddModalOpen;
+  final VoidCallback onSpellEditModalOpen;
+  final VoidCallback onUpdateScreen;
 
   const CharacterCard({
     super.key,
-    required this.character,
     required this.colorScheme,
-    required this.box,
+    required this.charbookBox,
+    required this.charbooks,
+    required this.charbookIndex,
     required this.index,
     required this.onEdit,
     required this.onClose,
     required this.onPlus,
     required this.onMinus,
     required this.onReturnDefaultHP,
-    required this.onAddItem,
-    required this.onAddSpell,
     required this.onImageUpdate,
-    required this.onEditItem,
-    required this.onDeleteItem,
-    required this.onEditSpell,
-    required this.onDeleteSpell,
     required this.onChangingModifierValue,
+    required this.onInventoryAddModalOpen,
+    required this.onInventoryEditModalOpen,
+    required this.onSpellAddModalOpen,
+    required this.onSpellEditModalOpen,
+    required this.onUpdateScreen,
   });
 
   @override
@@ -68,20 +66,35 @@ class _CharacterCardState extends State<CharacterCard> {
       child: Container(
         width: 380,
         decoration: BoxDecoration(
-          color: ColorPalette.cardColor,
+          color: widget
+                  .charbooks[widget.charbookIndex].chars[widget.index].isEnabled
+              ? ColorPalette.cardColor
+              : ColorPalette.disabledBackgroundColor,
           borderRadius: const BorderRadius.all(
             Radius.circular(16),
           ),
-          boxShadow: [
-            BoxShadow(
-              color: widget.colorScheme
-                  ? ColorPalette.alternativeshadowColor
-                  : ColorPalette.shadowColor,
-              offset: const Offset(0, 5),
-              blurRadius: 10,
-              spreadRadius: 4,
-            ),
-          ],
+          boxShadow: widget
+                  .charbooks[widget.charbookIndex].chars[widget.index].isEnabled
+              ? [
+                  BoxShadow(
+                    color: widget.colorScheme
+                        ? ColorPalette.alternativeshadowColor
+                        : ColorPalette.shadowColor,
+                    offset: const Offset(0, 5),
+                    blurRadius: 10,
+                    spreadRadius: 4,
+                  ),
+                ]
+              : [
+                  BoxShadow(
+                    color: widget.colorScheme
+                        ? ColorPalette.alternativeshadowColor.withOpacity(0.1)
+                        : ColorPalette.shadowColor.withOpacity(0.1),
+                    offset: const Offset(0, 5),
+                    blurRadius: 10,
+                    spreadRadius: 4,
+                  ),
+                ],
         ),
         child: isWrapped
             ? Padding(
@@ -89,7 +102,7 @@ class _CharacterCardState extends State<CharacterCard> {
                   left: 16,
                   right: 16,
                   top: 16,
-                  bottom: 8,
+                  bottom: 12,
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -98,39 +111,65 @@ class _CharacterCardState extends State<CharacterCard> {
                   children: [
                     isWrapped
                         ? CharacterCardWrappedHeader(
-                            character: widget.character,
+                            character: widget.charbooks[widget.charbookIndex]
+                                .chars[widget.index],
                             onPlus: widget.onPlus,
                             onMinus: widget.onMinus,
                             onReturnDefaultHP: widget.onReturnDefaultHP,
                             onImageUpdate: widget.onImageUpdate,
                           )
                         : CharacterCardHeader(
-                            character: widget.character,
+                            character: widget.charbooks[widget.charbookIndex]
+                                .chars[widget.index],
                             onPlus: widget.onPlus,
                             onMinus: widget.onMinus,
                             onReturnDefaultHP: widget.onReturnDefaultHP,
                             onImageUpdate: widget.onImageUpdate,
                           ),
                     const SizedBox(height: 4),
-                    CharacterAttrBadges(character: widget.character),
+                    CharacterAttrBadges(
+                      character: widget
+                          .charbooks[widget.charbookIndex].chars[widget.index],
+                    ),
                     const SizedBox(height: 6),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          isWrapped = !isWrapped;
-                        });
-                      },
-                      child: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.more_horiz,
-                            color: ColorPalette.fontBaseColor,
-                          )
-                        ],
-                      ),
-                    )
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 4.0),
+                          child: InkWell(
+                            onTap: widget.onEdit,
+                            child: Icon(
+                              Icons.edit,
+                              size: 16,
+                              color: ColorPalette.attKD.withOpacity(0.4),
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              isWrapped = !isWrapped;
+                            });
+                          },
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.more_horiz,
+                                color: ColorPalette.fontBaseColor,
+                              )
+                            ],
+                          ),
+                        ),
+                        const Spacer(),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 4.0),
+                          child: SizedBox(width: 18),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               )
@@ -147,14 +186,18 @@ class _CharacterCardState extends State<CharacterCard> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     CharacterCardHeader(
-                      character: widget.character,
+                      character: widget
+                          .charbooks[widget.charbookIndex].chars[widget.index],
                       onPlus: widget.onPlus,
                       onMinus: widget.onMinus,
                       onReturnDefaultHP: widget.onReturnDefaultHP,
                       onImageUpdate: widget.onImageUpdate,
                     ),
                     const SizedBox(height: 4),
-                    CharacterAttrBadges(character: widget.character),
+                    CharacterAttrBadges(
+                      character: widget
+                          .charbooks[widget.charbookIndex].chars[widget.index],
+                    ),
                     const SizedBox(height: 6),
                     Padding(
                       padding: const EdgeInsets.all(4.0),
@@ -169,15 +212,7 @@ class _CharacterCardState extends State<CharacterCard> {
                           ),
                           const Spacer(),
                           InkWell(
-                            onTap: () {
-                              final inventoryEditModal = InventoryEditModal(
-                                box: widget.box,
-                                index: widget.index,
-                                onEditItem: widget.onEditItem,
-                                onDeleteItem: widget.onDeleteItem,
-                              );
-                              inventoryEditModal.show(context);
-                            },
+                            onTap: widget.onInventoryEditModalOpen,
                             child: const Icon(
                               Icons.edit,
                               size: 16,
@@ -186,14 +221,7 @@ class _CharacterCardState extends State<CharacterCard> {
                           ),
                           const SizedBox(width: 4),
                           InkWell(
-                            onTap: () {
-                              final inventoryAddModal = InventoryAddModal(
-                                box: widget.box,
-                                index: widget.index,
-                                onAddItem: widget.onAddItem,
-                              );
-                              inventoryAddModal.show(context);
-                            },
+                            onTap: widget.onInventoryAddModalOpen,
                             child: const Icon(
                               Icons.add_box_outlined,
                               size: 18,
@@ -203,7 +231,8 @@ class _CharacterCardState extends State<CharacterCard> {
                         ],
                       ),
                     ),
-                    widget.character.inventory.isEmpty
+                    widget.charbooks[widget.charbookIndex].chars[widget.index]
+                            .inventory.isEmpty
                         ? const SizedBox.shrink()
                         : Padding(
                             padding: const EdgeInsets.symmetric(
@@ -213,7 +242,8 @@ class _CharacterCardState extends State<CharacterCard> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: _convertWeaponToText(
-                                widget.character.inventory,
+                                widget.charbooks[widget.charbookIndex]
+                                    .chars[widget.index].inventory,
                               ),
                             ),
                           ),
@@ -230,15 +260,7 @@ class _CharacterCardState extends State<CharacterCard> {
                           ),
                           const Spacer(),
                           InkWell(
-                            onTap: () {
-                              final spellEditModal = SpellEditModal(
-                                box: widget.box,
-                                index: widget.index,
-                                onEditSpell: widget.onEditSpell,
-                                onDeleteSpell: widget.onDeleteSpell,
-                              );
-                              spellEditModal.show(context);
-                            },
+                            onTap: widget.onSpellEditModalOpen,
                             child: const Icon(
                               Icons.edit,
                               size: 16,
@@ -247,14 +269,7 @@ class _CharacterCardState extends State<CharacterCard> {
                           ),
                           const SizedBox(width: 4),
                           InkWell(
-                            onTap: () {
-                              final spellAddModal = SpellAddModal(
-                                box: widget.box,
-                                index: widget.index,
-                                onAddSpell: widget.onAddItem,
-                              );
-                              spellAddModal.show(context);
-                            },
+                            onTap: widget.onSpellAddModalOpen,
                             child: const Icon(
                               Icons.add_box_outlined,
                               size: 18,
@@ -264,7 +279,8 @@ class _CharacterCardState extends State<CharacterCard> {
                         ],
                       ),
                     ),
-                    widget.character.spells.isEmpty
+                    widget.charbooks[widget.charbookIndex].chars[widget.index]
+                            .spells.isEmpty
                         ? const SizedBox.shrink()
                         : Padding(
                             padding: const EdgeInsets.symmetric(
@@ -274,14 +290,18 @@ class _CharacterCardState extends State<CharacterCard> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: _convertSpellsToText(
-                                spells: widget.character.spells,
-                                box: widget.box,
+                                spells: widget.charbooks[widget.charbookIndex]
+                                    .chars[widget.index].spells,
                                 index: widget.index,
-                                character: widget.character,
+                                character: widget
+                                    .charbooks[widget.charbookIndex]
+                                    .chars[widget.index],
                               ),
                             ),
                           ),
-                    widget.character.description == ''
+                    widget.charbooks[widget.charbookIndex].chars[widget.index]
+                                .description ==
+                            ''
                         ? const SizedBox.shrink()
                         : Padding(
                             padding: const EdgeInsets.all(4.0),
@@ -295,7 +315,8 @@ class _CharacterCardState extends State<CharacterCard> {
                                   ),
                                 ),
                                 const SizedBox(height: 6),
-                                Text(widget.character.description),
+                                Text(widget.charbooks[widget.charbookIndex]
+                                    .chars[widget.index].description),
                               ],
                             ),
                           ),
@@ -328,16 +349,19 @@ class _CharacterCardState extends State<CharacterCard> {
                           ),
                         ),
                         const Spacer(),
-                        InkWell(
-                          onTap: widget.onClose,
-                          child: const Icon(
-                            Icons.delete_outline,
-                            size: 18,
-                            color: ColorPalette.attKD,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                          child: InkWell(
+                            onTap: widget.onClose,
+                            child: const Icon(
+                              Icons.delete_outline,
+                              size: 18,
+                              color: ColorPalette.attKD,
+                            ),
                           ),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -391,7 +415,6 @@ class _CharacterCardState extends State<CharacterCard> {
 
   List<Widget> _convertSpellsToText({
     required List<Spell> spells,
-    required Box box,
     required int index,
     required Character character,
   }) {
@@ -444,38 +467,44 @@ class _CharacterCardState extends State<CharacterCard> {
                 style: const TextStyle(fontWeight: FontWeight.w500),
               ),
               const Spacer(),
-              MiniButton(
-                icon: Icons.add,
-                onTap: () {
-                  Spell spell = spells[i];
-                  List<Spell> newSpellList = spells;
-                  int newCastModifier = spells[i].castModifier! + 1;
-
-                  newSpellList[i] =
-                      spell.copyWith(castModifier: newCastModifier);
-                  final changedCharacter = character.copyWith(
-                    spells: newSpellList,
-                  );
-                  box.putAt(index, changedCharacter);
-                  _updateScreen();
-                },
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                child: MiniButton(
+                  icon: Icons.remove,
+                  onTap: () {
+                    Spell spell = spells[i];
+                    List<Character> charList =
+                        widget.charbooks[widget.charbookIndex].chars;
+                    charList[index].spells[i] = spell.copyWith(
+                        castModifier: spells[i].castModifier! - 1);
+                    final CharBook updatedCharbook = widget
+                        .charbooks[widget.charbookIndex]
+                        .copyWith(chars: charList);
+                    widget.charbookBox
+                        .putAt(widget.charbookIndex, updatedCharbook);
+                    widget.onUpdateScreen();
+                  },
+                ),
               ),
               const SizedBox(width: 4),
-              MiniButton(
-                icon: Icons.remove,
-                onTap: () {
-                  Spell spell = spells[i];
-                  List<Spell> newSpellList = spells;
-                  int newCastModifier = spells[i].castModifier! - 1;
-
-                  newSpellList[i] =
-                      spell.copyWith(castModifier: newCastModifier);
-                  final changedCharacter = character.copyWith(
-                    spells: newSpellList,
-                  );
-                  box.putAt(index, changedCharacter);
-                  _updateScreen();
-                },
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                child: MiniButton(
+                  icon: Icons.add,
+                  onTap: () {
+                    Spell spell = spells[i];
+                    List<Character> charList =
+                        widget.charbooks[widget.charbookIndex].chars;
+                    charList[index].spells[i] = spell.copyWith(
+                        castModifier: spells[i].castModifier! + 1);
+                    final CharBook updatedCharbook = widget
+                        .charbooks[widget.charbookIndex]
+                        .copyWith(chars: charList);
+                    widget.charbookBox
+                        .putAt(widget.charbookIndex, updatedCharbook);
+                    widget.onUpdateScreen();
+                  },
+                ),
               ),
             ],
           ),

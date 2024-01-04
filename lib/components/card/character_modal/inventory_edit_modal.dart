@@ -1,20 +1,25 @@
 import 'package:dndcounterapp/components/card/character_modal/inventory_edit_item_modal.dart';
 import 'package:dndcounterapp/core/helpers.dart';
 import 'package:dndcounterapp/core/models/character.dart';
+import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:dndcounterapp/core/models/weapon.dart';
 import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class InventoryEditModal {
-  final Box box;
+  final Box charbookBox;
+  final List<CharBook> charbooks;
+  final int charbookIndex;
   final int index;
 
   final VoidCallback onDeleteItem;
   final VoidCallback onEditItem;
 
   InventoryEditModal({
-    required this.box,
+    required this.charbookBox,
+    required this.charbooks,
+    required this.charbookIndex,
     required this.index,
     required this.onDeleteItem,
     required this.onEditItem,
@@ -24,7 +29,7 @@ class InventoryEditModal {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        final Character char = box.getAt(index);
+        final Character char = charbooks[charbookIndex].chars[index];
         return AlertDialog(
           title: const Text('Редактирование инвентаря'),
           content: SizedBox(
@@ -109,7 +114,9 @@ class InventoryEditModal {
                 onTap: () {
                   Navigator.of(context).pop();
                   final inventoryEditItemModal = InventoryEditItemModal(
-                    box: box,
+                    charbookBox: charbookBox,
+                    charbooks: charbooks,
+                    charbookIndex: charbookIndex,
                     index: index,
                     itemIndex: i,
                     onEditItem: onEditItem,
@@ -134,13 +141,12 @@ class InventoryEditModal {
               const SizedBox(width: 12),
               InkWell(
                 onTap: () {
-                  final Character character = box.getAt(index);
-                  List<Weapon> inventory = items;
-                  inventory.removeAt(i);
-                  final Character changedCharacter = character.copyWith(
-                    inventory: inventory,
-                  );
-                  box.putAt(index, changedCharacter);
+                  List<Character> charList = charbooks[charbookIndex].chars;
+                  charList[index].inventory.removeAt(i);
+                  final CharBook updatedCharbook =
+                      charbooks[charbookIndex].copyWith(chars: charList);
+                  charbookBox.putAt(charbookIndex, updatedCharbook);
+
                   _onDelete();
                   Navigator.of(context).pop();
                 },

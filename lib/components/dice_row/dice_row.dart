@@ -1,6 +1,6 @@
 import 'package:dndcounterapp/components/card/character_modal/input_output_modal.dart';
 import 'package:dndcounterapp/components/dice_row/dice.dart';
-import 'package:dndcounterapp/core/models/character.dart';
+import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -11,7 +11,7 @@ class DiceRow extends StatelessWidget {
   final String json;
   final VoidCallback onImport;
   final Box box;
-  final List<Character> chars;
+  final List<CharBook> charBooks;
 
   const DiceRow({
     super.key,
@@ -20,7 +20,7 @@ class DiceRow extends StatelessWidget {
     required this.json,
     required this.onImport,
     required this.box,
-    required this.chars,
+    required this.charBooks,
   });
 
   @override
@@ -39,7 +39,7 @@ class DiceRow extends StatelessWidget {
                     box: box,
                     onImport: onImport,
                     json: json,
-                    chars: chars,
+                    charBooks: charBooks,
                   );
                   inputOutputModal.show(context);
                 },
