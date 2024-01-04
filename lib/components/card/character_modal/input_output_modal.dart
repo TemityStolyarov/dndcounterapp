@@ -1,18 +1,17 @@
 import 'dart:convert';
-
-import 'package:dndcounterapp/core/models/character.dart';
+import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class CharacterIOModal {
   final Box box;
-  final List<Character> chars;
+  final List<CharBook> charBooks;
   final VoidCallback onImport;
   final String json;
 
   CharacterIOModal({
     required this.box,
-    required this.chars,
+    required this.charBooks,
     required this.onImport,
     required this.json,
   });
@@ -54,13 +53,13 @@ class CharacterIOModal {
                 List<Map<String, dynamic>> jsonDataList =
                     jsonDecode(ctrJSON.text).cast<Map<String, dynamic>>();
 
-                List<Character> characters = jsonDataList
-                    .map((json) => Character.fromJson(json))
+                List<CharBook> charbooks = jsonDataList
+                    .map((json) => CharBook.fromJson(json))
                     .toList();
 
                 await _deleteContaining();
 
-                await _addFromJson(characters);
+                await _addFromJson(charbooks);
 
                 _updateScreen();
 
@@ -86,15 +85,15 @@ class CharacterIOModal {
   }
 
   _deleteContaining() {
-    for (int i = 0; i < chars.length; i++) {
+    for (int i = 0; i < charBooks.length; i++) {
       box.deleteAt(0);
     }
   }
 
-  _addFromJson(List<Character> characters) {
-    for (var char in characters) {
-      print('${char.name} added!');
-      box.add(char);
+  _addFromJson(List<CharBook> charbooks) {
+    for (var charbook in charbooks) {
+      print('${charbook.name} added!');
+      box.add(charbook);
     }
   }
 }

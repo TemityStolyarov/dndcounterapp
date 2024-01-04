@@ -1,16 +1,21 @@
 import 'package:dndcounterapp/core/models/character.dart';
+import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:dndcounterapp/core/models/weapon.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class InventoryEditItemModal {
-  final Box box;
+  final Box charbookBox;
+  final List<CharBook> charbooks;
+  final int charbookIndex;
   final int index;
   final int itemIndex;
   final VoidCallback onEditItem;
 
   InventoryEditItemModal({
-    required this.box,
+    required this.charbookBox,
+    required this.charbooks,
+    required this.charbookIndex,
     required this.index,
     required this.itemIndex,
     required this.onEditItem,
@@ -23,7 +28,7 @@ class InventoryEditItemModal {
         Character char = Character.empty();
         late Weapon editingItem;
         try {
-          char = box.getAt(index)!;
+          char = charbooks[charbookIndex].chars[index];
           editingItem = char.inventory[itemIndex];
         } catch (e) {
           print(e);
@@ -147,14 +152,13 @@ class InventoryEditItemModal {
                   kd: kd.text.isEmpty ? null : int.parse(kd.text),
                 );
 
-                List<Weapon> inventory = char.inventory;
-                inventory[itemIndex] = newItem;
-                final Character changedCharacter =
-                    char.copyWith(inventory: inventory);
+                List<Character> charList = charbooks[charbookIndex].chars;
+                charList[index].inventory[itemIndex] = newItem;
+                final CharBook updatedCharbook =
+                    charbooks[charbookIndex].copyWith(chars: charList);
+                charbookBox.putAt(charbookIndex, updatedCharbook);
 
-                box.putAt(index, changedCharacter);
                 _updateScreen();
-
                 name.dispose();
                 description.dispose();
                 dmg.dispose();

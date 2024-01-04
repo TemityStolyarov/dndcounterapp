@@ -6,26 +6,33 @@ class StatBadgeHP extends StatBadgeAR {
   final int hpModifier;
   final int hp;
   final VoidCallback onReturnDefaultHP;
+  final bool isEnabled;
+
   const StatBadgeHP({
+    super.key,
     required this.onReturnDefaultHP,
     required this.hpModifier,
     required this.hp,
-    super.key,
+    required this.isEnabled,
     required super.info,
     required super.color,
   });
 
   @override
   Widget build(BuildContext context) {
-    const double maxWidth = 76;
+    const double maxWidth = 84;
 
     return Row(
       children: [
         Container(
           width: maxWidth,
           decoration: BoxDecoration(
+            color: isEnabled
+                ? ColorPalette.cardColor
+                : ColorPalette.cardColor.withOpacity(0.3),
             border: Border.all(
               color: ColorPalette.alternativeshadowColor,
+              width: 0.5,
             ),
             borderRadius: const BorderRadius.all(Radius.circular(6)),
           ),

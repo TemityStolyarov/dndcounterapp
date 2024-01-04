@@ -1,13 +1,20 @@
+import 'dart:convert';
+
 import 'package:dndcounterapp/core/models/character.dart';
+import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class CharacterAddModal {
-  final Box box;
+  final Box charbookBox;
+  final List<CharBook> charbooks;
+  final int charbookIndex;
   final VoidCallback onAdd;
 
   CharacterAddModal({
-    required this.box,
+    required this.charbookBox,
+    required this.charbooks,
+    required this.charbookIndex,
     required this.onAdd,
   });
 
@@ -25,6 +32,7 @@ class CharacterAddModal {
         final ctrCAR = TextEditingController();
         final ctrWIS = TextEditingController();
         final ctrDesc = TextEditingController();
+        final ctrJSON = TextEditingController();
 
         return AlertDialog(
           title: const Text('Добавление персонажа'),
@@ -213,31 +221,68 @@ class CharacterAddModal {
                   ),
                 ),
               ),
+              const SizedBox(height: 12),
+              SizedBox(
+                width: 466,
+                child: TextField(
+                  autofocus: true,
+                  controller: ctrJSON,
+                  maxLines: 1,
+                  decoration: const InputDecoration(
+                    labelText: 'JSON код',
+                    labelStyle: TextStyle(fontSize: 14),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(12),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                final Character newChar = Character(
-                  name: ctrName.text,
-                  race: ctrRace.text,
-                  crClass: ctrClass.text,
-                  strength: int.parse(ctrSTR.text),
-                  agility: int.parse(ctrAGL.text),
-                  intelligence: int.parse(ctrINT.text),
-                  athletics: int.parse(ctrATL.text),
-                  charisma: int.parse(ctrCAR.text),
-                  wisdom: int.parse(ctrWIS.text),
-                  hp: int.parse(ctrSTR.text),
-                  hpModifier: 0,
-                  kd: 10,
-                  description: ctrDesc.text,
-                  inventory: [],
-                  spells: [],
-                  imageUrl: '',
-                  isEnabled: true,
-                );
-                box.add(newChar);
+                if (ctrJSON.text.isEmpty) {
+                  final Character newChar = Character(
+                    name: ctrName.text,
+                    race: ctrRace.text,
+                    crClass: ctrClass.text,
+                    strength: int.parse(ctrSTR.text),
+                    agility: int.parse(ctrAGL.text),
+                    intelligence: int.parse(ctrINT.text),
+                    athletics: int.parse(ctrATL.text),
+                    charisma: int.parse(ctrCAR.text),
+                    wisdom: int.parse(ctrWIS.text),
+                    hp: int.parse(ctrSTR.text),
+                    hpModifier: 0,
+                    kd: 10,
+                    description: ctrDesc.text,
+                    inventory: [],
+                    spells: [],
+                    imageUrl: '',
+                    isEnabled: true,
+                  );
+
+                  List<Character> charList = charbooks[charbookIndex].chars;
+                  charList.add(newChar);
+                  final CharBook updatedCharbook =
+                      charbooks[charbookIndex].copyWith(
+                    chars: charList,
+                  );
+                  charbookBox.putAt(charbookIndex, updatedCharbook);
+                } else {
+                  final Character newChar = _getDataFromJson(ctrJSON.text);
+                  List<Character> charList = charbooks[charbookIndex].chars;
+                  charList.add(newChar);
+                  final CharBook updatedCharbook =
+                      charbooks[charbookIndex].copyWith(
+                    chars: charList,
+                  );
+                  charbookBox.putAt(charbookIndex, updatedCharbook);
+                }
+
                 _updateScreen();
                 ctrName.dispose();
                 ctrRace.dispose();
@@ -268,5 +313,14 @@ class CharacterAddModal {
   void _updateScreen() {
     onAdd();
     print('Character added!');
+  }
+
+  Character _getDataFromJson(String text) {
+    Map<String, dynamic> jsonDataList =
+        jsonDecode(text).cast<String, dynamic>();
+
+    Character char = Character.fromJson(jsonDataList);
+
+    return char;
   }
 }

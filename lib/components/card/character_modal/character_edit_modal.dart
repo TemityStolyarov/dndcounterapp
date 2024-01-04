@@ -1,16 +1,23 @@
+import 'dart:convert';
+
 import 'package:dndcounterapp/core/models/character.dart';
+import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class CharacterEditModal {
-  final Box box;
-  final VoidCallback onSave;
+  final Box charbookBox;
+  final List<CharBook> charbooks;
+  final int charbookIndex;
   final int index;
+  final VoidCallback onSave;
 
   CharacterEditModal({
-    required this.box,
-    required this.onSave,
+    required this.charbookBox,
+    required this.charbooks,
+    required this.charbookIndex,
     required this.index,
+    required this.onSave,
   });
 
   void show(BuildContext context) {
@@ -19,7 +26,7 @@ class CharacterEditModal {
       builder: (BuildContext context) {
         Character char = Character.empty();
         try {
-          char = box.getAt(index)!;
+          char = charbooks[charbookIndex].chars[index];
         } catch (e) {
           print(e);
         }
@@ -50,6 +57,11 @@ class CharacterEditModal {
         ctrWIS.text = char.wisdom.toString();
         final ctrDesc = TextEditingController();
         ctrDesc.text = char.description;
+        final ctrEnabled = TextEditingController();
+        ctrEnabled.text = char.isEnabled.toString();
+        final ctrJSON = TextEditingController();
+        ctrJSON.text =
+            jsonEncode(charbooks[charbookIndex].chars[index].toJson());
 
         return AlertDialog(
           title: const Text('Редактирование персонажа'),
@@ -276,6 +288,41 @@ class CharacterEditModal {
                   ),
                 ),
               ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: 466,
+                child: TextField(
+                  autofocus: true,
+                  controller: ctrEnabled,
+                  decoration: const InputDecoration(
+                    labelText: 'Активен? t/f',
+                    labelStyle: TextStyle(fontSize: 14),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(12),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                width: 466,
+                child: TextField(
+                  autofocus: true,
+                  controller: ctrJSON,
+                  maxLines: 1,
+                  decoration: const InputDecoration(
+                    labelText: 'JSON код',
+                    labelStyle: TextStyle(fontSize: 14),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(12),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
           actions: <Widget>[
@@ -298,9 +345,21 @@ class CharacterEditModal {
                   inventory: char.inventory,
                   spells: char.spells,
                   imageUrl: char.imageUrl,
-                  isEnabled: char.isEnabled,
+                  isEnabled: ctrEnabled.text.isEmpty
+                      ? true
+                      : ctrEnabled.text == 'f'
+                          ? false
+                          : true,
                 );
-                box.putAt(index, newChar);
+
+                List<Character> charList = charbooks[charbookIndex].chars;
+                charList[index] = newChar;
+                final CharBook updatedCharbook =
+                    charbooks[charbookIndex].copyWith(
+                  chars: charList,
+                );
+                charbookBox.putAt(charbookIndex, updatedCharbook);
+
                 _updateScreen();
                 ctrName.dispose();
                 ctrRace.dispose();
@@ -315,6 +374,8 @@ class CharacterEditModal {
                 ctrCAR.dispose();
                 ctrWIS.dispose();
                 ctrDesc.dispose();
+                ctrEnabled.dispose();
+                ctrJSON.dispose();
                 Navigator.of(context).pop();
               },
               child: const Text('Готово'),

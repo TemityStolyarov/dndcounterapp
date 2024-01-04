@@ -1,16 +1,21 @@
 import 'package:dndcounterapp/core/models/character.dart';
+import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:dndcounterapp/core/models/spell.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class SpellEditSpellModal {
-  final Box box;
+  final Box charbookBox;
+  final List<CharBook> charbooks;
+  final int charbookIndex;
   final int index;
   final int spellIndex;
   final VoidCallback onEditSpell;
 
   SpellEditSpellModal({
-    required this.box,
+    required this.charbookBox,
+    required this.charbooks,
+    required this.charbookIndex,
     required this.index,
     required this.spellIndex,
     required this.onEditSpell,
@@ -23,7 +28,7 @@ class SpellEditSpellModal {
         Character char = Character.empty();
         late Spell editingSpell;
         try {
-          char = box.getAt(index)!;
+          char = charbooks[charbookIndex].chars[index];
           editingSpell = char.spells[spellIndex];
         } catch (e) {
           print(e);
@@ -202,14 +207,13 @@ class SpellEditSpellModal {
                       : energyDescription.text,
                 );
 
-                List<Spell> spells = char.spells;
-                spells[spellIndex] = newSpell;
-                final Character changedCharacter =
-                    char.copyWith(spells: spells);
+                List<Character> charList = charbooks[charbookIndex].chars;
+                charList[index].spells[spellIndex] = newSpell;
+                final CharBook updatedCharbook =
+                    charbooks[charbookIndex].copyWith(chars: charList);
+                charbookBox.putAt(charbookIndex, updatedCharbook);
 
-                box.putAt(index, changedCharacter);
                 _updateScreen();
-
                 name.dispose();
                 description.dispose();
                 dmg.dispose();

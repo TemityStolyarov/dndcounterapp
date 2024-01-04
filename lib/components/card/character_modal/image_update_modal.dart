@@ -1,14 +1,19 @@
 import 'package:dndcounterapp/core/models/character.dart';
+import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class ImageUpdateModal {
-  final Box box;
+  final Box charbookBox;
+  final List<CharBook> charbooks;
+  final int charbookIndex;
   final int index;
   final VoidCallback onImageUpdate;
 
   ImageUpdateModal({
-    required this.box,
+    required this.charbookBox,
+    required this.charbooks,
+    required this.charbookIndex,
     required this.index,
     required this.onImageUpdate,
   });
@@ -19,7 +24,7 @@ class ImageUpdateModal {
       builder: (BuildContext context) {
         final link = TextEditingController();
         try {
-          link.text = box.getAt(index).imageUrl;
+          link.text = charbooks[charbookIndex].chars[index].imageUrl;
         } catch (e) {
           print(e);
         }
@@ -51,14 +56,18 @@ class ImageUpdateModal {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                final Character character = box.getAt(index);
+                List<Character> charList = charbooks[charbookIndex].chars;
+                charList[index] =
+                    charbooks[charbookIndex].chars[index].copyWith(
+                          imageUrl: link.text,
+                        );
+                final CharBook updatedCharbook =
+                    charbooks[charbookIndex].copyWith(
+                  chars: charList,
+                );
+                charbookBox.putAt(charbookIndex, updatedCharbook);
 
-                final Character newChar =
-                    character.copyWith(imageUrl: link.text);
-
-                box.putAt(index, newChar);
                 _updateScreen();
-
                 link.dispose();
                 Navigator.of(context).pop();
               },
@@ -78,6 +87,6 @@ class ImageUpdateModal {
 
   void _updateScreen() {
     onImageUpdate();
-    print('Spell added!');
+    print('Image updated!');
   }
 }

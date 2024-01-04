@@ -101,10 +101,10 @@ class CharacterCardWrappedHeader extends StatelessWidget {
                   Row(
                     children: [
                       MiniButton(
-                        icon: Icons.add,
-                        onTap: onPlus,
+                        icon: Icons.remove,
+                        onTap: onMinus,
                       ),
-                      const SizedBox(width: 6),
+                      const SizedBox(width: 8),
                       StatBadgeHP(
                         hp: character.hp,
                         hpModifier: character.hpModifier,
@@ -117,11 +117,12 @@ class CharacterCardWrappedHeader extends StatelessWidget {
                                         (character.hp + character.hpModifier)
                                     ? ColorPalette.attHP
                                     : ColorPalette.attHP,
+                        isEnabled: character.isEnabled,
                       ),
                       const SizedBox(width: 6),
                       MiniButton(
-                        icon: Icons.remove,
-                        onTap: onMinus,
+                        icon: Icons.add,
+                        onTap: onPlus,
                       ),
                       const SizedBox(width: 24),
                       StatBadgeAR(
