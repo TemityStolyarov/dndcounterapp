@@ -7,6 +7,7 @@ import 'package:dndcounterapp/components/card/character_modal/inventory_add_moda
 import 'package:dndcounterapp/components/card/character_modal/inventory_edit_modal.dart';
 import 'package:dndcounterapp/components/card/character_modal/spell_add_modal.dart';
 import 'package:dndcounterapp/components/card/character_modal/spell_edit_modal.dart';
+import 'package:dndcounterapp/components/card/character_modal/status_effect_modal.dart';
 import 'package:dndcounterapp/core/models/character.dart';
 import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +44,66 @@ class CharbookWidget extends StatelessWidget {
             charbookIndex: charbookIndex,
             index: index,
             onUpdateScreen: onUpdateScreen,
+            onTapStatusKdDebuff: () {
+              final statusEffectModal = StatusEffectModal(
+                charbookBox: charbookBox,
+                charbooks: charbooks,
+                charbookIndex: charbookIndex,
+                index: index,
+                onEdit: onUpdateScreen,
+                statusEffectName: StatusEffect.statusKdDebuff,
+                statusEffectLabel: 'Пробитие КД (количество)',
+              );
+              statusEffectModal.show(context);
+            },
+            onTapStatusKdBuff: () {
+              final statusEffectModal = StatusEffectModal(
+                charbookBox: charbookBox,
+                charbooks: charbooks,
+                charbookIndex: charbookIndex,
+                index: index,
+                onEdit: onUpdateScreen,
+                statusEffectName: StatusEffect.statusKdBuff,
+                statusEffectLabel: 'Бонус к КД (количество)',
+              );
+              statusEffectModal.show(context);
+            },
+            onTapStatusRoped: () {
+              final statusEffectModal = StatusEffectModal(
+                charbookBox: charbookBox,
+                charbooks: charbooks,
+                charbookIndex: charbookIndex,
+                index: index,
+                onEdit: onUpdateScreen,
+                statusEffectName: StatusEffect.statusRoped,
+                statusEffectLabel: 'Связан (количество ходов)',
+              );
+              statusEffectModal.show(context);
+            },
+            onTapStatusDmgBuff: () {
+              final statusEffectModal = StatusEffectModal(
+                charbookBox: charbookBox,
+                charbooks: charbooks,
+                charbookIndex: charbookIndex,
+                index: index,
+                onEdit: onUpdateScreen,
+                statusEffectName: StatusEffect.statusDmgBuff,
+                statusEffectLabel: 'Бонусный урон (количество)',
+              );
+              statusEffectModal.show(context);
+            },
+            onTapStatusFreezed: () {
+              final statusEffectModal = StatusEffectModal(
+                charbookBox: charbookBox,
+                charbooks: charbooks,
+                charbookIndex: charbookIndex,
+                index: index,
+                onEdit: onUpdateScreen,
+                statusEffectName: StatusEffect.statusFreezed,
+                statusEffectLabel: 'Пропуск хода (количество ходов)',
+              );
+              statusEffectModal.show(context);
+            },
             onClose: () {
               List<Character> charList = charbooks[charbookIndex].chars;
               charList.removeAt(index);

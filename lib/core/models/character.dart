@@ -45,6 +45,21 @@ class Character extends HiveObject {
   @HiveField(16)
   final bool isEnabled;
 
+  @HiveField(17)
+  final int? statusKdDebuff;
+  @HiveField(18)
+  final int? statusKdBuff;
+  @HiveField(19)
+  final int? statusRoped;
+  @HiveField(20)
+  final int? statusDmgBuff;
+  @HiveField(21)
+  final int? statusFreezed;
+  @HiveField(22)
+  final int? initiative;
+  @HiveField(23)
+  final int? initiativeBeforeBattle;
+
   Character({
     required this.race,
     required this.crClass,
@@ -63,6 +78,13 @@ class Character extends HiveObject {
     required this.hpModifier,
     required this.imageUrl,
     required this.isEnabled,
+    required this.statusKdDebuff,
+    required this.statusKdBuff,
+    required this.statusRoped,
+    required this.statusDmgBuff,
+    required this.statusFreezed,
+    required this.initiative,
+    required this.initiativeBeforeBattle,
   });
 
   Character.empty({
@@ -83,6 +105,13 @@ class Character extends HiveObject {
     this.kd = 0,
     this.imageUrl = '',
     this.isEnabled = true,
+    this.statusKdDebuff = 0,
+    this.statusKdBuff = 0,
+    this.statusRoped = 0,
+    this.statusDmgBuff = 0,
+    this.statusFreezed = 0,
+    this.initiative = 0,
+    this.initiativeBeforeBattle = 0,
   });
 
   Character copyWith({
@@ -103,6 +132,13 @@ class Character extends HiveObject {
     int? hpModifier,
     String? imageUrl,
     bool? isEnabled,
+    int? statusKdDebuff,
+    int? statusKdBuff,
+    int? statusRoped,
+    int? statusDmgBuff,
+    int? statusFreezed,
+    int? initiative,
+    int? initiativeBeforeBattle,
   }) =>
       Character(
         race: race ?? this.race,
@@ -122,6 +158,14 @@ class Character extends HiveObject {
         hpModifier: hpModifier ?? this.hpModifier,
         imageUrl: imageUrl ?? this.imageUrl,
         isEnabled: isEnabled ?? this.isEnabled,
+        statusKdDebuff: statusKdDebuff ?? this.statusKdDebuff,
+        statusKdBuff: statusKdBuff ?? this.statusKdBuff,
+        statusRoped: statusRoped ?? this.statusRoped,
+        statusDmgBuff: statusDmgBuff ?? this.statusDmgBuff,
+        statusFreezed: statusFreezed ?? this.statusFreezed,
+        initiative: initiative ?? this.initiative,
+        initiativeBeforeBattle:
+            initiativeBeforeBattle ?? this.initiativeBeforeBattle,
       );
 
   Map<String, dynamic> toJson() {
@@ -143,6 +187,13 @@ class Character extends HiveObject {
       'hpModifier': hpModifier,
       'imageUrl': imageUrl,
       'isEnabled': isEnabled,
+      'statusKdDebuff': statusKdDebuff ?? 0,
+      'statusKdBuff': statusKdBuff ?? 0,
+      'statusRoped': statusRoped ?? 0,
+      'statusDmgBuff': statusDmgBuff ?? 0,
+      'statusFreezed': statusFreezed ?? 0,
+      'initiative': initiative,
+      'initiativeBeforeBattle': initiativeBeforeBattle ?? 0,
     };
   }
 
@@ -175,6 +226,13 @@ class Character extends HiveObject {
       hpModifier: json['hpModifier'],
       imageUrl: json['imageUrl'],
       isEnabled: json['isEnabled'],
+      statusKdDebuff: json['statusKdDebuff'],
+      statusKdBuff: json['statusKdBuff'],
+      statusRoped: json['statusRoped'],
+      statusDmgBuff: json['statusDmgBuff'],
+      statusFreezed: json['statusFreezed'],
+      initiative: json['initiative'],
+      initiativeBeforeBattle: json['initiativeBeforeBattle'],
     );
   }
 }

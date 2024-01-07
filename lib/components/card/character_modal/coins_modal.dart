@@ -1,42 +1,46 @@
-import 'dart:convert';
 import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class CharacterIOModal {
-  final Box box;
-  final List<CharBook> charBooks;
-  final VoidCallback onImport;
-  final String json;
+class CoinsModal {
+  final Box charbookBox;
+  final List<CharBook> charbooks;
+  final int charbookIndex;
+  final VoidCallback onCoinsUpdate;
 
-  CharacterIOModal({
-    required this.box,
-    required this.charBooks,
-    required this.onImport,
-    required this.json,
+  CoinsModal({
+    required this.charbookBox,
+    required this.charbooks,
+    required this.charbookIndex,
+    required this.onCoinsUpdate,
   });
 
   void show(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        final ctrJSON = TextEditingController();
-        ctrJSON.text = json;
+        final coins = TextEditingController();
+        try {
+          coins.text = charbooks[charbookIndex].coins == null
+              ? '0'
+              : charbooks[charbookIndex].coins.toString();
+        } catch (e) {
+          print(e);
+        }
 
         return AlertDialog(
-          title: const Text('Импорт/Экспорт персонажей'),
+          title: const Text('Монеты'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(
-                width: 700,
+                width: 200,
                 child: TextField(
                   autofocus: true,
-                  controller: ctrJSON,
-                  maxLines: 20,
+                  controller: coins,
                   decoration: const InputDecoration(
                     labelStyle: TextStyle(fontSize: 14),
-                    labelText: 'JSON код',
+                    labelText: 'Количество монет',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(12),
@@ -49,21 +53,15 @@ class CharacterIOModal {
           ),
           actions: <Widget>[
             TextButton(
-              onPressed: () async {
-                List<Map<String, dynamic>> jsonDataList =
-                    jsonDecode(ctrJSON.text).cast<Map<String, dynamic>>();
-
-                List<CharBook> charbooks = jsonDataList
-                    .map((json) => CharBook.fromJson(json))
-                    .toList();
-
-                await _deleteContaining();
-
-                await _addFromJson(charbooks);
+              onPressed: () {
+                final CharBook updatedCharbook =
+                    charbooks[charbookIndex].copyWith(
+                  coins: int.parse(coins.text),
+                );
+                charbookBox.putAt(charbookIndex, updatedCharbook);
 
                 _updateScreen();
-
-                ctrJSON.dispose();
+                coins.dispose();
                 Navigator.of(context).pop();
               },
               child: const Text('Сохранить'),
@@ -81,19 +79,7 @@ class CharacterIOModal {
   }
 
   void _updateScreen() {
-    onImport();
-  }
-
-  _deleteContaining() {
-    for (int i = 0; i < charBooks.length; i++) {
-      box.deleteAt(0);
-    }
-  }
-
-  _addFromJson(List<CharBook> charbooks) {
-    for (var charbook in charbooks) {
-      print('${charbook.name} added!');
-      box.add(charbook);
-    }
+    onCoinsUpdate();
+    print('Image updated!');
   }
 }

@@ -16,7 +16,7 @@ class CharacterCardAdd extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Container(
-        width: 380,
+        width: 389,
         decoration: BoxDecoration(
           color: ColorPalette.cardColor,
           borderRadius: const BorderRadius.all(

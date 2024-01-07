@@ -110,8 +110,10 @@ class CharacterCardWrappedHeader extends StatelessWidget {
                         hpModifier: character.hpModifier,
                         info: '${character.hp + character.hpModifier} HP',
                         onReturnDefaultHP: onReturnDefaultHP,
-                        color:
-                            character.hp > (character.hp + character.hpModifier)
+                        color: ((character.hp + character.hpModifier) <= 0)
+                            ? ColorPalette.fontBaseColor.withOpacity(0.9)
+                            : character.hp >
+                                    (character.hp + character.hpModifier)
                                 ? ColorPalette.critUnlucky
                                 : character.hp <
                                         (character.hp + character.hpModifier)

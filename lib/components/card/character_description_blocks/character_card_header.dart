@@ -111,11 +111,14 @@ class CharacterCardHeader extends StatelessWidget {
                     hpModifier: character.hpModifier,
                     info: '${character.hp + character.hpModifier} HP',
                     onReturnDefaultHP: onReturnDefaultHP,
-                    color: character.hp > (character.hp + character.hpModifier)
-                        ? ColorPalette.critUnlucky
-                        : character.hp < (character.hp + character.hpModifier)
-                            ? ColorPalette.attHP
-                            : ColorPalette.attHP,
+                    color: ((character.hp + character.hpModifier) <= 0)
+                        ? ColorPalette.fontBaseColor.withOpacity(0.9)
+                        : character.hp > (character.hp + character.hpModifier)
+                            ? ColorPalette.critUnlucky
+                            : character.hp <
+                                    (character.hp + character.hpModifier)
+                                ? ColorPalette.attHP
+                                : ColorPalette.attHP,
                     isEnabled: character.isEnabled,
                   ),
                 ],

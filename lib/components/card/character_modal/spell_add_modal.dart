@@ -207,7 +207,7 @@ class SpellAddModal {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Закрыть'),
+              child: const Text('Отменить'),
             ),
           ],
         );

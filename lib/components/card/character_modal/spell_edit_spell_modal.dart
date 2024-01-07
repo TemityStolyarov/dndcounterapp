@@ -196,9 +196,7 @@ class SpellEditSpellModal {
                   dmg: dmg.text.isEmpty ? null : int.parse(dmg.text),
                   dice: dice.text.isEmpty ? null : int.parse(dice.text),
                   cast: cast.text.isEmpty ? null : int.parse(cast.text),
-                  castModifier: cast.text.isEmpty
-                      ? 0
-                      : char.spells[spellIndex].castModifier,
+                  castModifier: char.spells[spellIndex].castModifier ?? 0,
                   energyOnCast: energyOnCast.text.isEmpty
                       ? null
                       : int.parse(energyOnCast.text),
@@ -229,7 +227,7 @@ class SpellEditSpellModal {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Закрыть'),
+              child: const Text('Отменить'),
             ),
           ],
         );

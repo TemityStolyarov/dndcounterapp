@@ -94,6 +94,7 @@ class CharbookEditModal {
                   chars: ctrJSON.text.isEmpty
                       ? []
                       : _getCharsFromJson(ctrJSON.text),
+                  coins: charbook.coins,
                 );
 
                 box.putAt(charbookIndex, section);
