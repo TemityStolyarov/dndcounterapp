@@ -70,6 +70,7 @@ class CharbookAddModal {
                   chars: ctrJSON.text.isEmpty
                       ? []
                       : _getCharsFromJson(ctrJSON.text),
+                      coins: 0,
                 );
 
                 box.add(section);
@@ -85,7 +86,7 @@ class CharbookAddModal {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Закрыть'),
+              child: const Text('Отменить'),
             ),
           ],
         );

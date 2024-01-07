@@ -9,30 +9,37 @@ class CharBook extends HiveObject {
   final String name;
   @HiveField(1)
   final List<Character> chars;
+  @HiveField(2)
+  final int? coins;
 
   CharBook({
     required this.name,
     required this.chars,
+    required this.coins,
   });
 
   CharBook.empty({
     this.name = '',
     this.chars = const [],
+    this.coins = 0,
   });
 
   CharBook copyWith({
     String? name,
     List<Character>? chars,
+    int? coins,
   }) =>
       CharBook(
         name: name ?? this.name,
         chars: chars ?? this.chars,
+        coins: coins ?? this.coins,
       );
 
   Map<String, dynamic> toJson() {
     return {
       'name': name,
       'charBook': chars,
+      'coins': coins,
     };
   }
 
@@ -45,6 +52,7 @@ class CharBook extends HiveObject {
     return CharBook(
       name: json['name'],
       chars: chars,
+      coins: json['coins'],
     );
   }
 }

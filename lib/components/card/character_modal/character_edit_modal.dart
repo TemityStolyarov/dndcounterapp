@@ -59,6 +59,10 @@ class CharacterEditModal {
         ctrDesc.text = char.description;
         final ctrEnabled = TextEditingController();
         ctrEnabled.text = char.isEnabled.toString();
+        final ctrInit = TextEditingController();
+        ctrInit.text = char.initiativeBeforeBattle == null
+            ? '0'
+            : char.initiativeBeforeBattle.toString();
         final ctrJSON = TextEditingController();
         ctrJSON.text =
             jsonEncode(charbooks[charbookIndex].chars[index].toJson());
@@ -289,21 +293,42 @@ class CharacterEditModal {
                 ),
               ),
               const SizedBox(height: 24),
-              SizedBox(
-                width: 466,
-                child: TextField(
-                  autofocus: true,
-                  controller: ctrEnabled,
-                  decoration: const InputDecoration(
-                    labelText: 'Активен? t/f',
-                    labelStyle: TextStyle(fontSize: 14),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(12),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 229,
+                    child: TextField(
+                      autofocus: true,
+                      controller: ctrInit,
+                      decoration: const InputDecoration(
+                        labelText: 'Порядок до боя',
+                        labelStyle: TextStyle(fontSize: 14),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
+                  const SizedBox(width: 8),
+                  SizedBox(
+                    width: 229,
+                    child: TextField(
+                      autofocus: true,
+                      controller: ctrEnabled,
+                      decoration: const InputDecoration(
+                        labelText: 'Активен? t/f',
+                        labelStyle: TextStyle(fontSize: 14),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 12),
               SizedBox(
@@ -350,6 +375,13 @@ class CharacterEditModal {
                       : (ctrEnabled.text == 'f' || ctrEnabled.text == 'false')
                           ? false
                           : true,
+                  initiative: char.initiative,
+                  initiativeBeforeBattle: int.parse(ctrInit.text),
+                  statusKdDebuff: char.statusKdDebuff,
+                  statusKdBuff: char.statusKdBuff,
+                  statusRoped: char.statusRoped,
+                  statusDmgBuff: char.statusDmgBuff,
+                  statusFreezed: char.statusFreezed,
                 );
 
                 List<Character> charList = charbooks[charbookIndex].chars;
@@ -376,6 +408,7 @@ class CharacterEditModal {
                 ctrDesc.dispose();
                 ctrEnabled.dispose();
                 ctrJSON.dispose();
+                ctrInit.dispose();
                 Navigator.of(context).pop();
               },
               child: const Text('Готово'),
@@ -384,7 +417,7 @@ class CharacterEditModal {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Закрыть'),
+              child: const Text('Отменить'),
             ),
           ],
         );

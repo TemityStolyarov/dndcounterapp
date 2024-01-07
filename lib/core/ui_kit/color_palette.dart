@@ -30,4 +30,18 @@ class ColorPalette {
   static const fontBaseColor = Color.fromRGBO(48, 49, 49, 1);
   static const cubeRolling = Color.fromARGB(255, 120, 120, 120);
   static const cubeColor = Color.fromARGB(255, 215, 215, 215);
+
+  static const statusKdDebuffLabel = Color(0xFFB80B0B);
+  static const statusKdBuffLabel = Color(0xFFB8880B);
+  static const statusRopedLabel = Color(0xFF949F13);
+  static const statusDmgBuffLabel = Color(0xFF2A9F27);
+  static const statusFreezedLabel = Color(0xFF48BCFD);
+  static const statusKdDebuffBackground = Color(0xFFFFE2E2);
+  static const statusKdBuffBackground = Color(0xFFFBE4C1);
+  static const statusRopedBackground = Color(0xFFF8FFCA);
+  static const statusDmgBuffBackground = Color(0xFFDDFBDC);
+  static const statusFreezedBackground = Color(0xFFE2F3FF);
+
+  static const statusInitiativeLabel = Color(0xFF6C0BB8);
+  static const statusInitiativeBackground = Color(0xFFF6E2FF);
 }

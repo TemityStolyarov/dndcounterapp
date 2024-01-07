@@ -73,11 +73,13 @@ class StatBadgeHP extends StatBadgeAR {
                   color: color,
                   boxShadow: [
                     BoxShadow(
-                      color: hp > (hp + hpModifier)
-                          ? ColorPalette.critUnlucky.withOpacity(0.4)
-                          : hp < (hp + hpModifier)
-                              ? ColorPalette.attHP.withOpacity(0.4)
-                              : Colors.transparent,
+                      color: (hp + hpModifier) <= 0
+                          ? Colors.transparent
+                          : hp > (hp + hpModifier)
+                              ? ColorPalette.critUnlucky.withOpacity(0.4)
+                              : hp < (hp + hpModifier)
+                                  ? ColorPalette.attHP.withOpacity(0.4)
+                                  : Colors.transparent,
                       offset: const Offset(0, 0),
                       blurRadius: 5,
                       spreadRadius: 1,

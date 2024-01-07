@@ -263,6 +263,14 @@ class CharacterAddModal {
                     spells: [],
                     imageUrl: '',
                     isEnabled: true,
+                    initiative: 0,
+                    initiativeBeforeBattle: 0,
+                    statusKdDebuff: 0,
+                    statusKdBuff: 0,
+                    statusRoped: 0,
+                    statusDmgBuff: 0,
+                    statusFreezed: 0,
+                    
                   );
 
                   List<Character> charList = charbooks[charbookIndex].chars;
@@ -302,7 +310,7 @@ class CharacterAddModal {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Закрыть'),
+              child: const Text('Отменить'),
             ),
           ],
         );

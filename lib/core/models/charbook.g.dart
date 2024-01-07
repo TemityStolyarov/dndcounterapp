@@ -19,17 +19,20 @@ class CharBookAdapter extends TypeAdapter<CharBook> {
     return CharBook(
       name: fields[0] as String,
       chars: (fields[1] as List).cast<Character>(),
+      coins: fields[2] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, CharBook obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
-      ..write(obj.chars);
+      ..write(obj.chars)
+      ..writeByte(2)
+      ..write(obj.coins);
   }
 
   @override
