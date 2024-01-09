@@ -126,7 +126,7 @@ class CharacterCardHeader extends StatelessWidget {
               const SizedBox(height: 4),
               StatBadgeAR(
                 info:
-                    '${character.kd + _findKD(character.inventory) + modifier(character.athletics)} AR',
+                    '${character.kd + _findKD(character.inventory) + modifier(character.agility)} AR',
                 color: ColorPalette.attKD,
               ),
             ],

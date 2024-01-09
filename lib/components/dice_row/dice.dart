@@ -100,7 +100,7 @@ class _DiceState extends State<Dice> {
       });
     });
 
-    await Future.delayed(const Duration(seconds: 1), () {
+    await Future.delayed(const Duration(milliseconds: 600), () {
       _timer?.cancel();
     });
 
