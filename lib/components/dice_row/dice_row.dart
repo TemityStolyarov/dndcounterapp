@@ -7,7 +7,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 class DiceRow extends StatelessWidget {
   final bool colorScheme;
-  final Widget childSwitch;
+  final Widget? childSwitch;
   final String json;
   final VoidCallback onImport;
   final Box box;
@@ -16,7 +16,7 @@ class DiceRow extends StatelessWidget {
   const DiceRow({
     super.key,
     required this.colorScheme,
-    required this.childSwitch,
+    this.childSwitch,
     required this.json,
     required this.onImport,
     required this.box,
