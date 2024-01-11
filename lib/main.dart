@@ -85,16 +85,16 @@ class _MainAppState extends State<MainApp> {
           onImport: _updateCards,
           charBooks: charbooks,
           colorScheme: colorScheme,
-          childSwitch: Switch.adaptive(
-            activeColor: ColorPalette.accentColor,
-            splashRadius: 0,
-            value: colorScheme,
-            onChanged: (value) {
-              setState(() {
-                colorScheme = value;
-              });
-            },
-          ),
+          // childSwitch: Switch.adaptive(
+          //   activeColor: ColorPalette.accentColor,
+          //   splashRadius: 0,
+          //   value: colorScheme,
+          //   onChanged: (value) {
+          //     setState(() {
+          //       colorScheme = value;
+          //     });
+          //   },
+          // ),
         ),
       ),
       body: Column(
