@@ -25,7 +25,7 @@ class CharacterCardWrappedHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double textFieldsWidth = 160;
+    const double textFieldsWidth = 220;
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Row(
