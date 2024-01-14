@@ -12,6 +12,7 @@ class CharacterCardHeader extends StatelessWidget {
   final VoidCallback onPlus;
   final VoidCallback onMinus;
   final VoidCallback onReturnDefaultHP;
+  final VoidCallback onSetHP;
   final VoidCallback onImageUpdate;
 
   const CharacterCardHeader({
@@ -20,6 +21,7 @@ class CharacterCardHeader extends StatelessWidget {
     required this.onPlus,
     required this.onMinus,
     required this.onReturnDefaultHP,
+    required this.onSetHP,
     required this.onImageUpdate,
   });
 
@@ -111,6 +113,7 @@ class CharacterCardHeader extends StatelessWidget {
                     hpModifier: character.hpModifier,
                     info: '${character.hp + character.hpModifier} HP',
                     onReturnDefaultHP: onReturnDefaultHP,
+                    onSetHP: onSetHP,
                     color: ((character.hp + character.hpModifier) <= 0)
                         ? ColorPalette.fontBaseColor.withOpacity(0.9)
                         : character.hp > (character.hp + character.hpModifier)

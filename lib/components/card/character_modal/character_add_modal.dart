@@ -36,36 +36,20 @@ class CharacterAddModal {
 
         return AlertDialog(
           title: const Text('Добавление персонажа'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                width: 466,
-                child: TextField(
-                  autofocus: true,
-                  controller: ctrName,
-                  decoration: const InputDecoration(
-                    labelStyle: TextStyle(fontSize: 14),
-                    labelText: 'Имя персонажа',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(12),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 12),
-              Row(
+          content: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
-                    width: 230,
+                    width: 466,
                     child: TextField(
                       autofocus: true,
-                      controller: ctrRace,
+                      controller: ctrName,
                       decoration: const InputDecoration(
                         labelStyle: TextStyle(fontSize: 14),
-                        labelText: 'Раса',
+                        labelText: 'Имя персонажа',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(12),
@@ -74,15 +58,182 @@ class CharacterAddModal {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 7),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 230,
+                        child: TextField(
+                          autofocus: true,
+                          controller: ctrRace,
+                          decoration: const InputDecoration(
+                            labelStyle: TextStyle(fontSize: 14),
+                            labelText: 'Раса',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(12),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 7),
+                      SizedBox(
+                        width: 230,
+                        child: TextField(
+                          autofocus: true,
+                          controller: ctrClass,
+                          decoration: const InputDecoration(
+                            labelStyle: TextStyle(fontSize: 14),
+                            labelText: 'Класс',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(12),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 150,
+                        child: TextField(
+                          autofocus: true,
+                          controller: ctrSTR,
+                          decoration: const InputDecoration(
+                            labelStyle: TextStyle(fontSize: 14),
+                            labelText: 'Сила',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(12),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      SizedBox(
+                        width: 150,
+                        child: TextField(
+                          autofocus: true,
+                          controller: ctrAGL,
+                          decoration: const InputDecoration(
+                            labelText: 'Ловкость',
+                            labelStyle: TextStyle(fontSize: 14),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(12),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      SizedBox(
+                        width: 150,
+                        child: TextField(
+                          autofocus: true,
+                          controller: ctrINT,
+                          decoration: const InputDecoration(
+                            labelText: 'Интеллект',
+                            labelStyle: TextStyle(fontSize: 14),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(12),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 150,
+                        child: TextField(
+                          autofocus: true,
+                          controller: ctrATL,
+                          decoration: const InputDecoration(
+                            labelText: 'Телосложение',
+                            labelStyle: TextStyle(fontSize: 14),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(12),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      SizedBox(
+                        width: 150,
+                        child: TextField(
+                          autofocus: true,
+                          controller: ctrCAR,
+                          decoration: const InputDecoration(
+                            labelText: 'Харизма',
+                            labelStyle: TextStyle(fontSize: 14),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(12),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      SizedBox(
+                        width: 150,
+                        child: TextField(
+                          autofocus: true,
+                          controller: ctrWIS,
+                          decoration: const InputDecoration(
+                            labelText: 'Мудрость',
+                            labelStyle: TextStyle(fontSize: 14),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(12),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
                   SizedBox(
-                    width: 230,
+                    width: 466,
                     child: TextField(
                       autofocus: true,
-                      controller: ctrClass,
+                      controller: ctrDesc,
+                      maxLines: 5,
                       decoration: const InputDecoration(
+                        labelText: 'Описание',
                         labelStyle: TextStyle(fontSize: 14),
-                        labelText: 'Класс',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    width: 466,
+                    child: TextField(
+                      autofocus: true,
+                      controller: ctrJSON,
+                      maxLines: 1,
+                      decoration: const InputDecoration(
+                        labelText: 'JSON код',
+                        labelStyle: TextStyle(fontSize: 14),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(12),
@@ -93,153 +244,7 @@ class CharacterAddModal {
                   ),
                 ],
               ),
-              const SizedBox(height: 24),
-              Row(
-                children: [
-                  SizedBox(
-                    width: 150,
-                    child: TextField(
-                      autofocus: true,
-                      controller: ctrSTR,
-                      decoration: const InputDecoration(
-                        labelStyle: TextStyle(fontSize: 14),
-                        labelText: 'Сила',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(12),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  SizedBox(
-                    width: 150,
-                    child: TextField(
-                      autofocus: true,
-                      controller: ctrAGL,
-                      decoration: const InputDecoration(
-                        labelText: 'Ловкость',
-                        labelStyle: TextStyle(fontSize: 14),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(12),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  SizedBox(
-                    width: 150,
-                    child: TextField(
-                      autofocus: true,
-                      controller: ctrINT,
-                      decoration: const InputDecoration(
-                        labelText: 'Интеллект',
-                        labelStyle: TextStyle(fontSize: 14),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(12),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  SizedBox(
-                    width: 150,
-                    child: TextField(
-                      autofocus: true,
-                      controller: ctrATL,
-                      decoration: const InputDecoration(
-                        labelText: 'Телосложение',
-                        labelStyle: TextStyle(fontSize: 14),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(12),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  SizedBox(
-                    width: 150,
-                    child: TextField(
-                      autofocus: true,
-                      controller: ctrCAR,
-                      decoration: const InputDecoration(
-                        labelText: 'Харизма',
-                        labelStyle: TextStyle(fontSize: 14),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(12),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  SizedBox(
-                    width: 150,
-                    child: TextField(
-                      autofocus: true,
-                      controller: ctrWIS,
-                      decoration: const InputDecoration(
-                        labelText: 'Мудрость',
-                        labelStyle: TextStyle(fontSize: 14),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(12),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
-              SizedBox(
-                width: 466,
-                child: TextField(
-                  autofocus: true,
-                  controller: ctrDesc,
-                  maxLines: 5,
-                  decoration: const InputDecoration(
-                    labelText: 'Описание',
-                    labelStyle: TextStyle(fontSize: 14),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(12),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 12),
-              SizedBox(
-                width: 466,
-                child: TextField(
-                  autofocus: true,
-                  controller: ctrJSON,
-                  maxLines: 1,
-                  decoration: const InputDecoration(
-                    labelText: 'JSON код',
-                    labelStyle: TextStyle(fontSize: 14),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(12),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
           actions: <Widget>[
             TextButton(
@@ -263,14 +268,15 @@ class CharacterAddModal {
                     spells: [],
                     imageUrl: '',
                     isEnabled: true,
-                    initiative: 0,
+                    initiative: -1,
                     initiativeBeforeBattle: 0,
-                    statusKdDebuff: 0,
-                    statusKdBuff: 0,
-                    statusRoped: 0,
-                    statusDmgBuff: 0,
-                    statusFreezed: 0,
-                    
+                    statusKdDebuff: '',
+                    statusKdBuff: '',
+                    statusRoped: '',
+                    statusDmgBuff: '',
+                    statusFreezed: '',
+                    statusRollBuff: '',
+                    statusRollDebuff: '',
                   );
 
                   List<Character> charList = charbooks[charbookIndex].chars;

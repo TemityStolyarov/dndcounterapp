@@ -21,6 +21,7 @@ class CharacterCard extends StatefulWidget {
   final VoidCallback onPlus;
   final VoidCallback onMinus;
   final VoidCallback onReturnDefaultHP;
+  final VoidCallback onSetHP;
   final VoidCallback onImageUpdate;
   final VoidCallback onChangingModifierValue;
   final VoidCallback onInventoryAddModalOpen;
@@ -46,6 +47,7 @@ class CharacterCard extends StatefulWidget {
     required this.onPlus,
     required this.onMinus,
     required this.onReturnDefaultHP,
+    required this.onSetHP,
     required this.onImageUpdate,
     required this.onChangingModifierValue,
     required this.onInventoryAddModalOpen,
@@ -112,6 +114,7 @@ class _CharacterCardState extends State<CharacterCard> {
                   onPlus: widget.onPlus,
                   onMinus: widget.onMinus,
                   onReturnDefaultHP: widget.onReturnDefaultHP,
+                  onSetHP: widget.onSetHP,
                   onImageUpdate: widget.onImageUpdate,
                   onEdit: widget.onEdit,
                   onChangeWrap: onChangeWrap,
@@ -142,6 +145,7 @@ class _CharacterCardState extends State<CharacterCard> {
                     onPlus: widget.onPlus,
                     onMinus: widget.onMinus,
                     onReturnDefaultHP: widget.onReturnDefaultHP,
+                    onSetHP: widget.onSetHP,
                     onImageUpdate: widget.onImageUpdate,
                     onEdit: widget.onEdit,
                     onChangeWrap: onChangeWrap,
@@ -194,7 +198,7 @@ class _CharacterCardState extends State<CharacterCard> {
         .charbooks[widget.charbookIndex].chars[widget.index].statusKdDebuff;
     charList[widget.index] = widget
         .charbooks[widget.charbookIndex].chars[widget.index]
-        .copyWith(statusKdDebuff: kdDebuff == 0 ? 1 : 0);
+        .copyWith(statusKdDebuff: kdDebuff!.isEmpty ? 'Вкл' : '');
 
     final CharBook updatedCharbook =
         widget.charbooks[widget.charbookIndex].copyWith(
@@ -211,7 +215,7 @@ class _CharacterCardState extends State<CharacterCard> {
     List<Character> charList = widget.charbooks[widget.charbookIndex].chars;
     charList[widget.index] = widget
         .charbooks[widget.charbookIndex].chars[widget.index]
-        .copyWith(statusKdBuff: kdBuff == 0 ? 1 : 0);
+        .copyWith(statusKdBuff: kdBuff!.isEmpty ? 'Вкл' : '');
 
     final CharBook updatedCharbook =
         widget.charbooks[widget.charbookIndex].copyWith(
@@ -228,7 +232,7 @@ class _CharacterCardState extends State<CharacterCard> {
     List<Character> charList = widget.charbooks[widget.charbookIndex].chars;
     charList[widget.index] = widget
         .charbooks[widget.charbookIndex].chars[widget.index]
-        .copyWith(statusRoped: roped == 0 ? 1 : 0);
+        .copyWith(statusRoped: roped!.isEmpty ? 'Вкл' : '');
 
     final CharBook updatedCharbook =
         widget.charbooks[widget.charbookIndex].copyWith(
@@ -245,7 +249,7 @@ class _CharacterCardState extends State<CharacterCard> {
     List<Character> charList = widget.charbooks[widget.charbookIndex].chars;
     charList[widget.index] = widget
         .charbooks[widget.charbookIndex].chars[widget.index]
-        .copyWith(statusDmgBuff: dmgBuff == 0 ? 1 : 0);
+        .copyWith(statusDmgBuff: dmgBuff!.isEmpty ? 'Вкл' : '');
 
     final CharBook updatedCharbook =
         widget.charbooks[widget.charbookIndex].copyWith(
@@ -262,7 +266,7 @@ class _CharacterCardState extends State<CharacterCard> {
     List<Character> charList = widget.charbooks[widget.charbookIndex].chars;
     charList[widget.index] = widget
         .charbooks[widget.charbookIndex].chars[widget.index]
-        .copyWith(statusFreezed: freezed == 0 ? 1 : 0);
+        .copyWith(statusFreezed: freezed!.isEmpty ? 'Вкл' : '');
 
     final CharBook updatedCharbook =
         widget.charbooks[widget.charbookIndex].copyWith(
@@ -279,6 +283,7 @@ class _UnweappedCard extends StatelessWidget {
   final VoidCallback onPlus;
   final VoidCallback onMinus;
   final VoidCallback onReturnDefaultHP;
+  final VoidCallback onSetHP;
   final VoidCallback onImageUpdate;
   final VoidCallback onEdit;
   final VoidCallback onChangeWrap;
@@ -305,6 +310,7 @@ class _UnweappedCard extends StatelessWidget {
     required this.onPlus,
     required this.onMinus,
     required this.onReturnDefaultHP,
+    required this.onSetHP,
     required this.onImageUpdate,
     required this.onEdit,
     required this.onChangeWrap,
@@ -346,6 +352,7 @@ class _UnweappedCard extends StatelessWidget {
                     onPlus: onPlus,
                     onMinus: onMinus,
                     onReturnDefaultHP: onReturnDefaultHP,
+                    onSetHP: onSetHP,
                     onImageUpdate: onImageUpdate,
                   ),
                   const SizedBox(height: 4),
@@ -543,6 +550,7 @@ class _WrappedCard extends StatelessWidget {
   final VoidCallback onPlus;
   final VoidCallback onMinus;
   final VoidCallback onReturnDefaultHP;
+  final VoidCallback onSetHP;
   final VoidCallback onImageUpdate;
   final VoidCallback onEdit;
   final VoidCallback onChangeWrap;
@@ -562,6 +570,7 @@ class _WrappedCard extends StatelessWidget {
     required this.onPlus,
     required this.onMinus,
     required this.onReturnDefaultHP,
+    required this.onSetHP,
     required this.onImageUpdate,
     required this.onEdit,
     required this.onChangeWrap,
@@ -596,6 +605,7 @@ class _WrappedCard extends StatelessWidget {
             onPlus: onPlus,
             onMinus: onMinus,
             onReturnDefaultHP: onReturnDefaultHP,
+            onSetHP: onSetHP,
             onImageUpdate: onImageUpdate,
           ),
           const SizedBox(height: 4),

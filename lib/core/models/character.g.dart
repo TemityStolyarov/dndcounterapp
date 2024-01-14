@@ -34,11 +34,13 @@ class CharacterAdapter extends TypeAdapter<Character> {
       hpModifier: fields[14] as int,
       imageUrl: fields[15] as String,
       isEnabled: fields[16] as bool,
-      statusKdDebuff: fields[17] as int?,
-      statusKdBuff: fields[18] as int?,
-      statusRoped: fields[19] as int?,
-      statusDmgBuff: fields[20] as int?,
-      statusFreezed: fields[21] as int?,
+      statusKdDebuff: fields[17] as String?,
+      statusKdBuff: fields[18] as String?,
+      statusRoped: fields[19] as String?,
+      statusDmgBuff: fields[20] as String?,
+      statusFreezed: fields[21] as String?,
+      statusRollBuff: fields[24] as String?,
+      statusRollDebuff: fields[25] as String?,
       initiative: fields[22] as int?,
       initiativeBeforeBattle: fields[23] as int?,
     );
@@ -47,7 +49,7 @@ class CharacterAdapter extends TypeAdapter<Character> {
   @override
   void write(BinaryWriter writer, Character obj) {
     writer
-      ..writeByte(24)
+      ..writeByte(26)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -95,7 +97,11 @@ class CharacterAdapter extends TypeAdapter<Character> {
       ..writeByte(22)
       ..write(obj.initiative)
       ..writeByte(23)
-      ..write(obj.initiativeBeforeBattle);
+      ..write(obj.initiativeBeforeBattle)
+      ..writeByte(24)
+      ..write(obj.statusRollBuff)
+      ..writeByte(25)
+      ..write(obj.statusRollDebuff);
   }
 
   @override

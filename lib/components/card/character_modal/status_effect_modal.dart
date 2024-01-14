@@ -9,6 +9,8 @@ enum StatusEffect {
   statusRoped,
   statusDmgBuff,
   statusFreezed,
+  statusRollBuff,
+  statusRollDebuff,
 }
 
 class StatusEffectModal {
@@ -69,7 +71,7 @@ class StatusEffectModal {
               onPressed: () {
                 List<Character> charList = charbooks[charbookIndex].chars;
                 charList[index] = _setStatusEffectByName(
-                  statusText: '0',
+                  statusText: '',
                   statusName: statusEffectName,
                 );
 
@@ -124,23 +126,19 @@ class StatusEffectModal {
       case StatusEffect.statusKdDebuff:
         return char.statusKdDebuff != null
             ? char.statusKdDebuff.toString()
-            : 0.toString();
+            : '';
       case StatusEffect.statusKdBuff:
-        return char.statusKdBuff != null
-            ? char.statusKdBuff.toString()
-            : 0.toString();
+        return char.statusKdBuff!.isNotEmpty ? char.statusKdBuff! : '';
       case StatusEffect.statusRoped:
-        return char.statusRoped != null
-            ? char.statusRoped.toString()
-            : 0.toString();
+        return char.statusRoped!.isNotEmpty ? char.statusRoped! : '';
       case StatusEffect.statusDmgBuff:
-        return char.statusDmgBuff != null
-            ? char.statusDmgBuff.toString()
-            : 0.toString();
+        return char.statusDmgBuff!.isNotEmpty ? char.statusDmgBuff! : '';
       case StatusEffect.statusFreezed:
-        return char.statusFreezed != null
-            ? char.statusFreezed.toString()
-            : 0.toString();
+        return char.statusFreezed!.isNotEmpty ? char.statusFreezed! : '';
+      case StatusEffect.statusRollBuff:
+        return char.statusRollBuff!.isNotEmpty ? char.statusRollBuff! : '';
+      case StatusEffect.statusRollDebuff:
+        return char.statusRollDebuff!.isNotEmpty ? char.statusRollDebuff! : '';
     }
   }
 
@@ -154,33 +152,38 @@ class StatusEffectModal {
     switch (statusName) {
       case StatusEffect.statusKdDebuff:
         return charbooks[charbookIndex].chars[index].copyWith(
-              statusKdDebuff: (statusText == '' || statusText.isEmpty)
-                  ? 0
-                  : int.parse(statusText),
+              statusKdDebuff:
+                  (statusText == '' || statusText.isEmpty) ? '' : statusText,
             );
       case StatusEffect.statusKdBuff:
         return charbooks[charbookIndex].chars[index].copyWith(
-              statusKdBuff: (statusText == '' || statusText.isEmpty)
-                  ? 0
-                  : int.parse(statusText),
+              statusKdBuff:
+                  (statusText == '' || statusText.isEmpty) ? '' : statusText,
             );
       case StatusEffect.statusRoped:
         return charbooks[charbookIndex].chars[index].copyWith(
-              statusRoped: (statusText == '' || statusText.isEmpty)
-                  ? 0
-                  : int.parse(statusText),
+              statusRoped:
+                  (statusText == '' || statusText.isEmpty) ? '' : statusText,
             );
       case StatusEffect.statusDmgBuff:
         return charbooks[charbookIndex].chars[index].copyWith(
-              statusDmgBuff: (statusText == '' || statusText.isEmpty)
-                  ? 0
-                  : int.parse(statusText),
+              statusDmgBuff:
+                  (statusText == '' || statusText.isEmpty) ? '' : statusText,
             );
       case StatusEffect.statusFreezed:
         return charbooks[charbookIndex].chars[index].copyWith(
-              statusFreezed: (statusText == '' || statusText.isEmpty)
-                  ? 0
-                  : int.parse(statusText),
+              statusFreezed:
+                  (statusText == '' || statusText.isEmpty) ? '' : statusText,
+            );
+      case StatusEffect.statusRollBuff:
+        return charbooks[charbookIndex].chars[index].copyWith(
+              statusRollBuff:
+                  (statusText == '' || statusText.isEmpty) ? '' : statusText,
+            );
+      case StatusEffect.statusRollDebuff:
+        return charbooks[charbookIndex].chars[index].copyWith(
+              statusRollDebuff:
+                  (statusText == '' || statusText.isEmpty) ? '' : statusText,
             );
     }
   }

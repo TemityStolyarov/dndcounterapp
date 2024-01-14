@@ -46,19 +46,24 @@ class Character extends HiveObject {
   final bool isEnabled;
 
   @HiveField(17)
-  final int? statusKdDebuff;
+  final String? statusKdDebuff;
   @HiveField(18)
-  final int? statusKdBuff;
+  final String? statusKdBuff;
   @HiveField(19)
-  final int? statusRoped;
+  final String? statusRoped;
   @HiveField(20)
-  final int? statusDmgBuff;
+  final String? statusDmgBuff;
   @HiveField(21)
-  final int? statusFreezed;
+  final String? statusFreezed;
   @HiveField(22)
   final int? initiative;
   @HiveField(23)
   final int? initiativeBeforeBattle;
+
+  @HiveField(24)
+  final String? statusRollBuff;
+  @HiveField(25)
+  final String? statusRollDebuff;
 
   Character({
     required this.race,
@@ -83,6 +88,8 @@ class Character extends HiveObject {
     required this.statusRoped,
     required this.statusDmgBuff,
     required this.statusFreezed,
+    required this.statusRollBuff,
+    required this.statusRollDebuff,
     required this.initiative,
     required this.initiativeBeforeBattle,
   });
@@ -105,11 +112,13 @@ class Character extends HiveObject {
     this.kd = 0,
     this.imageUrl = '',
     this.isEnabled = true,
-    this.statusKdDebuff = 0,
-    this.statusKdBuff = 0,
-    this.statusRoped = 0,
-    this.statusDmgBuff = 0,
-    this.statusFreezed = 0,
+    this.statusKdDebuff = '',
+    this.statusKdBuff = '',
+    this.statusRoped = '',
+    this.statusDmgBuff = '',
+    this.statusFreezed = '',
+    this.statusRollBuff = '',
+    this.statusRollDebuff = '',
     this.initiative = 0,
     this.initiativeBeforeBattle = 0,
   });
@@ -132,11 +141,13 @@ class Character extends HiveObject {
     int? hpModifier,
     String? imageUrl,
     bool? isEnabled,
-    int? statusKdDebuff,
-    int? statusKdBuff,
-    int? statusRoped,
-    int? statusDmgBuff,
-    int? statusFreezed,
+    String? statusKdDebuff,
+    String? statusKdBuff,
+    String? statusRoped,
+    String? statusDmgBuff,
+    String? statusFreezed,
+    String? statusRollBuff,
+    String? statusRollDebuff,
     int? initiative,
     int? initiativeBeforeBattle,
   }) =>
@@ -163,6 +174,8 @@ class Character extends HiveObject {
         statusRoped: statusRoped ?? this.statusRoped,
         statusDmgBuff: statusDmgBuff ?? this.statusDmgBuff,
         statusFreezed: statusFreezed ?? this.statusFreezed,
+        statusRollBuff: statusRollBuff ?? this.statusRollBuff,
+        statusRollDebuff: statusRollDebuff ?? this.statusRollDebuff,
         initiative: initiative ?? this.initiative,
         initiativeBeforeBattle:
             initiativeBeforeBattle ?? this.initiativeBeforeBattle,
@@ -187,11 +200,13 @@ class Character extends HiveObject {
       'hpModifier': hpModifier,
       'imageUrl': imageUrl,
       'isEnabled': isEnabled,
-      'statusKdDebuff': statusKdDebuff ?? 0,
-      'statusKdBuff': statusKdBuff ?? 0,
-      'statusRoped': statusRoped ?? 0,
-      'statusDmgBuff': statusDmgBuff ?? 0,
-      'statusFreezed': statusFreezed ?? 0,
+      'statusKdDebuff': statusKdDebuff ?? '',
+      'statusKdBuff': statusKdBuff ?? '',
+      'statusRoped': statusRoped ?? '',
+      'statusDmgBuff': statusDmgBuff ?? '',
+      'statusFreezed': statusFreezed ?? '',
+      'statusRollBuff': statusRollBuff ?? '',
+      'statusRollDebuff': statusRollDebuff ?? '',
       'initiative': initiative,
       'initiativeBeforeBattle': initiativeBeforeBattle ?? 0,
     };
@@ -231,6 +246,8 @@ class Character extends HiveObject {
       statusRoped: json['statusRoped'],
       statusDmgBuff: json['statusDmgBuff'],
       statusFreezed: json['statusFreezed'],
+      statusRollBuff: json['statusRollBuff'],
+      statusRollDebuff: json['statusRollDebuff'],
       initiative: json['initiative'],
       initiativeBeforeBattle: json['initiativeBeforeBattle'],
     );

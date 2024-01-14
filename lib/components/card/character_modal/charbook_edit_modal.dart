@@ -35,44 +35,49 @@ class CharbookEditModal {
 
         return AlertDialog(
           title: const Text('Редактирование раздела'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                width: 466,
-                child: TextField(
-                  autofocus: true,
-                  controller: ctrLabel,
-                  decoration: const InputDecoration(
-                    labelStyle: TextStyle(fontSize: 14),
-                    labelText: 'Название раздела',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(12),
+          content: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    width: 466,
+                    child: TextField(
+                      autofocus: true,
+                      controller: ctrLabel,
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(fontSize: 14),
+                        labelText: 'Название раздела',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
-              const SizedBox(height: 12),
-              SizedBox(
-                width: 466,
-                child: TextField(
-                  autofocus: true,
-                  controller: ctrJSON,
-                  maxLines: 5,
-                  decoration: const InputDecoration(
-                    labelText: 'JSON код',
-                    labelStyle: TextStyle(fontSize: 14),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(12),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    width: 466,
+                    child: TextField(
+                      autofocus: true,
+                      controller: ctrJSON,
+                      maxLines: 5,
+                      decoration: const InputDecoration(
+                        labelText: 'JSON код',
+                        labelStyle: TextStyle(fontSize: 14),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
           actions: <Widget>[
             TextButton(

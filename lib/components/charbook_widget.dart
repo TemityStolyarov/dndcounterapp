@@ -5,6 +5,7 @@ import 'package:dndcounterapp/components/card/character_modal/character_edit_mod
 import 'package:dndcounterapp/components/card/character_modal/image_update_modal.dart';
 import 'package:dndcounterapp/components/card/character_modal/inventory_add_modal.dart';
 import 'package:dndcounterapp/components/card/character_modal/inventory_edit_modal.dart';
+import 'package:dndcounterapp/components/card/character_modal/set_hp_modal.dart';
 import 'package:dndcounterapp/components/card/character_modal/spell_add_modal.dart';
 import 'package:dndcounterapp/components/card/character_modal/spell_edit_modal.dart';
 import 'package:dndcounterapp/components/card/character_modal/status_effect_modal.dart';
@@ -159,6 +160,16 @@ class CharbookWidget extends StatelessWidget {
               );
               charbookBox.putAt(charbookIndex, updatedCharbook);
               onUpdateScreen();
+            },
+            onSetHP: () {
+              final setHpModal = SetHPModal(
+                charbookBox: charbookBox,
+                charbooks: charbooks,
+                charbookIndex: charbookIndex,
+                index: index,
+                onSetHP: onUpdateScreen,
+              );
+              setHpModal.show(context);
             },
             onChangingModifierValue: onUpdateScreen,
             onImageUpdate: () {

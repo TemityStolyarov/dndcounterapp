@@ -6,11 +6,13 @@ class StatBadgeHP extends StatBadgeAR {
   final int hpModifier;
   final int hp;
   final VoidCallback onReturnDefaultHP;
+  final VoidCallback onSetHP;
   final bool isEnabled;
 
   const StatBadgeHP({
     super.key,
     required this.onReturnDefaultHP,
+    required this.onSetHP,
     required this.hpModifier,
     required this.hp,
     required this.isEnabled,
@@ -63,42 +65,45 @@ class StatBadgeHP extends StatBadgeAR {
                 ),
               ),
               const Spacer(),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: ColorPalette.shadowColor,
-                    width: 0.5,
-                  ),
-                  borderRadius: const BorderRadius.all(Radius.circular(5)),
-                  color: color,
-                  boxShadow: [
-                    BoxShadow(
-                      color: (hp + hpModifier) <= 0
-                          ? Colors.transparent
-                          : hp > (hp + hpModifier)
-                              ? ColorPalette.critUnlucky.withOpacity(0.4)
-                              : hp < (hp + hpModifier)
-                                  ? ColorPalette.attHP.withOpacity(0.4)
-                                  : Colors.transparent,
-                      offset: const Offset(0, 0),
-                      blurRadius: 5,
-                      spreadRadius: 1,
+              InkWell(
+                onTap: onSetHP,
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: ColorPalette.shadowColor,
+                      width: 0.5,
                     ),
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 2,
-                    horizontal: 4,
+                    borderRadius: const BorderRadius.all(Radius.circular(5)),
+                    color: color,
+                    boxShadow: [
+                      BoxShadow(
+                        color: (hp + hpModifier) <= 0
+                            ? Colors.transparent
+                            : hp > (hp + hpModifier)
+                                ? ColorPalette.critUnlucky.withOpacity(0.4)
+                                : hp < (hp + hpModifier)
+                                    ? ColorPalette.attHP.withOpacity(0.4)
+                                    : Colors.transparent,
+                        offset: const Offset(0, 0),
+                        blurRadius: 5,
+                        spreadRadius: 1,
+                      ),
+                    ],
                   ),
-                  child: Text(
-                    info,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: ColorPalette.cardColor,
-                      fontWeight: FontWeight.w500,
-                      height: 14 / 12,
-                      fontSize: 14,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 2,
+                      horizontal: 4,
+                    ),
+                    child: Text(
+                      info,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: ColorPalette.cardColor,
+                        fontWeight: FontWeight.w500,
+                        height: 14 / 12,
+                        fontSize: 14,
+                      ),
                     ),
                   ),
                 ),

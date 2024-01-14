@@ -95,7 +95,7 @@ class StatusEffectsRow extends StatelessWidget {
               borderRadius: BorderRadius.circular(4),
               border: border,
               boxShadow: shadow,
-              color: character.statusKdDebuff != 0 &&
+              color: character.statusKdDebuff != '' &&
                       character.statusKdDebuff != null
                   ? character.isEnabled
                       ? ColorPalette.statusKdDebuffBackground
@@ -111,7 +111,7 @@ class StatusEffectsRow extends StatelessWidget {
               child: SvgPicture.asset(
                 'assets/icons/status_kd_debuff.svg',
                 colorFilter: ColorFilter.mode(
-                  character.statusKdDebuff != 0 &&
+                  character.statusKdDebuff != '' &&
                           character.statusKdDebuff != null
                       ? ColorPalette.statusKdDebuffLabel
                       : ColorPalette.fontBaseColor.withOpacity(0.5),
@@ -135,7 +135,7 @@ class StatusEffectsRow extends StatelessWidget {
               border: border,
               boxShadow: shadow,
               color:
-                  character.statusKdBuff != 0 && character.statusKdBuff != null
+                  character.statusKdBuff != '' && character.statusKdBuff != null
                       ? character.isEnabled
                           ? ColorPalette.statusKdBuffBackground
                               .withOpacity(backgroundColorActiveOpacityDefault)
@@ -150,7 +150,7 @@ class StatusEffectsRow extends StatelessWidget {
               child: SvgPicture.asset(
                 'assets/icons/status_kd_buff.svg',
                 colorFilter: ColorFilter.mode(
-                  character.statusKdBuff != 0 && character.statusKdBuff != null
+                  character.statusKdBuff != '' && character.statusKdBuff != null
                       ? ColorPalette.statusKdBuffLabel
                       : ColorPalette.fontBaseColor.withOpacity(0.5),
                   BlendMode.srcIn,
@@ -173,7 +173,7 @@ class StatusEffectsRow extends StatelessWidget {
               borderRadius: BorderRadius.circular(4),
               border: border,
               boxShadow: shadow,
-              color: character.statusRoped != 0 && character.statusRoped != null
+              color: character.statusRoped != '' && character.statusRoped != null
                   ? character.isEnabled
                       ? ColorPalette.statusRopedBackground
                           .withOpacity(backgroundColorActiveOpacityDefault)
@@ -188,7 +188,7 @@ class StatusEffectsRow extends StatelessWidget {
               child: SvgPicture.asset(
                 'assets/icons/status_roped.svg',
                 colorFilter: ColorFilter.mode(
-                  character.statusRoped != 0 && character.statusRoped != null
+                  character.statusRoped != '' && character.statusRoped != null
                       ? ColorPalette.statusRopedLabel
                       : ColorPalette.fontBaseColor.withOpacity(0.5),
                   BlendMode.srcIn,
@@ -212,7 +212,7 @@ class StatusEffectsRow extends StatelessWidget {
               borderRadius: BorderRadius.circular(4),
               border: border,
               boxShadow: shadow,
-              color: character.statusDmgBuff != 0 &&
+              color: character.statusDmgBuff != '' &&
                       character.statusDmgBuff != null
                   ? character.isEnabled
                       ? ColorPalette.statusDmgBuffBackground
@@ -228,7 +228,7 @@ class StatusEffectsRow extends StatelessWidget {
               child: SvgPicture.asset(
                 'assets/icons/status_dmg_buff.svg',
                 colorFilter: ColorFilter.mode(
-                  character.statusDmgBuff != 0 &&
+                  character.statusDmgBuff != '' &&
                           character.statusDmgBuff != null
                       ? ColorPalette.statusDmgBuffLabel
                       : ColorPalette.fontBaseColor.withOpacity(0.5),
@@ -254,7 +254,7 @@ class StatusEffectsRow extends StatelessWidget {
               borderRadius: BorderRadius.circular(4),
               border: border,
               boxShadow: shadow,
-              color: character.statusFreezed != 0 &&
+              color: character.statusFreezed != '' &&
                       character.statusFreezed != null
                   ? character.isEnabled
                       ? ColorPalette.statusFreezedBackground
@@ -270,7 +270,7 @@ class StatusEffectsRow extends StatelessWidget {
               child: SvgPicture.asset(
                 'assets/icons/status_freezed.svg',
                 colorFilter: ColorFilter.mode(
-                  character.statusFreezed != 0 &&
+                  character.statusFreezed != '' &&
                           character.statusFreezed != null
                       ? ColorPalette.statusFreezedLabel
                       : ColorPalette.fontBaseColor.withOpacity(0.5),
