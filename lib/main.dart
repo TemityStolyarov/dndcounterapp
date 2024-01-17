@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import 'package:dndcounterapp/components/card/character_modal/charbook_add_modal.dart';
-import 'package:dndcounterapp/components/card/character_modal/charbook_edit_modal.dart';
-import 'package:dndcounterapp/components/card/character_modal/coins_modal.dart';
+import 'package:dndcounterapp/components/character_card/character_modal/charbook_add_modal.dart';
+import 'package:dndcounterapp/components/character_card/character_modal/charbook_edit_modal.dart';
+import 'package:dndcounterapp/components/character_card/character_modal/coins_modal.dart';
 import 'package:dndcounterapp/components/charbook_widget.dart';
 import 'package:dndcounterapp/components/dice_row/dice_row.dart';
 import 'package:dndcounterapp/core/models/character.dart';

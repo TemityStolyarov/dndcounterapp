@@ -1,4 +1,4 @@
-import 'package:dndcounterapp/components/card/character_description_blocks/stat_badges/stat_badge.dart';
+import 'package:dndcounterapp/components/character_card/character_description_blocks/stat_badges/stat_badge.dart';
 import 'package:dndcounterapp/core/helpers.dart';
 import 'package:dndcounterapp/core/models/character.dart';
 import 'package:dndcounterapp/core/ui_kit/color_palette.dart';

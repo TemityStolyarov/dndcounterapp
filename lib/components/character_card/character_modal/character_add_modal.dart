@@ -277,6 +277,7 @@ class CharacterAddModal {
                     statusFreezed: '',
                     statusRollBuff: '',
                     statusRollDebuff: '',
+                    statusProvocated: '',
                   );
 
                   List<Character> charList = charbooks[charbookIndex].chars;

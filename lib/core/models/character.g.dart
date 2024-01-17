@@ -36,6 +36,7 @@ class CharacterAdapter extends TypeAdapter<Character> {
       isEnabled: fields[16] as bool,
       statusKdDebuff: fields[17] as String?,
       statusKdBuff: fields[18] as String?,
+      statusProvocated: fields[26] as String?,
       statusRoped: fields[19] as String?,
       statusDmgBuff: fields[20] as String?,
       statusFreezed: fields[21] as String?,
@@ -49,7 +50,7 @@ class CharacterAdapter extends TypeAdapter<Character> {
   @override
   void write(BinaryWriter writer, Character obj) {
     writer
-      ..writeByte(26)
+      ..writeByte(27)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -101,7 +102,9 @@ class CharacterAdapter extends TypeAdapter<Character> {
       ..writeByte(24)
       ..write(obj.statusRollBuff)
       ..writeByte(25)
-      ..write(obj.statusRollDebuff);
+      ..write(obj.statusRollDebuff)
+      ..writeByte(26)
+      ..write(obj.statusProvocated);
   }
 
   @override

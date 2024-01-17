@@ -11,6 +11,7 @@ enum StatusEffect {
   statusFreezed,
   statusRollBuff,
   statusRollDebuff,
+  statusProvocated,
 }
 
 class StatusEffectModal {
@@ -139,6 +140,8 @@ class StatusEffectModal {
         return char.statusRollBuff!.isNotEmpty ? char.statusRollBuff! : '';
       case StatusEffect.statusRollDebuff:
         return char.statusRollDebuff!.isNotEmpty ? char.statusRollDebuff! : '';
+      case StatusEffect.statusProvocated:
+        return char.statusProvocated!.isNotEmpty ? char.statusProvocated! : '';
     }
   }
 
@@ -183,6 +186,11 @@ class StatusEffectModal {
       case StatusEffect.statusRollDebuff:
         return charbooks[charbookIndex].chars[index].copyWith(
               statusRollDebuff:
+                  (statusText == '' || statusText.isEmpty) ? '' : statusText,
+            );
+      case StatusEffect.statusProvocated:
+        return charbooks[charbookIndex].chars[index].copyWith(
+              statusProvocated:
                   (statusText == '' || statusText.isEmpty) ? '' : statusText,
             );
     }

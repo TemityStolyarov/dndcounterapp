@@ -389,6 +389,7 @@ class CharacterEditModal {
                   statusFreezed: char.statusFreezed,
                   statusRollBuff: char.statusRollBuff,
                   statusRollDebuff: char.statusRollDebuff,
+                  statusProvocated: char.statusProvocated,
                 );
 
                 List<Character> charList = charbooks[charbookIndex].chars;

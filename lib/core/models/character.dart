@@ -64,6 +64,8 @@ class Character extends HiveObject {
   final String? statusRollBuff;
   @HiveField(25)
   final String? statusRollDebuff;
+  @HiveField(26)
+  final String? statusProvocated;
 
   Character({
     required this.race,
@@ -85,6 +87,7 @@ class Character extends HiveObject {
     required this.isEnabled,
     required this.statusKdDebuff,
     required this.statusKdBuff,
+    required this.statusProvocated,
     required this.statusRoped,
     required this.statusDmgBuff,
     required this.statusFreezed,
@@ -114,6 +117,7 @@ class Character extends HiveObject {
     this.isEnabled = true,
     this.statusKdDebuff = '',
     this.statusKdBuff = '',
+    this.statusProvocated = '',
     this.statusRoped = '',
     this.statusDmgBuff = '',
     this.statusFreezed = '',
@@ -143,6 +147,7 @@ class Character extends HiveObject {
     bool? isEnabled,
     String? statusKdDebuff,
     String? statusKdBuff,
+    String? statusProvocated,
     String? statusRoped,
     String? statusDmgBuff,
     String? statusFreezed,
@@ -171,6 +176,7 @@ class Character extends HiveObject {
         isEnabled: isEnabled ?? this.isEnabled,
         statusKdDebuff: statusKdDebuff ?? this.statusKdDebuff,
         statusKdBuff: statusKdBuff ?? this.statusKdBuff,
+        statusProvocated: statusProvocated ?? this.statusProvocated,
         statusRoped: statusRoped ?? this.statusRoped,
         statusDmgBuff: statusDmgBuff ?? this.statusDmgBuff,
         statusFreezed: statusFreezed ?? this.statusFreezed,
@@ -202,6 +208,7 @@ class Character extends HiveObject {
       'isEnabled': isEnabled,
       'statusKdDebuff': statusKdDebuff ?? '',
       'statusKdBuff': statusKdBuff ?? '',
+      'statusProvocated': statusProvocated ?? '',
       'statusRoped': statusRoped ?? '',
       'statusDmgBuff': statusDmgBuff ?? '',
       'statusFreezed': statusFreezed ?? '',
@@ -241,13 +248,14 @@ class Character extends HiveObject {
       hpModifier: json['hpModifier'],
       imageUrl: json['imageUrl'],
       isEnabled: json['isEnabled'],
-      statusKdDebuff: json['statusKdDebuff'],
-      statusKdBuff: json['statusKdBuff'],
-      statusRoped: json['statusRoped'],
-      statusDmgBuff: json['statusDmgBuff'],
-      statusFreezed: json['statusFreezed'],
-      statusRollBuff: json['statusRollBuff'],
-      statusRollDebuff: json['statusRollDebuff'],
+      statusKdDebuff: json['statusKdDebuff'] ?? '',
+      statusKdBuff: json['statusKdBuff'] ?? '',
+      statusProvocated: json['statusProvocated'] ?? '',
+      statusRoped: json['statusRoped'] ?? '',
+      statusDmgBuff: json['statusDmgBuff'] ?? '',
+      statusFreezed: json['statusFreezed'] ?? '',
+      statusRollBuff: json['statusRollBuff'] ?? '',
+      statusRollDebuff: json['statusRollDebuff'] ?? '',
       initiative: json['initiative'],
       initiativeBeforeBattle: json['initiativeBeforeBattle'],
     );

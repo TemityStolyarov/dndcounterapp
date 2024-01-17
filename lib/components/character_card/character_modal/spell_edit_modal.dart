@@ -1,28 +1,28 @@
-import 'package:dndcounterapp/components/card/character_modal/inventory_edit_item_modal.dart';
+import 'package:dndcounterapp/components/character_card/character_modal/spell_edit_spell_modal.dart';
 import 'package:dndcounterapp/core/helpers.dart';
 import 'package:dndcounterapp/core/models/character.dart';
 import 'package:dndcounterapp/core/models/charbook.dart';
-import 'package:dndcounterapp/core/models/weapon.dart';
+import 'package:dndcounterapp/core/models/spell.dart';
 import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class InventoryEditModal {
+class SpellEditModal {
   final Box charbookBox;
   final List<CharBook> charbooks;
   final int charbookIndex;
   final int index;
+  
+  final VoidCallback onDeleteSpell;
+  final VoidCallback onEditSpell;
 
-  final VoidCallback onDeleteItem;
-  final VoidCallback onEditItem;
-
-  InventoryEditModal({
+  SpellEditModal({
     required this.charbookBox,
     required this.charbooks,
     required this.charbookIndex,
     required this.index,
-    required this.onDeleteItem,
-    required this.onEditItem,
+    required this.onDeleteSpell,
+    required this.onEditSpell,
   });
 
   void show(BuildContext context) {
@@ -31,14 +31,14 @@ class InventoryEditModal {
       builder: (BuildContext context) {
         final Character char = charbooks[charbookIndex].chars[index];
         return AlertDialog(
-          title: const Text('Редактирование инвентаря'),
+          title: const Text('Редактирование книги заклинаний'),
           content: SizedBox(
             height: 300,
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: _inventoryToList(
-                  items: char.inventory,
+                children: _spellsToList(
+                  spells: char.spells,
                   context: context,
                 ),
               ),
@@ -57,13 +57,13 @@ class InventoryEditModal {
     );
   }
 
-  List<Widget> _inventoryToList({
-    required List<Weapon> items,
+  List<Widget> _spellsToList({
+    required List<Spell> spells,
     required BuildContext context,
   }) {
     List<Widget> list = [];
 
-    for (int i = 0; i < items.length; i++) {
+    for (int i = 0; i < spells.length; i++) {
       if (list.isNotEmpty) list.add(const SizedBox(height: 14));
 
       final Widget card = Container(
@@ -80,31 +80,41 @@ class InventoryEditModal {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
+                    Wrap(
                       children: [
                         Text('${i + 1}. '),
                         Text(
-                          items[i].name,
+                          spells[i].name,
                           style: const TextStyle(fontWeight: FontWeight.w500),
                         ),
-                        if (items[i].dice != null &&
-                            items[i].dmg != null &&
-                            items[i].kd != null)
+                        if (spells[i].dice != null &&
+                            spells[i].dmg != null &&
+                            spells[i].cast != null &&
+                            spells[i].castModifier != null)
                           Text(
-                              ' (${items[i].dice}d${items[i].dmg} DMG, ${items[i].kd} AR)'),
-                        if (items[i].dice != null &&
-                            items[i].dmg != null &&
-                            items[i].kd == null)
-                          Text(' (${items[i].dice}d${items[i].dmg} DMG)'),
-                        if (items[i].dice == null &&
-                            items[i].dmg == null &&
-                            items[i].kd != null)
-                          Text(' (${items[i].kd} AR)'),
+                              ' (${spells[i].cast! + spells[i].castModifier!}/${spells[i].cast}, ${spells[i].dice}d${spells[i].dmg} DMG)'),
+                        if (spells[i].dice != null &&
+                            spells[i].dmg != null &&
+                            spells[i].cast == null)
+                          Text(' (${spells[i].dice}d${spells[i].dmg} DMG)'),
+                        if (spells[i].dice == null &&
+                            spells[i].dmg == null &&
+                            spells[i].cast != null &&
+                            spells[i].castModifier != null)
+                          Text(
+                              ' (${spells[i].cast! + spells[i].castModifier!}/${spells[i].cast})'),
                       ],
                     ),
+                    if (spells[i].energyOnCast != null &&
+                        spells[i].energyDescription != null)
+                      const SizedBox(height: 4),
+                    if (spells[i].energyOnCast != null &&
+                        spells[i].energyDescription != null)
+                      Text(
+                          'При применении -${spells[i].energyOnCast} ${spells[i].energyDescription}'),
                     const SizedBox(height: 4),
-                    uppercaseFirst(items[i].description).isNotEmpty
-                        ? Text(uppercaseFirst(items[i].description))
+                    uppercaseFirst(spells[i].description).isNotEmpty
+                        ? Text(uppercaseFirst(spells[i].description))
                         : const SizedBox.shrink(),
                   ],
                 ),
@@ -113,15 +123,15 @@ class InventoryEditModal {
               InkWell(
                 onTap: () {
                   Navigator.of(context).pop();
-                  final inventoryEditItemModal = InventoryEditItemModal(
-                    charbookBox: charbookBox,
+                  final spellEditSpellModal = SpellEditSpellModal(
+                                        charbookBox: charbookBox,
                     charbooks: charbooks,
                     charbookIndex: charbookIndex,
                     index: index,
-                    itemIndex: i,
-                    onEditItem: onEditItem,
+                    spellIndex: i,
+                    onEditSpell: onEditSpell,
                   );
-                  inventoryEditItemModal.show(context);
+                  spellEditSpellModal.show(context);
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -141,8 +151,8 @@ class InventoryEditModal {
               const SizedBox(width: 12),
               InkWell(
                 onTap: () {
-                  List<Character> charList = charbooks[charbookIndex].chars;
-                  charList[index].inventory.removeAt(i);
+                                    List<Character> charList = charbooks[charbookIndex].chars;
+                  charList[index].spells.removeAt(i);
                   final CharBook updatedCharbook =
                       charbooks[charbookIndex].copyWith(chars: charList);
                   charbookBox.putAt(charbookIndex, updatedCharbook);
@@ -175,7 +185,7 @@ class InventoryEditModal {
   }
 
   void _onDelete() {
-    onDeleteItem();
-    print('Item deleted!');
+    onDeleteSpell();
+    print('Spell deleted!');
   }
 }

@@ -1,4 +1,4 @@
-import 'package:dndcounterapp/components/card/character_description_blocks/stat_badges/mini_button.dart';
+import 'package:dndcounterapp/components/character_card/character_description_blocks/stat_badges/mini_button.dart';
 import 'package:dndcounterapp/core/models/character.dart';
 import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:dndcounterapp/core/models/spell.dart';
@@ -44,22 +44,22 @@ List<Widget> convertWeaponToText(List<Weapon> inventory) {
   for (Weapon item in inventory) {
     String itemDesc = '';
     if (item.dice != null && item.kd == null) {
-      itemDesc += '${item.dice}d${item.dmg} урона';
+      itemDesc += '${item.dice}d${item.dmg} урона ';
     }
 
     if (item.kd != null && item.dice == null) {
-      itemDesc += 'Дает ${!item.kd!.isNegative ? '+' : ''}${item.kd} к защите';
+      itemDesc += 'Дает ${!item.kd!.isNegative ? '+' : ''}${item.kd} к защите ';
     }
 
     if (item.dice != null && item.kd != null) {
       itemDesc +=
-          '${item.dice}d${item.dmg} урона, дает ${!item.kd!.isNegative ? '+' : ''}${item.kd} к защите';
+          '${item.dice}d${item.dmg} урона, дает ${!item.kd!.isNegative ? '+' : ''}${item.kd} к защите ';
     }
 
     if ((item.dice != null && item.dmg != null) &&
         item.description != null &&
         item.description != '') {
-      itemDesc += ' (${item.description})';
+      itemDesc += '(${item.description})';
     }
 
     if ((item.dice == null && item.dmg == null) &&
