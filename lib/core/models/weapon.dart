@@ -14,6 +14,8 @@ class Weapon extends HiveObject {
   final int? dmg;
   @HiveField(4)
   final int? kd;
+  @HiveField(5)
+  final int? kdPierceBuff;
 
   Weapon({
     required this.name,
@@ -21,6 +23,7 @@ class Weapon extends HiveObject {
     this.dmg,
     this.dice,
     this.kd,
+    this.kdPierceBuff,
   });
 
   Weapon copyWith({
@@ -29,6 +32,7 @@ class Weapon extends HiveObject {
     int? dice,
     int? dmg,
     int? kd,
+    int? kdPierceBuff,
   }) =>
       Weapon(
         name: name ?? this.name,
@@ -36,6 +40,7 @@ class Weapon extends HiveObject {
         dice: dice ?? this.dice,
         dmg: dmg ?? this.dmg,
         kd: kd ?? this.kd,
+        kdPierceBuff: kdPierceBuff ?? this.kdPierceBuff,
       );
 
   Map<String, dynamic> toJson() {
@@ -45,6 +50,7 @@ class Weapon extends HiveObject {
       'dice': dice,
       'dmg': dmg,
       'kd': kd,
+      'kdPierceBuff': kdPierceBuff,
     };
   }
 
@@ -55,6 +61,7 @@ class Weapon extends HiveObject {
       dice: json['dice'],
       dmg: json['dmg'],
       kd: json['kd'],
+      kdPierceBuff: json['kdPierceBuff'],
     );
   }
 }

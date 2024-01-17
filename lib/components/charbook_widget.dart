@@ -1,13 +1,14 @@
-import 'package:dndcounterapp/components/card/character_card.dart';
-import 'package:dndcounterapp/components/card/character_card_add.dart';
-import 'package:dndcounterapp/components/card/character_modal/character_add_modal.dart';
-import 'package:dndcounterapp/components/card/character_modal/character_edit_modal.dart';
-import 'package:dndcounterapp/components/card/character_modal/image_update_modal.dart';
-import 'package:dndcounterapp/components/card/character_modal/inventory_add_modal.dart';
-import 'package:dndcounterapp/components/card/character_modal/inventory_edit_modal.dart';
-import 'package:dndcounterapp/components/card/character_modal/spell_add_modal.dart';
-import 'package:dndcounterapp/components/card/character_modal/spell_edit_modal.dart';
-import 'package:dndcounterapp/components/card/character_modal/status_effect_modal.dart';
+import 'package:dndcounterapp/components/character_card/character_card.dart';
+import 'package:dndcounterapp/components/character_card/character_card_add.dart';
+import 'package:dndcounterapp/components/character_card/character_modal/character_add_modal.dart';
+import 'package:dndcounterapp/components/character_card/character_modal/character_edit_modal.dart';
+import 'package:dndcounterapp/components/character_card/character_modal/image_update_modal.dart';
+import 'package:dndcounterapp/components/character_card/character_modal/inventory_add_modal.dart';
+import 'package:dndcounterapp/components/character_card/character_modal/inventory_edit_modal.dart';
+import 'package:dndcounterapp/components/character_card/character_modal/set_hp_modal.dart';
+import 'package:dndcounterapp/components/character_card/character_modal/spell_add_modal.dart';
+import 'package:dndcounterapp/components/character_card/character_modal/spell_edit_modal.dart';
+import 'package:dndcounterapp/components/character_card/character_modal/status_effect_modal.dart';
 import 'package:dndcounterapp/core/models/character.dart';
 import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:flutter/material.dart';
@@ -104,6 +105,42 @@ class CharbookWidget extends StatelessWidget {
               );
               statusEffectModal.show(context);
             },
+            onTapStatusRollDebuff: () {
+              final statusEffectModal = StatusEffectModal(
+                charbookBox: charbookBox,
+                charbooks: charbooks,
+                charbookIndex: charbookIndex,
+                index: index,
+                onEdit: onUpdateScreen,
+                statusEffectName: StatusEffect.statusRollDebuff,
+                statusEffectLabel: 'Броски с помехой (количество ходов)',
+              );
+              statusEffectModal.show(context);
+            },
+            onTapStatusRollBuff: () {
+              final statusEffectModal = StatusEffectModal(
+                charbookBox: charbookBox,
+                charbooks: charbooks,
+                charbookIndex: charbookIndex,
+                index: index,
+                onEdit: onUpdateScreen,
+                statusEffectName: StatusEffect.statusRollBuff,
+                statusEffectLabel: 'Броски с преимуществом (количество ходов)',
+              );
+              statusEffectModal.show(context);
+            },
+            onTapStatusProvocated: () {
+              final statusEffectModal = StatusEffectModal(
+                charbookBox: charbookBox,
+                charbooks: charbooks,
+                charbookIndex: charbookIndex,
+                index: index,
+                onEdit: onUpdateScreen,
+                statusEffectName: StatusEffect.statusProvocated,
+                statusEffectLabel: 'Провокация',
+              );
+              statusEffectModal.show(context);
+            },
             onClose: () {
               List<Character> charList = charbooks[charbookIndex].chars;
               charList.removeAt(index);
@@ -159,6 +196,16 @@ class CharbookWidget extends StatelessWidget {
               );
               charbookBox.putAt(charbookIndex, updatedCharbook);
               onUpdateScreen();
+            },
+            onSetHP: () {
+              final setHpModal = SetHPModal(
+                charbookBox: charbookBox,
+                charbooks: charbooks,
+                charbookIndex: charbookIndex,
+                index: index,
+                onSetHP: onUpdateScreen,
+              );
+              setHpModal.show(context);
             },
             onChangingModifierValue: onUpdateScreen,
             onImageUpdate: () {
