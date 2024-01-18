@@ -1,14 +1,13 @@
-
-
+import 'package:dndcounterapp/components/character_card/character_card_window_navigation.dart';
 import 'package:dndcounterapp/components/character_card/character_description_blocks/character_attr_badges.dart';
 import 'package:dndcounterapp/components/character_card/character_description_blocks/character_card_wrapped_header.dart';
 import 'package:dndcounterapp/components/character_card/character_description_blocks/stat_badges/status_effects_row.dart';
 import 'package:dndcounterapp/core/models/character.dart';
-import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
 import 'package:flutter/material.dart';
 
 class WrappedCard extends StatelessWidget {
   final Character character;
+  final bool isWrapped;
 
   final VoidCallback onPlus;
   final VoidCallback onMinus;
@@ -16,6 +15,7 @@ class WrappedCard extends StatelessWidget {
   final VoidCallback onSetHP;
   final VoidCallback onImageUpdate;
   final VoidCallback onEdit;
+  final VoidCallback onClose;
   final VoidCallback onChangeWrap;
 
   final VoidCallback onTapStatusKdDebuff;
@@ -26,7 +26,7 @@ class WrappedCard extends StatelessWidget {
   final VoidCallback onTapStatusRollDebuff;
   final VoidCallback onTapStatusRollBuff;
   final VoidCallback onTapStatusProvocated;
-  
+
   final VoidCallback onClearStatusKdDebuff;
   final VoidCallback onClearStatusKdBuff;
   final VoidCallback onClearStatusRoped;
@@ -37,6 +37,7 @@ class WrappedCard extends StatelessWidget {
   final VoidCallback onClearStatusProvocated;
 
   const WrappedCard({
+    super.key,
     required this.character,
     required this.onPlus,
     required this.onMinus,
@@ -44,6 +45,7 @@ class WrappedCard extends StatelessWidget {
     required this.onSetHP,
     required this.onImageUpdate,
     required this.onEdit,
+    required this.onClose,
     required this.onChangeWrap,
     required this.onTapStatusKdDebuff,
     required this.onTapStatusKdBuff,
@@ -61,22 +63,30 @@ class WrappedCard extends StatelessWidget {
     required this.onClearStatusRollDebuff,
     required this.onClearStatusRollBuff,
     required this.onClearStatusProvocated,
+    required this.isWrapped,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        left: 16,
-        right: 16,
-        top: 16,
-        bottom: 12,
+        left: 14,
+        right: 14,
+        top: 12,
+        bottom: 14,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          ChatacterCardWindowNavigation(
+            onEdit: onEdit,
+            onChangeWrap: onChangeWrap,
+            onClose: onClose,
+            isWrapped: isWrapped,
+          ),
+          const SizedBox(height: 2),
           CharacterCardWrappedHeader(
             character: character,
             onPlus: onPlus,
@@ -114,40 +124,6 @@ class WrappedCard extends StatelessWidget {
               onClearStatusRollBuff: onClearStatusRollBuff,
               onClearStatusRollDebuff: onClearStatusRollDebuff,
             ),
-          ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 4.0),
-                child: InkWell(
-                  onTap: onEdit,
-                  child: Icon(
-                    Icons.edit,
-                    size: 16,
-                    color: ColorPalette.attKD.withOpacity(0.4),
-                  ),
-                ),
-              ),
-              const Spacer(),
-              InkWell(
-                onTap: onChangeWrap,
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.more_horiz,
-                      color: ColorPalette.fontBaseColor,
-                    )
-                  ],
-                ),
-              ),
-              const Spacer(),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 4.0),
-                child: SizedBox(width: 18),
-              ),
-            ],
           ),
         ],
       ),
