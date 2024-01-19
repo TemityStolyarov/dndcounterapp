@@ -1,4 +1,4 @@
-import 'package:dndcounterapp/components/character_card/character_description_blocks/stat_badges/mini_button.dart';
+import 'package:dndcounterapp/components/character_card/character_stat_blocks/stat_badges/mini_button.dart';
 import 'package:dndcounterapp/core/models/character.dart';
 import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:dndcounterapp/core/models/spell.dart';
@@ -195,3 +195,29 @@ List<Widget> convertSpellsToText({
   }
   return desc;
 }
+
+  String tryParseTypeToString(WeaponType? type) {
+    if (type == WeaponType.active) {
+      return 'a';
+    }
+    if (type == WeaponType.passive) {
+      return 'p';
+    }
+    if (type == WeaponType.usedWhen) {
+      return 'w';
+    }
+    return 'u';
+  }
+
+  WeaponType? tryParseStringToType(String text) {
+    if ('a'.contains(text)) {
+      return WeaponType.active;
+    }
+    if ('p'.contains(text)) {
+      return WeaponType.passive;
+    }
+    if ('w'.contains(text)) {
+      return WeaponType.usedWhen;
+    }
+    return WeaponType.usual;
+  }

@@ -2,6 +2,21 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 part 'weapon.g.dart';
 
+@HiveType(typeId: 4)
+enum WeaponType {
+  @HiveField(0)
+  usual,
+  @HiveField(1)
+  passive,
+  @HiveField(2)
+  active,
+  @HiveField(3)
+  usedWhen;
+
+  String toJson() => name;
+  static WeaponType fromJson(String json) => values.byName(json);
+}
+
 @HiveType(typeId: 1)
 class Weapon extends HiveObject {
   @HiveField(0)
@@ -16,6 +31,12 @@ class Weapon extends HiveObject {
   final int? kd;
   @HiveField(5)
   final int? kdPierceBuff;
+  @HiveField(6)
+  final int? dmgBuff;
+  @HiveField(7)
+  final WeaponType? type;
+  @HiveField(8)
+  final int? amount;
 
   Weapon({
     required this.name,
@@ -24,6 +45,9 @@ class Weapon extends HiveObject {
     this.dice,
     this.kd,
     this.kdPierceBuff,
+    this.dmgBuff,
+    this.type,
+    this.amount,
   });
 
   Weapon copyWith({
@@ -33,6 +57,9 @@ class Weapon extends HiveObject {
     int? dmg,
     int? kd,
     int? kdPierceBuff,
+    int? dmgBuff,
+    WeaponType? type,
+    int? amount,
   }) =>
       Weapon(
         name: name ?? this.name,
@@ -41,6 +68,9 @@ class Weapon extends HiveObject {
         dmg: dmg ?? this.dmg,
         kd: kd ?? this.kd,
         kdPierceBuff: kdPierceBuff ?? this.kdPierceBuff,
+        dmgBuff: dmgBuff ?? this.dmgBuff,
+        type: type ?? this.type,
+        amount: amount ?? this.amount,
       );
 
   Map<String, dynamic> toJson() {
@@ -51,17 +81,26 @@ class Weapon extends HiveObject {
       'dmg': dmg,
       'kd': kd,
       'kdPierceBuff': kdPierceBuff,
+      'dmgBuff': dmgBuff,
+      'type': type == null ? WeaponType.usual.toJson() : type!.toJson(),
+      'amount': amount,
     };
   }
 
   factory Weapon.fromJson(Map<String, dynamic> json) {
+    var typeJson = json['type'] as dynamic;
+    WeaponType typeParsed =
+        typeJson != null ? WeaponType.fromJson(typeJson) : WeaponType.usual;
     return Weapon(
       name: json['name'],
-      description: json['description'],
-      dice: json['dice'],
-      dmg: json['dmg'],
-      kd: json['kd'],
-      kdPierceBuff: json['kdPierceBuff'],
+      description: json['description'] ?? '',
+      dice: json['dice'] ?? 0,
+      dmg: json['dmg'] ?? 0,
+      kd: json['kd'] ?? 0,
+      kdPierceBuff: json['kdPierceBuff'] ?? 0,
+      dmgBuff: json['dmgBuff'] ?? 0,
+      type: typeParsed,
+      amount: json['amount'] ?? 0,
     );
   }
 }

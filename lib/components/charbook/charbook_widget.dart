@@ -4,7 +4,6 @@ import 'package:dndcounterapp/components/character_card/character_modal/characte
 import 'package:dndcounterapp/components/character_card/character_modal/character_edit_modal.dart';
 import 'package:dndcounterapp/components/character_card/character_modal/image_update_modal.dart';
 import 'package:dndcounterapp/components/character_card/character_modal/inventory_add_modal.dart';
-import 'package:dndcounterapp/components/character_card/character_modal/inventory_edit_modal.dart';
 import 'package:dndcounterapp/components/character_card/character_modal/set_hp_modal.dart';
 import 'package:dndcounterapp/components/character_card/character_modal/spell_add_modal.dart';
 import 'package:dndcounterapp/components/character_card/character_modal/spell_edit_modal.dart';
@@ -45,6 +44,8 @@ class CharbookWidget extends StatelessWidget {
             charbookIndex: charbookIndex,
             index: index,
             onUpdateScreen: onUpdateScreen,
+            onChangingModifierValue: onUpdateScreen,
+            onEditItem: onUpdateScreen,
             onTapStatusKdDebuff: () {
               final statusEffectModal = StatusEffectModal(
                 charbookBox: charbookBox,
@@ -207,7 +208,6 @@ class CharbookWidget extends StatelessWidget {
               );
               setHpModal.show(context);
             },
-            onChangingModifierValue: onUpdateScreen,
             onImageUpdate: () {
               final imageUpdateModal = ImageUpdateModal(
                 charbookBox: charbookBox,
@@ -228,17 +228,17 @@ class CharbookWidget extends StatelessWidget {
               );
               inventoryAddModal.show(context);
             },
-            onInventoryEditModalOpen: () {
-              final inventoryEditModal = InventoryEditModal(
-                charbookBox: charbookBox,
-                charbooks: charbooks,
-                charbookIndex: charbookIndex,
-                index: index,
-                onEditItem: onUpdateScreen,
-                onDeleteItem: onUpdateScreen,
-              );
-              inventoryEditModal.show(context);
-            },
+            // onInventoryEditModalOpen: () {
+            //   final inventoryEditModal = InventoryEditModal(
+            //     charbookBox: charbookBox,
+            //     charbooks: charbooks,
+            //     charbookIndex: charbookIndex,
+            //     index: index,
+            //     onEditItem: onUpdateScreen,
+            //     onDeleteItem: onUpdateScreen,
+            //   );
+            //   inventoryEditModal.show(context);
+            // },
             onSpellAddModalOpen: () {
               final spellAddModal = SpellAddModal(
                 charbookBox: charbookBox,

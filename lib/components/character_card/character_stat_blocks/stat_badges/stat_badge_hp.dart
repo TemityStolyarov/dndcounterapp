@@ -1,4 +1,4 @@
-import 'package:dndcounterapp/components/character_card/character_description_blocks/stat_badges/stat_badge_ar.dart';
+import 'package:dndcounterapp/components/character_card/character_stat_blocks/stat_badges/stat_badge_ar.dart';
 import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
 import 'package:flutter/material.dart';
 
@@ -91,9 +91,11 @@ class StatBadgeHP extends StatBadgeAR {
                     ],
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 2,
-                      horizontal: 4,
+                    padding: const EdgeInsets.only(
+                      top: 2,
+                      bottom: 3,
+                      left: 4,
+                      right: 4,
                     ),
                     child: Text(
                       info,
@@ -101,8 +103,7 @@ class StatBadgeHP extends StatBadgeAR {
                       style: const TextStyle(
                         color: ColorPalette.cardColor,
                         fontWeight: FontWeight.w500,
-                        height: 14 / 12,
-                        fontSize: 14,
+                        fontSize: 12,
                       ),
                     ),
                   ),

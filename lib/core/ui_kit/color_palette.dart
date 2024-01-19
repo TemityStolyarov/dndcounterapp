@@ -54,13 +54,24 @@ class ColorPalette {
 
   static const statusKdDebuffBackground40 = Color.fromARGB(102, 255, 226, 226);
   static const statusKdBuffBackground40 = Color.fromARGB(102, 251, 228, 193);
-  static const statusProvocatedBackground40 = Color.fromARGB(102, 251, 245, 193);
+  static const statusProvocatedBackground40 =
+      Color.fromARGB(102, 251, 245, 193);
   static const statusRopedBackground40 = Color.fromARGB(102, 248, 255, 202);
   static const statusDmgBuffBackground40 = Color.fromARGB(102, 221, 251, 220);
   static const statusFreezedBackground40 = Color.fromARGB(102, 226, 243, 255);
-  static const statusRollDebuffBackground40 = Color.fromARGB(102, 255, 226, 226);
+  static const statusRollDebuffBackground40 =
+      Color.fromARGB(102, 255, 226, 226);
   static const statusRollBuffBackground40 = Color.fromARGB(102, 251, 228, 193);
 
   static const statusInitiativeLabel = Color(0xFF6C0BB8);
   static const statusInitiativeBackground = Color(0xFFF6E2FF);
+
+  static const badgeDmgLabel = Color.fromARGB(255, 127, 28, 6);
+  static const badgeDmgBackground = Color(0xFFE9C3A8);
+  static const badgeDmgBuffLabel = Color(0xFF965C19);
+  static const badgeDmgBuffBackground = Color(0xFFE9D3A8);
+  static const badgeKdLabel = Color(0xFF414242);
+  static const badgeKdBackground = Color(0xFFD9D9D9);
+  static const badgeHitLabel = Color(0xFF0E6673);
+  static const badgeHitBackground = Color(0xFFC7DBDE);
 }

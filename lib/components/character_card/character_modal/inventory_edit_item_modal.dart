@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:dndcounterapp/core/helpers.dart';
 import 'package:dndcounterapp/core/models/character.dart';
 import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:dndcounterapp/core/models/weapon.dart';
@@ -42,8 +45,25 @@ class InventoryEditItemModal {
         dice.text = editingItem.dice != null ? editingItem.dice.toString() : '';
         final dmg = TextEditingController();
         dmg.text = editingItem.dmg != null ? editingItem.dmg.toString() : '';
+        final dmgBuff = TextEditingController();
+        dmgBuff.text =
+            editingItem.dmgBuff != null ? editingItem.dmgBuff.toString() : '';
         final kd = TextEditingController();
         kd.text = editingItem.kd != null ? editingItem.kd.toString() : '';
+        final kdPierceBuff = TextEditingController();
+        kdPierceBuff.text = editingItem.kdPierceBuff != null
+            ? editingItem.kdPierceBuff.toString()
+            : '';
+        final type = TextEditingController();
+        type.text = tryParseTypeToString(editingItem.type);
+        final amount = TextEditingController();
+        amount.text =
+            editingItem.amount != null ? editingItem.amount.toString() : '1';
+        final ctrJSON = TextEditingController();
+        ctrJSON.text = jsonEncode(charbooks[charbookIndex]
+            .chars[index]
+            .inventory[itemIndex]
+            .toJson());
 
         return AlertDialog(
           title: const Text('Редактирование предмета'),
@@ -125,10 +145,10 @@ class InventoryEditItemModal {
                     width: 180,
                     child: TextField(
                       autofocus: true,
-                      controller: kd,
+                      controller: dmgBuff,
                       decoration: const InputDecoration(
                         labelStyle: TextStyle(fontSize: 14),
-                        labelText: 'КД',
+                        labelText: 'Бонус к урону',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(12),
@@ -139,21 +159,156 @@ class InventoryEditItemModal {
                   ),
                 ],
               ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 233,
+                    child: TextField(
+                      autofocus: true,
+                      controller: kd,
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(fontSize: 14),
+                        labelText: 'Бонус к КД',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 24),
+                  SizedBox(
+                    width: 233,
+                    child: TextField(
+                      autofocus: true,
+                      controller: kdPierceBuff,
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(fontSize: 14),
+                        labelText: 'Бонус к попаданию',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 233,
+                    child: TextField(
+                      autofocus: true,
+                      controller: type,
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(fontSize: 14),
+                        labelText: 'Тип (act/pass/when)',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 24),
+                  SizedBox(
+                    width: 233,
+                    child: TextField(
+                      autofocus: true,
+                      controller: amount,
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(fontSize: 14),
+                        labelText: 'Количество',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                width: 490,
+                child: TextField(
+                  autofocus: true,
+                  controller: ctrJSON,
+                  decoration: const InputDecoration(
+                    labelStyle: TextStyle(fontSize: 14),
+                    labelText: 'JSON-код',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(12),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                final newItem = Weapon(
+                List<Weapon> newInventory =
+                    charbooks[charbookIndex].chars[index].inventory;
+                newInventory.removeAt(itemIndex);
+
+                Character char = charbooks[charbookIndex].chars[index].copyWith(
+                      inventory: newInventory,
+                    );
+
+                List<Character> newCharList = charbooks[charbookIndex].chars;
+                newCharList[index] = char;
+
+                final CharBook updatedCharbook =
+                    charbooks[charbookIndex].copyWith(
+                  chars: newCharList,
+                );
+                charbookBox.putAt(charbookIndex, updatedCharbook);
+
+                _updateScreen();
+                name.dispose();
+                description.dispose();
+                dmg.dispose();
+                dmgBuff.dispose();
+                dice.dispose();
+                kd.dispose();
+                kdPierceBuff.dispose();
+                amount.dispose();
+                type.dispose();
+
+                Navigator.of(context).pop();
+              },
+              child: const Text('Удалить'),
+            ),
+            const SizedBox(width: 276),
+            TextButton(
+              onPressed: () {
+                final editedItem = Weapon(
                   name: name.text,
                   description: description.text,
                   dmg: dmg.text.isEmpty ? null : int.parse(dmg.text),
                   dice: dice.text.isEmpty ? null : int.parse(dice.text),
                   kd: kd.text.isEmpty ? null : int.parse(kd.text),
+                  amount: amount.text.isEmpty ? null : int.parse(amount.text),
+                  dmgBuff:
+                      dmgBuff.text.isEmpty ? null : int.parse(dmgBuff.text),
+                  kdPierceBuff: kdPierceBuff.text.isEmpty
+                      ? null
+                      : int.parse(kdPierceBuff.text),
+                  type: tryParseStringToType(type.text),
                 );
 
                 List<Character> charList = charbooks[charbookIndex].chars;
-                charList[index].inventory[itemIndex] = newItem;
+                charList[index].inventory[itemIndex] = editedItem;
                 final CharBook updatedCharbook =
                     charbooks[charbookIndex].copyWith(chars: charList);
                 charbookBox.putAt(charbookIndex, updatedCharbook);
@@ -162,8 +317,12 @@ class InventoryEditItemModal {
                 name.dispose();
                 description.dispose();
                 dmg.dispose();
+                dmgBuff.dispose();
                 dice.dispose();
                 kd.dispose();
+                kdPierceBuff.dispose();
+                amount.dispose();
+                type.dispose();
 
                 Navigator.of(context).pop();
               },

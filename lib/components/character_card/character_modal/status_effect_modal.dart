@@ -147,7 +147,7 @@ class StatusEffectModal {
 
   void _updateScreen() {
     onEdit();
-    print('Status effect ${statusEffectLabel} updated!');
+    print('Status effect $statusEffectLabel updated!');
   }
 
   Character _setStatusEffectByName(

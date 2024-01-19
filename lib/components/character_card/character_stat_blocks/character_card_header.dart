@@ -1,6 +1,6 @@
-import 'package:dndcounterapp/components/character_card/character_description_blocks/stat_badges/mini_button.dart';
-import 'package:dndcounterapp/components/character_card/character_description_blocks/stat_badges/stat_badge_ar.dart';
-import 'package:dndcounterapp/components/character_card/character_description_blocks/stat_badges/stat_badge_hp.dart';
+import 'package:dndcounterapp/components/character_card/character_stat_blocks/stat_badges/mini_button.dart';
+import 'package:dndcounterapp/components/character_card/character_stat_blocks/stat_badges/stat_badge_ar.dart';
+import 'package:dndcounterapp/components/character_card/character_stat_blocks/stat_badges/stat_badge_hp.dart';
 import 'package:dndcounterapp/core/helpers.dart';
 import 'package:dndcounterapp/core/models/character.dart';
 import 'package:dndcounterapp/core/models/weapon.dart';
@@ -36,27 +36,24 @@ class CharacterCardHeader extends StatelessWidget {
         children: [
           InkWell(
             onTap: onImageUpdate,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: GestureDetector(
-                onTap: onImageUpdate,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: SizedBox(
-                    width: 44,
-                    height: 44,
-                    child: Image.network(
-                      character.imageUrl,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return DecoratedBox(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: ColorPalette.cubeRolling.withOpacity(0.2),
-                          ),
-                        );
-                      },
-                    ),
+            child: GestureDetector(
+              onTap: onImageUpdate,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: Image.network(
+                    character.imageUrl,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return DecoratedBox(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: ColorPalette.cubeRolling.withOpacity(0.2),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),
@@ -73,7 +70,7 @@ class CharacterCardHeader extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontWeight: FontWeight.w500,
-                    fontSize: 16,
+                    fontSize: 14,
                   ),
                 ),
               ),

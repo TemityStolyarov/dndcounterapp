@@ -1,8 +1,9 @@
 import 'package:dndcounterapp/components/character_card/character_card_window_navigation.dart';
-import 'package:dndcounterapp/components/character_card/character_description_blocks/character_attr_badges.dart';
-import 'package:dndcounterapp/components/character_card/character_description_blocks/character_card_wrapped_header.dart';
-import 'package:dndcounterapp/components/character_card/character_description_blocks/stat_badges/status_effects_row.dart';
+import 'package:dndcounterapp/components/character_card/character_stat_blocks/character_attr_badges_wrapped.dart';
+import 'package:dndcounterapp/components/character_card/character_stat_blocks/character_card_wrapped_header.dart';
+import 'package:dndcounterapp/components/character_card/character_stat_blocks/status_effects/status_effects_row.dart';
 import 'package:dndcounterapp/core/models/character.dart';
+import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
 import 'package:flutter/material.dart';
 
 class WrappedCard extends StatelessWidget {
@@ -96,8 +97,13 @@ class WrappedCard extends StatelessWidget {
             onImageUpdate: onImageUpdate,
           ),
           const SizedBox(height: 4),
-          CharacterAttrBadges(
+          CharacterAttrBadgesWrapped(
             character: character,
+            textStyle: const TextStyle(
+              fontSize: 12,
+              color: ColorPalette.cardColor,
+              fontWeight: FontWeight.w500,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(

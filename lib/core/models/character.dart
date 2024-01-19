@@ -67,10 +67,14 @@ class Character extends HiveObject {
   @HiveField(26)
   final String? statusProvocated;
 
+  @HiveField(27)
+  final String? mechanics;
+
   Character({
     required this.race,
     required this.crClass,
     required this.description,
+    required this.mechanics,
     required this.inventory,
     required this.spells,
     required this.strength,
@@ -101,6 +105,7 @@ class Character extends HiveObject {
     this.race = '',
     this.crClass = '',
     this.description = '',
+    this.mechanics = '',
     this.inventory = const [],
     this.spells = const [],
     this.strength = 0,
@@ -140,6 +145,7 @@ class Character extends HiveObject {
     int? charisma,
     int? wisdom,
     String? description,
+    String? mechanics,
     List<Weapon>? inventory,
     List<Spell>? spells,
     int? hpModifier,
@@ -160,6 +166,7 @@ class Character extends HiveObject {
         race: race ?? this.race,
         crClass: crClass ?? this.crClass,
         description: description ?? this.description,
+        mechanics: mechanics ?? this.mechanics,
         inventory: inventory ?? this.inventory,
         spells: spells ?? this.spells,
         strength: strength ?? this.strength,
@@ -201,6 +208,7 @@ class Character extends HiveObject {
       'charisma': charisma,
       'wisdom': wisdom,
       'description': description,
+      'mechanics': mechanics,
       'inventory': inventory.map((item) => item.toJson()).toList(),
       'spells': spells.map((spell) => spell.toJson()).toList(),
       'hpModifier': hpModifier,
@@ -243,6 +251,7 @@ class Character extends HiveObject {
       charisma: json['charisma'],
       wisdom: json['wisdom'],
       description: json['description'],
+      mechanics: json['mechanics'] ?? '',
       inventory: weaponParsed,
       spells: spellsParsed,
       hpModifier: json['hpModifier'],

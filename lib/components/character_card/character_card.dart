@@ -15,6 +15,7 @@ class CharacterCard extends StatefulWidget {
   final int index;
 
   final VoidCallback onEdit;
+  final VoidCallback onEditItem;
   final VoidCallback onClose;
   final VoidCallback onPlus;
   final VoidCallback onMinus;
@@ -23,7 +24,6 @@ class CharacterCard extends StatefulWidget {
   final VoidCallback onImageUpdate;
   final VoidCallback onChangingModifierValue;
   final VoidCallback onInventoryAddModalOpen;
-  final VoidCallback onInventoryEditModalOpen;
   final VoidCallback onSpellAddModalOpen;
   final VoidCallback onSpellEditModalOpen;
   final VoidCallback onUpdateScreen;
@@ -53,7 +53,6 @@ class CharacterCard extends StatefulWidget {
     required this.onImageUpdate,
     required this.onChangingModifierValue,
     required this.onInventoryAddModalOpen,
-    required this.onInventoryEditModalOpen,
     required this.onSpellAddModalOpen,
     required this.onSpellEditModalOpen,
     required this.onUpdateScreen,
@@ -64,7 +63,7 @@ class CharacterCard extends StatefulWidget {
     required this.onTapStatusFreezed,
     required this.onTapStatusRollDebuff,
     required this.onTapStatusRollBuff,
-    required this.onTapStatusProvocated,
+    required this.onTapStatusProvocated, required this.onEditItem,
   });
 
   @override
@@ -112,7 +111,7 @@ class _CharacterCardState extends State<CharacterCard> {
         ),
         child: isWrapped
             ? SizedBox(
-                width: 389,
+                width: 400,
                 child: WrappedCard(
                   character: widget
                       .charbooks[widget.charbookIndex].chars[widget.index],
@@ -143,9 +142,11 @@ class _CharacterCardState extends State<CharacterCard> {
                   onClearStatusProvocated: _onClearStatusProvocated,
                 ),
               )
-            : SizedBox(
-                width: 810,
-                child: UnwrappedCard(
+            : UnwrappedCard(
+                  charbookBox: widget.charbookBox,
+                  charbooks: widget.charbooks,
+                  charbookIndex: widget.charbookIndex,
+                  index: widget.index,
                   character: widget
                       .charbooks[widget.charbookIndex].chars[widget.index],
                   isWrapped: isWrapped,
@@ -155,10 +156,10 @@ class _CharacterCardState extends State<CharacterCard> {
                   onSetHP: widget.onSetHP,
                   onImageUpdate: widget.onImageUpdate,
                   onEdit: widget.onEdit,
+                  onEditItem: widget.onEditItem,
                   onClose: widget.onClose,
                   onChangeWrap: onChangeWrap,
                   onInventoryAddModalOpen: widget.onInventoryAddModalOpen,
-                  onInventoryEditModalOpen: widget.onInventoryEditModalOpen,
                   onSpellAddModalOpen: widget.onSpellAddModalOpen,
                   onSpellEditModalOpen: widget.onSpellEditModalOpen,
                   inventoryDescription: convertWeaponToText(
@@ -193,7 +194,6 @@ class _CharacterCardState extends State<CharacterCard> {
                   onClearStatusRollBuff: _onClearStatusRollBuff,
                   onClearStatusProvocated: _onClearStatusProvocated,
                 ),
-              ),
       ),
     );
   }
