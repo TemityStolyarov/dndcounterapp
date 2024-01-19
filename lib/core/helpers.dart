@@ -39,49 +39,6 @@ String uppercaseFirst(String? string) {
   return result;
 }
 
-List<Widget> convertWeaponToText(List<Weapon> inventory) {
-  List<Widget> desc = [];
-  for (Weapon item in inventory) {
-    String itemDesc = '';
-    if (item.dice != null && item.kd == null) {
-      itemDesc += '${item.dice}d${item.dmg} урона ';
-    }
-
-    if (item.kd != null && item.dice == null) {
-      itemDesc += 'Дает ${!item.kd!.isNegative ? '+' : ''}${item.kd} к защите ';
-    }
-
-    if (item.dice != null && item.kd != null) {
-      itemDesc +=
-          '${item.dice}d${item.dmg} урона, дает ${!item.kd!.isNegative ? '+' : ''}${item.kd} к защите ';
-    }
-
-    if ((item.dice != null && item.dmg != null) &&
-        item.description != null &&
-        item.description != '') {
-      itemDesc += '(${item.description})';
-    }
-
-    if ((item.dice == null && item.dmg == null) &&
-        item.description != null &&
-        item.description != '') {
-      itemDesc += uppercaseFirst(item.description);
-    }
-
-    desc.add(
-      Text(
-        item.name,
-        style: const TextStyle(fontWeight: FontWeight.w500),
-      ),
-    );
-    if (itemDesc.isNotEmpty) {
-      desc.add(Text(itemDesc));
-    }
-    desc.add(const SizedBox(height: 8));
-  }
-  return desc;
-}
-
 List<Widget> convertSpellsToText({
   required List<Spell> spells,
   required int index,
@@ -196,7 +153,7 @@ List<Widget> convertSpellsToText({
   return desc;
 }
 
-  String tryParseTypeToString(WeaponType? type) {
+  String tryParseWeaponTypeToString(WeaponType? type) {
     if (type == WeaponType.active) {
       return 'a';
     }
@@ -209,7 +166,23 @@ List<Widget> convertSpellsToText({
     return 'u';
   }
 
-  WeaponType? tryParseStringToType(String text) {
+  String tryParseSpellTypeToString(SpellType? type) {
+    if (type == SpellType.active) {
+      return 'a';
+    }
+    if (type == SpellType.passive) {
+      return 'p';
+    }
+    if (type == SpellType.usedWhen) {
+      return 'w';
+    }
+    if (type == SpellType.mechanics) {
+      return 'm';
+    }
+    return 'u';
+  }
+
+  WeaponType? tryParseStringToWeaponType(String text) {
     if ('a'.contains(text)) {
       return WeaponType.active;
     }
@@ -220,4 +193,20 @@ List<Widget> convertSpellsToText({
       return WeaponType.usedWhen;
     }
     return WeaponType.usual;
+  }
+
+  SpellType? tryParseStringToSpellType(String text) {
+    if ('a'.contains(text)) {
+      return SpellType.active;
+    }
+    if ('p'.contains(text)) {
+      return SpellType.passive;
+    }
+    if ('w'.contains(text)) {
+      return SpellType.usedWhen;
+    }
+    if ('m'.contains(text)) {
+      return SpellType.mechanics;
+    }
+    return SpellType.usual;
   }

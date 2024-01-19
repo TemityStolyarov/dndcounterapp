@@ -1,3 +1,4 @@
+import 'package:dndcounterapp/core/helpers.dart';
 import 'package:dndcounterapp/core/models/character.dart';
 import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:dndcounterapp/core/models/spell.dart';
@@ -52,6 +53,8 @@ class SpellEditSpellModal {
             : '';
         final energyDescription = TextEditingController();
         energyDescription.text = editingSpell.energyDescription ?? '';
+        final type = TextEditingController();
+        type.text = tryParseSpellTypeToString(editingSpell.type);
 
         return AlertDialog(
           title: const Text('Редактирование заклинания'),
@@ -80,7 +83,7 @@ class SpellEditSpellModal {
                 child: TextField(
                   autofocus: true,
                   controller: description,
-                  maxLines: 3,
+                  maxLines: 6,
                   decoration: const InputDecoration(
                     labelStyle: TextStyle(fontSize: 14),
                     labelText: 'Описание',
@@ -168,13 +171,30 @@ class SpellEditSpellModal {
                   ),
                   const SizedBox(width: 10),
                   SizedBox(
-                    width: 380,
+                    width: 180,
                     child: TextField(
                       autofocus: true,
                       controller: energyDescription,
                       decoration: const InputDecoration(
                         labelStyle: TextStyle(fontSize: 14),
                         labelText: 'Описание энергии',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  SizedBox(
+                    width: 180,
+                    child: TextField(
+                      autofocus: true,
+                      controller: type,
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(fontSize: 14),
+                        labelText: 'Тип (A/P/W/M/U)',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(12),
@@ -190,6 +210,40 @@ class SpellEditSpellModal {
           actions: <Widget>[
             TextButton(
               onPressed: () {
+                List<Spell> newSpells =
+                    charbooks[charbookIndex].chars[index].spells;
+                newSpells.removeAt(spellIndex);
+
+                Character char = charbooks[charbookIndex].chars[index].copyWith(
+                      spells: newSpells,
+                    );
+
+                List<Character> newCharList = charbooks[charbookIndex].chars;
+                newCharList[index] = char;
+
+                final CharBook updatedCharbook =
+                    charbooks[charbookIndex].copyWith(
+                  chars: newCharList,
+                );
+                charbookBox.putAt(charbookIndex, updatedCharbook);
+
+                _updateScreen();
+                name.dispose();
+                description.dispose();
+                dmg.dispose();
+                dice.dispose();
+                cast.dispose();
+                energyOnCast.dispose();
+                energyDescription.dispose();
+                type.dispose();
+
+                Navigator.of(context).pop();
+              },
+              child: const Text('Удалить'),
+            ),
+            const SizedBox(width: 276),
+            TextButton(
+              onPressed: () {
                 final newSpell = Spell(
                   name: name.text,
                   description: description.text,
@@ -203,6 +257,7 @@ class SpellEditSpellModal {
                   energyDescription: energyDescription.text.isEmpty
                       ? null
                       : energyDescription.text,
+                  type: tryParseStringToSpellType(type.text),
                 );
 
                 List<Character> charList = charbooks[charbookIndex].chars;
@@ -219,6 +274,7 @@ class SpellEditSpellModal {
                 cast.dispose();
                 energyOnCast.dispose();
                 energyDescription.dispose();
+                type.dispose();
                 Navigator.of(context).pop();
               },
               child: const Text('Готово'),

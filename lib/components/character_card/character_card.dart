@@ -162,10 +162,6 @@ class _CharacterCardState extends State<CharacterCard> {
                   onInventoryAddModalOpen: widget.onInventoryAddModalOpen,
                   onSpellAddModalOpen: widget.onSpellAddModalOpen,
                   onSpellEditModalOpen: widget.onSpellEditModalOpen,
-                  inventoryDescription: convertWeaponToText(
-                    widget.charbooks[widget.charbookIndex].chars[widget.index]
-                        .inventory,
-                  ),
                   spellsDescription: convertSpellsToText(
                     spells: widget.charbooks[widget.charbookIndex]
                         .chars[widget.index].spells,

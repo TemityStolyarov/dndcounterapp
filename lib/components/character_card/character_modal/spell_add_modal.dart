@@ -1,3 +1,4 @@
+import 'package:dndcounterapp/core/helpers.dart';
 import 'package:dndcounterapp/core/models/character.dart';
 import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:dndcounterapp/core/models/spell.dart';
@@ -30,6 +31,7 @@ class SpellAddModal {
         final cast = TextEditingController();
         final energyOnCast = TextEditingController();
         final energyDescription = TextEditingController();
+        final type = TextEditingController();
 
         return AlertDialog(
           title: const Text('Добавление заклинания'),
@@ -146,13 +148,30 @@ class SpellAddModal {
                   ),
                   const SizedBox(width: 10),
                   SizedBox(
-                    width: 380,
+                    width: 180,
                     child: TextField(
                       autofocus: true,
                       controller: energyDescription,
                       decoration: const InputDecoration(
                         labelStyle: TextStyle(fontSize: 14),
                         labelText: 'Описание энергии',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  SizedBox(
+                    width: 180,
+                    child: TextField(
+                      autofocus: true,
+                      controller: type,
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(fontSize: 14),
+                        labelText: 'Тип (A/P/W/M/U)',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(12),
@@ -181,6 +200,9 @@ class SpellAddModal {
                   energyDescription: energyDescription.text.isEmpty
                       ? null
                       : energyDescription.text,
+                      type: type.text.isEmpty
+                        ? SpellType.usual
+                        : tryParseStringToSpellType(type.text),
                 );
 
                 List<Character> charList = charbooks[charbookIndex].chars;
@@ -199,6 +221,7 @@ class SpellAddModal {
                 cast.dispose();
                 energyOnCast.dispose();
                 energyDescription.dispose();
+                type.dispose();
                 Navigator.of(context).pop();
               },
               child: const Text('Добавить'),

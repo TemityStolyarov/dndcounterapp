@@ -62,6 +62,7 @@ class ChatacterWeaponListItem extends StatelessWidget {
                     showKd: showKd,
                     showHit: showHit,
                   ),
+                  if (showDescription) const SizedBox(height: 2),
                   if (showDescription)
                     _WeaponDescription(
                       weapon: weapon,

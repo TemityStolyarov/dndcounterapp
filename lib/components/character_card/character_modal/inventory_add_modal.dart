@@ -180,7 +180,7 @@ class InventoryAddModal {
                       controller: type,
                       decoration: const InputDecoration(
                         labelStyle: TextStyle(fontSize: 14),
-                        labelText: 'Тип (a/p/w/u)',
+                        labelText: 'Тип (A/P/W/U)',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(12),
@@ -244,7 +244,7 @@ class InventoryAddModal {
                         : int.parse(kdPierceBuff.text),
                     type: type.text.isEmpty
                         ? WeaponType.usual
-                        : tryParseStringToType(type.text),
+                        : tryParseStringToWeaponType(type.text),
                   );
 
                   List<Character> charList = charbooks[charbookIndex].chars;

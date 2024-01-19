@@ -3,6 +3,7 @@ import 'package:dndcounterapp/components/character_card/character_stat_blocks/ch
 import 'package:dndcounterapp/components/character_card/character_stat_blocks/character_card_header.dart';
 import 'package:dndcounterapp/components/character_card/character_stat_blocks/status_effects/status_effects_row.dart';
 import 'package:dndcounterapp/components/character_card/description/character_description.dart';
+import 'package:dndcounterapp/components/character_card/spells/spell_list.dart';
 import 'package:dndcounterapp/components/character_card/weapons/weapon_list.dart';
 import 'package:dndcounterapp/core/models/character.dart';
 import 'package:dndcounterapp/core/models/charbook.dart';
@@ -23,7 +24,6 @@ class UnwrappedCard extends StatelessWidget {
   final VoidCallback onEditItem;
   final VoidCallback onChangeWrap;
   final VoidCallback onInventoryAddModalOpen;
-  final List<Widget> inventoryDescription;
   final VoidCallback onSpellEditModalOpen;
   final VoidCallback onSpellAddModalOpen;
   final List<Widget> spellsDescription;
@@ -63,7 +63,6 @@ class UnwrappedCard extends StatelessWidget {
     required this.onEdit,
     required this.onChangeWrap,
     required this.onInventoryAddModalOpen,
-    required this.inventoryDescription,
     required this.onSpellEditModalOpen,
     required this.onSpellAddModalOpen,
     required this.spellsDescription,
@@ -177,6 +176,47 @@ class UnwrappedCard extends StatelessWidget {
               characterIndex: index,
               onEditItem: onEditItem,
             ),
+            const SizedBox(height: 2),
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Книга заклинаний: ',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const Spacer(),
+                  InkWell(
+                    onTap: onSpellEditModalOpen,
+                    child: const Icon(
+                      Icons.edit,
+                      size: 16,
+                      color: ColorPalette.attKD,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  InkWell(
+                    onTap: onSpellAddModalOpen,
+                    child: const Icon(
+                      Icons.add_box_outlined,
+                      size: 18,
+                      color: ColorPalette.attKD,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            CharacterSpellList(
+              spells: character.spells,
+              charbookBox: charbookBox,
+              charbooks: charbooks,
+              charbookIndex: charbookIndex,
+              characterIndex: index,
+              onEditItem: onEditItem,
+            ),
             // OLD TODO: remove
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -188,38 +228,6 @@ class UnwrappedCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 4),
-                      Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              'Книга заклинаний: ',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            const Spacer(),
-                            InkWell(
-                              onTap: onSpellEditModalOpen,
-                              child: const Icon(
-                                Icons.edit,
-                                size: 16,
-                                color: ColorPalette.attKD,
-                              ),
-                            ),
-                            const SizedBox(width: 4),
-                            InkWell(
-                              onTap: onSpellAddModalOpen,
-                              child: const Icon(
-                                Icons.add_box_outlined,
-                                size: 18,
-                                color: ColorPalette.attKD,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
                       character.spells.isEmpty
                           ? const SizedBox.shrink()
                           : Padding(

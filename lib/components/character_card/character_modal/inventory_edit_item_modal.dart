@@ -55,7 +55,7 @@ class InventoryEditItemModal {
             ? editingItem.kdPierceBuff.toString()
             : '';
         final type = TextEditingController();
-        type.text = tryParseTypeToString(editingItem.type);
+        type.text = tryParseWeaponTypeToString(editingItem.type);
         final amount = TextEditingController();
         amount.text =
             editingItem.amount != null ? editingItem.amount.toString() : '1';
@@ -92,7 +92,7 @@ class InventoryEditItemModal {
                 child: TextField(
                   autofocus: true,
                   controller: description,
-                  maxLines: 3,
+                  maxLines: 5,
                   decoration: const InputDecoration(
                     labelStyle: TextStyle(fontSize: 14),
                     labelText: 'Описание',
@@ -207,7 +207,7 @@ class InventoryEditItemModal {
                       controller: type,
                       decoration: const InputDecoration(
                         labelStyle: TextStyle(fontSize: 14),
-                        labelText: 'Тип (act/pass/when)',
+                        labelText: 'Тип (A/P/W/U)',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(12),
@@ -304,7 +304,7 @@ class InventoryEditItemModal {
                   kdPierceBuff: kdPierceBuff.text.isEmpty
                       ? null
                       : int.parse(kdPierceBuff.text),
-                  type: tryParseStringToType(type.text),
+                  type: tryParseStringToWeaponType(type.text),
                 );
 
                 List<Character> charList = charbooks[charbookIndex].chars;
