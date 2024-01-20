@@ -6,6 +6,8 @@ class StatBadge extends StatelessWidget {
   final String info;
   final Color color;
   final bool isEnabled;
+  final TextStyle? textStyle;
+  final TextStyle? textLabelStyle;
 
   const StatBadge({
     super.key,
@@ -13,6 +15,8 @@ class StatBadge extends StatelessWidget {
     required this.info,
     required this.color,
     required this.isEnabled,
+    this.textStyle,
+    this.textLabelStyle,
   });
 
   @override
@@ -40,10 +44,11 @@ class StatBadge extends StatelessWidget {
               const Spacer(),
               Text(
                 label ?? '',
-                style: const TextStyle(
-                  fontSize: 12,
-                  height: 14 / 12,
-                ),
+                style: textLabelStyle ??
+                    const TextStyle(
+                      fontSize: 12,
+                      height: 14 / 12,
+                    ),
                 textAlign: TextAlign.start,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -61,16 +66,16 @@ class StatBadge extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: 2,
-                    horizontal: 4,
                   ),
                   child: Text(
                     info,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: ColorPalette.cardColor,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: textStyle ??
+                        const TextStyle(
+                          fontSize: 14,
+                          color: ColorPalette.cardColor,
+                          fontWeight: FontWeight.w500,
+                        ),
                   ),
                 ),
               ),

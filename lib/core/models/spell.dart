@@ -2,6 +2,23 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 part 'spell.g.dart';
 
+@HiveType(typeId: 5)
+enum SpellType {
+  @HiveField(0)
+  usual,
+  @HiveField(1)
+  passive,
+  @HiveField(2)
+  active,
+  @HiveField(3)
+  usedWhen,
+  @HiveField(4)
+  mechanics;
+
+  String toJson() => name;
+  static SpellType fromJson(String json) => values.byName(json);
+}
+
 @HiveType(typeId: 2)
 class Spell extends HiveObject {
   @HiveField(0)
@@ -20,6 +37,8 @@ class Spell extends HiveObject {
   final int? energyOnCast;
   @HiveField(7)
   final String? energyDescription;
+  @HiveField(8)
+  final SpellType? type;
 
   Spell({
     required this.name,
@@ -30,6 +49,7 @@ class Spell extends HiveObject {
     this.castModifier,
     this.energyOnCast,
     this.energyDescription,
+    this.type,
   });
 
   Spell copyWith({
@@ -41,6 +61,7 @@ class Spell extends HiveObject {
     int? castModifier,
     int? energyOnCast,
     String? energyDescription,
+    SpellType? type,
   }) =>
       Spell(
         name: name ?? this.name,
@@ -51,6 +72,7 @@ class Spell extends HiveObject {
         castModifier: castModifier ?? this.castModifier,
         energyOnCast: energyOnCast ?? this.energyOnCast,
         energyDescription: energyDescription ?? this.energyDescription,
+        type: type ?? this.type,
       );
 
   Map<String, dynamic> toJson() {
@@ -63,19 +85,25 @@ class Spell extends HiveObject {
       'castModifier': castModifier,
       'energyOnCast': energyOnCast,
       'energyDescription': energyDescription,
+      'type': type == null ? SpellType.usual.toJson() : type!.toJson(),
     };
   }
 
   factory Spell.fromJson(Map<String, dynamic> json) {
+    var typeJson = json['type'] as dynamic;
+    SpellType typeParsed =
+        typeJson != null ? SpellType.fromJson(typeJson) : SpellType.usual;
+
     return Spell(
       name: json['name'],
-      description: json['description'],
-      dice: json['dice'],
-      dmg: json['dmg'],
-      cast: json['cast'],
-      castModifier: json['castModifier'],
-      energyOnCast: json['energyOnCast'],
-      energyDescription: json['energyDescription'],
+      description: json['description'] ?? '',
+      dice: json['dice'] ?? 0,
+      dmg: json['dmg'] ?? 0,
+      cast: json['cast'] ?? 0,
+      castModifier: json['castModifier'] ?? 0,
+      energyOnCast: json['energyOnCast'] ?? 0,
+      energyDescription: json['energyDescription'] ?? '',
+      type: typeParsed,
     );
   }
 }

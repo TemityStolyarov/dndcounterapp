@@ -1,7 +1,7 @@
 name: dndcounterapp
 description: Character book and more!
 publish_to: 'none'
-version: 0.20.0
+version: 0.21.0
 
 environment:
   sdk: '>=3.0.6 <4.0.0'
@@ -23,6 +23,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/icons/
+    - assets/images/
   uses-material-design: true
   fonts:
     - family: Inter

@@ -20,6 +20,7 @@ class CharacterAdapter extends TypeAdapter<Character> {
       race: fields[1] as String,
       crClass: fields[2] as String,
       description: fields[11] as String,
+      mechanics: fields[27] as String?,
       inventory: (fields[12] as List).cast<Weapon>(),
       spells: (fields[13] as List).cast<Spell>(),
       strength: fields[5] as int,
@@ -50,7 +51,7 @@ class CharacterAdapter extends TypeAdapter<Character> {
   @override
   void write(BinaryWriter writer, Character obj) {
     writer
-      ..writeByte(27)
+      ..writeByte(28)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -104,7 +105,9 @@ class CharacterAdapter extends TypeAdapter<Character> {
       ..writeByte(25)
       ..write(obj.statusRollDebuff)
       ..writeByte(26)
-      ..write(obj.statusProvocated);
+      ..write(obj.statusProvocated)
+      ..writeByte(27)
+      ..write(obj.mechanics);
   }
 
   @override

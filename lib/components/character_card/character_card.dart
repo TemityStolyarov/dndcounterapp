@@ -15,6 +15,7 @@ class CharacterCard extends StatefulWidget {
   final int index;
 
   final VoidCallback onEdit;
+  final VoidCallback onEditItem;
   final VoidCallback onClose;
   final VoidCallback onPlus;
   final VoidCallback onMinus;
@@ -23,9 +24,7 @@ class CharacterCard extends StatefulWidget {
   final VoidCallback onImageUpdate;
   final VoidCallback onChangingModifierValue;
   final VoidCallback onInventoryAddModalOpen;
-  final VoidCallback onInventoryEditModalOpen;
   final VoidCallback onSpellAddModalOpen;
-  final VoidCallback onSpellEditModalOpen;
   final VoidCallback onUpdateScreen;
 
   final VoidCallback onTapStatusKdDebuff;
@@ -53,9 +52,7 @@ class CharacterCard extends StatefulWidget {
     required this.onImageUpdate,
     required this.onChangingModifierValue,
     required this.onInventoryAddModalOpen,
-    required this.onInventoryEditModalOpen,
     required this.onSpellAddModalOpen,
-    required this.onSpellEditModalOpen,
     required this.onUpdateScreen,
     required this.onTapStatusKdDebuff,
     required this.onTapStatusKdBuff,
@@ -64,7 +61,7 @@ class CharacterCard extends StatefulWidget {
     required this.onTapStatusFreezed,
     required this.onTapStatusRollDebuff,
     required this.onTapStatusRollBuff,
-    required this.onTapStatusProvocated,
+    required this.onTapStatusProvocated, required this.onEditItem,
   });
 
   @override
@@ -112,16 +109,18 @@ class _CharacterCardState extends State<CharacterCard> {
         ),
         child: isWrapped
             ? SizedBox(
-                width: 389,
+                width: 400,
                 child: WrappedCard(
                   character: widget
                       .charbooks[widget.charbookIndex].chars[widget.index],
+                  isWrapped: isWrapped,
                   onPlus: widget.onPlus,
                   onMinus: widget.onMinus,
                   onReturnDefaultHP: widget.onReturnDefaultHP,
                   onSetHP: widget.onSetHP,
                   onImageUpdate: widget.onImageUpdate,
                   onEdit: widget.onEdit,
+                  onClose: widget.onClose,
                   onChangeWrap: onChangeWrap,
                   onTapStatusKdDebuff: widget.onTapStatusKdDebuff,
                   onTapStatusKdBuff: widget.onTapStatusKdBuff,
@@ -141,64 +140,42 @@ class _CharacterCardState extends State<CharacterCard> {
                   onClearStatusProvocated: _onClearStatusProvocated,
                 ),
               )
-            : SizedBox(
-                width: 810,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    top: 16,
-                    left: 16,
-                    right: 16,
-                    bottom: 12,
-                  ),
-                  child: UnwrappedCard(
-                    character: widget
-                        .charbooks[widget.charbookIndex].chars[widget.index],
-                    onPlus: widget.onPlus,
-                    onMinus: widget.onMinus,
-                    onReturnDefaultHP: widget.onReturnDefaultHP,
-                    onSetHP: widget.onSetHP,
-                    onImageUpdate: widget.onImageUpdate,
-                    onEdit: widget.onEdit,
-                    onChangeWrap: onChangeWrap,
-                    onInventoryAddModalOpen: widget.onInventoryAddModalOpen,
-                    onInventoryEditModalOpen: widget.onInventoryEditModalOpen,
-                    onSpellAddModalOpen: widget.onSpellAddModalOpen,
-                    onSpellEditModalOpen: widget.onSpellEditModalOpen,
-                    onClose: widget.onClose,
-                    inventoryDescription: convertWeaponToText(
-                      widget.charbooks[widget.charbookIndex].chars[widget.index]
-                          .inventory,
-                    ),
-                    spellsDescription: convertSpellsToText(
-                      spells: widget.charbooks[widget.charbookIndex]
-                          .chars[widget.index].spells,
-                      index: widget.index,
-                      character: widget
-                          .charbooks[widget.charbookIndex].chars[widget.index],
-                      charbookBox: widget.charbookBox,
-                      charbookIndex: widget.charbookIndex,
-                      charbooks: widget.charbooks,
-                      onUpdateScreen: widget.onUpdateScreen,
-                    ),
-                    onTapStatusKdDebuff: widget.onTapStatusKdDebuff,
-                    onTapStatusKdBuff: widget.onTapStatusKdBuff,
-                    onTapStatusRoped: widget.onTapStatusRoped,
-                    onTapStatusDmgBuff: widget.onTapStatusDmgBuff,
-                    onTapStatusFreezed: widget.onTapStatusFreezed,
-                    onTapStatusRollDebuff: widget.onTapStatusRollDebuff,
-                    onTapStatusRollBuff: widget.onTapStatusRollBuff,
-                    onTapStatusProvocated: widget.onTapStatusProvocated,
-                    onClearStatusKdDebuff: _onClearStatusKdDebuff,
-                    onClearStatusKdBuff: _onClearStatusKdBuff,
-                    onClearStatusRoped: _onClearStatusRoped,
-                    onClearStatusDmgBuff: _onClearStatusDmgBuff,
-                    onClearStatusFreezed: _onClearStatusFreezed,
-                    onClearStatusRollDebuff: _onClearStatusRollDebuff,
-                    onClearStatusRollBuff: _onClearStatusRollBuff,
-                    onClearStatusProvocated: _onClearStatusProvocated,
-                  ),
+            : UnwrappedCard(
+                  charbookBox: widget.charbookBox,
+                  charbooks: widget.charbooks,
+                  charbookIndex: widget.charbookIndex,
+                  index: widget.index,
+                  character: widget
+                      .charbooks[widget.charbookIndex].chars[widget.index],
+                  isWrapped: isWrapped,
+                  onPlus: widget.onPlus,
+                  onMinus: widget.onMinus,
+                  onReturnDefaultHP: widget.onReturnDefaultHP,
+                  onSetHP: widget.onSetHP,
+                  onImageUpdate: widget.onImageUpdate,
+                  onEdit: widget.onEdit,
+                  onEditItem: widget.onEditItem,
+                  onClose: widget.onClose,
+                  onChangeWrap: onChangeWrap,
+                  onInventoryAddModalOpen: widget.onInventoryAddModalOpen,
+                  onSpellAddModalOpen: widget.onSpellAddModalOpen,
+                  onTapStatusKdDebuff: widget.onTapStatusKdDebuff,
+                  onTapStatusKdBuff: widget.onTapStatusKdBuff,
+                  onTapStatusRoped: widget.onTapStatusRoped,
+                  onTapStatusDmgBuff: widget.onTapStatusDmgBuff,
+                  onTapStatusFreezed: widget.onTapStatusFreezed,
+                  onTapStatusRollDebuff: widget.onTapStatusRollDebuff,
+                  onTapStatusRollBuff: widget.onTapStatusRollBuff,
+                  onTapStatusProvocated: widget.onTapStatusProvocated,
+                  onClearStatusKdDebuff: _onClearStatusKdDebuff,
+                  onClearStatusKdBuff: _onClearStatusKdBuff,
+                  onClearStatusRoped: _onClearStatusRoped,
+                  onClearStatusDmgBuff: _onClearStatusDmgBuff,
+                  onClearStatusFreezed: _onClearStatusFreezed,
+                  onClearStatusRollDebuff: _onClearStatusRollDebuff,
+                  onClearStatusRollBuff: _onClearStatusRollBuff,
+                  onClearStatusProvocated: _onClearStatusProvocated,
                 ),
-              ),
       ),
     );
   }

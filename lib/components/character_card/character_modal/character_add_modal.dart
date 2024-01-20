@@ -32,6 +32,7 @@ class CharacterAddModal {
         final ctrCAR = TextEditingController();
         final ctrWIS = TextEditingController();
         final ctrDesc = TextEditingController();
+        final ctrMech = TextEditingController();
         final ctrJSON = TextEditingController();
 
         return AlertDialog(
@@ -212,9 +213,27 @@ class CharacterAddModal {
                     child: TextField(
                       autofocus: true,
                       controller: ctrDesc,
-                      maxLines: 5,
+                      maxLines: 3,
                       decoration: const InputDecoration(
                         labelText: 'Описание',
+                        labelStyle: TextStyle(fontSize: 14),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    width: 466,
+                    child: TextField(
+                      autofocus: true,
+                      controller: ctrMech,
+                      maxLines: 3,
+                      decoration: const InputDecoration(
+                        labelText: 'Механики',
                         labelStyle: TextStyle(fontSize: 14),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
@@ -264,6 +283,7 @@ class CharacterAddModal {
                     hpModifier: 0,
                     kd: int.parse(ctrAGL.text),
                     description: ctrDesc.text,
+                    mechanics: ctrMech.text,
                     inventory: [],
                     spells: [],
                     imageUrl: '',
@@ -309,6 +329,7 @@ class CharacterAddModal {
                 ctrCAR.dispose();
                 ctrWIS.dispose();
                 ctrDesc.dispose();
+                ctrMech.dispose();
                 Navigator.of(context).pop();
               },
               child: const Text('Добавить'),

@@ -23,13 +23,16 @@ class WeaponAdapter extends TypeAdapter<Weapon> {
       dice: fields[2] as int?,
       kd: fields[4] as int?,
       kdPierceBuff: fields[5] as int?,
+      dmgBuff: fields[6] as int?,
+      type: fields[7] as WeaponType?,
+      amount: fields[8] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Weapon obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -41,7 +44,13 @@ class WeaponAdapter extends TypeAdapter<Weapon> {
       ..writeByte(4)
       ..write(obj.kd)
       ..writeByte(5)
-      ..write(obj.kdPierceBuff);
+      ..write(obj.kdPierceBuff)
+      ..writeByte(6)
+      ..write(obj.dmgBuff)
+      ..writeByte(7)
+      ..write(obj.type)
+      ..writeByte(8)
+      ..write(obj.amount);
   }
 
   @override
@@ -51,6 +60,55 @@ class WeaponAdapter extends TypeAdapter<Weapon> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is WeaponAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class WeaponTypeAdapter extends TypeAdapter<WeaponType> {
+  @override
+  final int typeId = 4;
+
+  @override
+  WeaponType read(BinaryReader reader) {
+    switch (reader.readByte()) {
+      case 0:
+        return WeaponType.usual;
+      case 1:
+        return WeaponType.passive;
+      case 2:
+        return WeaponType.active;
+      case 3:
+        return WeaponType.usedWhen;
+      default:
+        return WeaponType.usual;
+    }
+  }
+
+  @override
+  void write(BinaryWriter writer, WeaponType obj) {
+    switch (obj) {
+      case WeaponType.usual:
+        writer.writeByte(0);
+        break;
+      case WeaponType.passive:
+        writer.writeByte(1);
+        break;
+      case WeaponType.active:
+        writer.writeByte(2);
+        break;
+      case WeaponType.usedWhen:
+        writer.writeByte(3);
+        break;
+    }
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is WeaponTypeAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

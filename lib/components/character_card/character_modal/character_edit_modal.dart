@@ -57,6 +57,8 @@ class CharacterEditModal {
         ctrWIS.text = char.wisdom.toString();
         final ctrDesc = TextEditingController();
         ctrDesc.text = char.description;
+        final ctrMech = TextEditingController();
+        ctrMech.text = char.mechanics ?? '';
         final ctrEnabled = TextEditingController();
         ctrEnabled.text = char.isEnabled.toString();
         final ctrInit = TextEditingController();
@@ -283,9 +285,27 @@ class CharacterEditModal {
                     child: TextField(
                       autofocus: true,
                       controller: ctrDesc,
-                      maxLines: 5,
+                      maxLines: 3,
                       decoration: const InputDecoration(
                         labelText: 'Описание',
+                        labelStyle: TextStyle(fontSize: 14),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  SizedBox(
+                    width: 466,
+                    child: TextField(
+                      autofocus: true,
+                      controller: ctrMech,
+                      maxLines: 3,
+                      decoration: const InputDecoration(
+                        labelText: 'Механики',
                         labelStyle: TextStyle(fontSize: 14),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
@@ -372,12 +392,16 @@ class CharacterEditModal {
                   hpModifier: int.parse(ctrHPMod.text),
                   kd: int.parse(ctrAR.text),
                   description: ctrDesc.text,
+                  mechanics: ctrMech.text,
                   inventory: char.inventory,
                   spells: char.spells,
                   imageUrl: char.imageUrl,
                   isEnabled: ctrEnabled.text.isEmpty
                       ? true
-                      : (ctrEnabled.text == 'f' || ctrEnabled.text == 'false')
+                      : (ctrEnabled.text == 'f' ||
+                              ctrEnabled.text == 'false' ||
+                              ctrEnabled.text == 'а' ||
+                              ctrEnabled.text == 'афдыу')
                           ? false
                           : true,
                   initiative: char.initiative,
@@ -414,6 +438,7 @@ class CharacterEditModal {
                 ctrCAR.dispose();
                 ctrWIS.dispose();
                 ctrDesc.dispose();
+                ctrMech.dispose();
                 ctrEnabled.dispose();
                 ctrJSON.dispose();
                 ctrInit.dispose();

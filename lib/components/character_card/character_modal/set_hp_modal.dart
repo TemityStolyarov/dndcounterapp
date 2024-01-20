@@ -34,15 +34,14 @@ class SetHPModal {
 
         return AlertDialog(
           title: const Text('Изменение ХП'),
-          content: Column(
+          content: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(
-                width: 490,
+                width: 224,
                 child: TextField(
                   autofocus: true,
                   controller: hp,
-                  maxLines: 3,
                   decoration: const InputDecoration(
                     labelStyle: TextStyle(fontSize: 14),
                     labelText: 'Количество текущего ХП',
@@ -54,16 +53,15 @@ class SetHPModal {
                   ),
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(width: 12),
               SizedBox(
-                width: 490,
+                width: 224,
                 child: TextField(
                   autofocus: true,
                   controller: hpModifierCtr,
-                  maxLines: 3,
                   decoration: const InputDecoration(
                     labelStyle: TextStyle(fontSize: 14),
-                    labelText: 'Добавочный урон ( - ) / восстановление ( + )',
+                    labelText: 'Урон ( - ) / Лечение ( + )',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(12),

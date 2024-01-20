@@ -25,13 +25,14 @@ class SpellAdapter extends TypeAdapter<Spell> {
       castModifier: fields[5] as int?,
       energyOnCast: fields[6] as int?,
       energyDescription: fields[7] as String?,
+      type: fields[8] as SpellType?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Spell obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -47,7 +48,9 @@ class SpellAdapter extends TypeAdapter<Spell> {
       ..writeByte(6)
       ..write(obj.energyOnCast)
       ..writeByte(7)
-      ..write(obj.energyDescription);
+      ..write(obj.energyDescription)
+      ..writeByte(8)
+      ..write(obj.type);
   }
 
   @override
@@ -57,6 +60,60 @@ class SpellAdapter extends TypeAdapter<Spell> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is SpellAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class SpellTypeAdapter extends TypeAdapter<SpellType> {
+  @override
+  final int typeId = 5;
+
+  @override
+  SpellType read(BinaryReader reader) {
+    switch (reader.readByte()) {
+      case 0:
+        return SpellType.usual;
+      case 1:
+        return SpellType.passive;
+      case 2:
+        return SpellType.active;
+      case 3:
+        return SpellType.usedWhen;
+      case 4:
+        return SpellType.mechanics;
+      default:
+        return SpellType.usual;
+    }
+  }
+
+  @override
+  void write(BinaryWriter writer, SpellType obj) {
+    switch (obj) {
+      case SpellType.usual:
+        writer.writeByte(0);
+        break;
+      case SpellType.passive:
+        writer.writeByte(1);
+        break;
+      case SpellType.active:
+        writer.writeByte(2);
+        break;
+      case SpellType.usedWhen:
+        writer.writeByte(3);
+        break;
+      case SpellType.mechanics:
+        writer.writeByte(4);
+        break;
+    }
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SpellTypeAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

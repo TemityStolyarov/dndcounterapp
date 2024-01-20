@@ -27,139 +27,123 @@ class DiceRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
-      child: Stack(
+      child: Wrap(
+        alignment: WrapAlignment.center,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  final inputOutputModal = CharacterIOModal(
-                    box: box,
-                    onImport: onImport,
-                    json: json,
-                    charBooks: charBooks,
-                  );
-                  inputOutputModal.show(context);
-                },
-                child: Column(
-                  children: [
-                    const Text(
-                      'i/o',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: ColorPalette.attCharisma,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(8)),
-                        border: Border.all(
-                          color: ColorPalette.fontBaseColor.withOpacity(0.7),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: colorScheme
-                                ? ColorPalette.alternativeshadowColor
-                                : ColorPalette.shadowColor,
-                            offset: const Offset(0, 5),
-                            blurRadius: 10,
-                            spreadRadius: 4,
-                          ),
-                        ],
-                      ),
-                      child: const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.import_export_rounded,
-                            color: ColorPalette.fontBaseColor,
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
+          GestureDetector(
+            onTap: () {
+              final inputOutputModal = CharacterIOModal(
+                box: box,
+                onImport: onImport,
+                json: json,
+                charBooks: charBooks,
+              );
+              inputOutputModal.show(context);
+            },
+            child: Column(
+              children: [
+                const Text(
+                  'i/o',
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-              ),
-              const SizedBox(width: 40),
-              Column(
-                children: [
-                  const Text(
-                    'd20',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                const SizedBox(height: 8),
+                Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: ColorPalette.attCharisma,
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    border: Border.all(
+                      color: ColorPalette.fontBaseColor.withOpacity(0.7),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: colorScheme
+                            ? ColorPalette.alternativeshadowColor
+                            : ColorPalette.shadowColor,
+                        offset: const Offset(0, 5),
+                        blurRadius: 10,
+                        spreadRadius: 4,
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 8),
-                  Dice(d: 20, colorScheme: colorScheme),
-                ],
-              ),
-              const SizedBox(width: 20),
-              Column(
-                children: [
-                  const Text(
-                    'd12',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  child: const Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.import_export_rounded,
+                        color: ColorPalette.fontBaseColor,
+                      )
+                    ],
                   ),
-                  const SizedBox(height: 8),
-                  Dice(d: 12, colorScheme: colorScheme),
-                ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 40),
+          Column(
+            children: [
+              const Text(
+                'd20',
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              const SizedBox(width: 20),
-              Column(
-                children: [
-                  const Text(
-                    'd10',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 8),
-                  Dice(d: 10, colorScheme: colorScheme),
-                ],
-              ),
-              const SizedBox(width: 20),
-              Column(
-                children: [
-                  const Text(
-                    'd8',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 8),
-                  Dice(d: 8, colorScheme: colorScheme),
-                ],
-              ),
-              const SizedBox(width: 20),
-              Column(
-                children: [
-                  const Text(
-                    'd6',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 8),
-                  Dice(d: 6, colorScheme: colorScheme),
-                ],
-              ),
-              const SizedBox(width: 20),
-              Column(
-                children: [
-                  const Text(
-                    'd4',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 8),
-                  Dice(d: 4, colorScheme: colorScheme),
-                ],
-              ),
+              const SizedBox(height: 8),
+              Dice(d: 20, colorScheme: colorScheme),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.center,
+          const SizedBox(width: 20),
+          Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: childSwitch,
-              )
+              const Text(
+                'd12',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              Dice(d: 12, colorScheme: colorScheme),
+            ],
+          ),
+          const SizedBox(width: 20),
+          Column(
+            children: [
+              const Text(
+                'd10',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              Dice(d: 10, colorScheme: colorScheme),
+            ],
+          ),
+          const SizedBox(width: 20),
+          Column(
+            children: [
+              const Text(
+                'd8',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              Dice(d: 8, colorScheme: colorScheme),
+            ],
+          ),
+          const SizedBox(width: 20),
+          Column(
+            children: [
+              const Text(
+                'd6',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              Dice(d: 6, colorScheme: colorScheme),
+            ],
+          ),
+          const SizedBox(width: 20),
+          Column(
+            children: [
+              const Text(
+                'd4',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              Dice(d: 4, colorScheme: colorScheme),
             ],
           ),
         ],
