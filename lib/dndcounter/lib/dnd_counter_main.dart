@@ -23,6 +23,8 @@ void main() async {
   Hive.registerAdapter(CharacterAdapter());
   Hive.registerAdapter(WeaponAdapter());
   Hive.registerAdapter(SpellAdapter());
+  Hive.registerAdapter(WeaponTypeAdapter());
+  Hive.registerAdapter(SpellTypeAdapter());
   await Hive.openBox<CharBook>('demobook');
   Box<CharBook> box = Hive.box<CharBook>('demobook');
 
