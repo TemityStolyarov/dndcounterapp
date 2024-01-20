@@ -174,10 +174,10 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "60de7613a1316158c47c7aed771cee9c4105279f"
+      resolved-ref: f10a128b83358cf11d7ef18fe75b4950bcd8c3e3
       url: "https://github.com/TemityStolyarov/dndcounterapp.git"
     source: git
-    version: "0.20.0"
+    version: "0.21.0"
   fake_async:
     dependency: transitive
     description:
