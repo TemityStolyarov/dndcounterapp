@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:dndcounterapp/components/character_card/character_modal/charbook_add_modal.dart';
 import 'package:dndcounterapp/components/character_card/character_modal/charbook_edit_modal.dart';
 import 'package:dndcounterapp/components/character_card/character_modal/coins_modal.dart';
+import 'package:dndcounterapp/components/charbook/charbook_header.dart';
 import 'package:dndcounterapp/components/charbook/charbook_widget.dart';
 import 'package:dndcounterapp/components/dice_row/dice_row.dart';
 import 'package:dndcounterapp/core/models/character.dart';
@@ -11,7 +12,6 @@ import 'package:dndcounterapp/core/models/spell.dart';
 import 'package:dndcounterapp/core/models/weapon.dart';
 import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'dart:convert';
 
@@ -27,6 +27,8 @@ void main() async {
   Hive.registerAdapter(SpellTypeAdapter());
   await Hive.openBox<CharBook>('demobook');
   Box<CharBook> box = Hive.box<CharBook>('demobook');
+  await Hive.openBox<CharBook>('charbook');
+  Box<CharBook> box = Hive.box<CharBook>('charbook');
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -87,16 +89,6 @@ class _MainAppState extends State<MainApp> {
           onImport: _updateCards,
           charBooks: charbooks,
           colorScheme: colorScheme,
-          // childSwitch: Switch.adaptive(
-          //   activeColor: ColorPalette.accentColor,
-          //   splashRadius: 0,
-          //   value: colorScheme,
-          //   onChanged: (value) {
-          //     setState(() {
-          //       colorScheme = value;
-          //     });
-          //   },
-          // ),
         ),
       ),
       body: Column(
@@ -163,7 +155,6 @@ class _MainAppState extends State<MainApp> {
                             initiative: -1,
                           );
                           sortingResult.add(nulledInitChar);
-                          print(nulledInitChar.initiative);
                         }
                         sortingResult.sort((a, b) {
                           return a.initiativeBeforeBattle!
@@ -256,153 +247,15 @@ class _CharbookCard extends StatelessWidget {
     return Column(
       children: [
         const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            InkWell(
-              onTap: onTapSection,
-              child: Container(
-                width: 380,
-                decoration: BoxDecoration(
-                  color: ColorPalette.backgroundSectionName,
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(12),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: colorScheme
-                          ? ColorPalette.alternativeshadowColor
-                          : ColorPalette.shadowColor,
-                      offset: const Offset(0, 5),
-                      blurRadius: 10,
-                      spreadRadius: 4,
-                    ),
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Center(
-                    child: Text(
-                      charbooks[charbookIndex].name,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: ColorPalette.fontBaseColor,
-                        fontSize: 20,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 20),
-            InkWell(
-              onTap: onTapCoins,
-              child: Container(
-                width: 120,
-                decoration: BoxDecoration(
-                  color: ColorPalette.backgroundSectionName,
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(12),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: colorScheme
-                          ? ColorPalette.alternativeshadowColor
-                          : ColorPalette.shadowColor,
-                      offset: const Offset(0, 5),
-                      blurRadius: 10,
-                      spreadRadius: 4,
-                    ),
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          charbooks[charbookIndex].coins == null
-                              ? '0'
-                              : charbooks[charbookIndex].coins.toString(),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: ColorPalette.fontBaseColor,
-                            fontSize: 20,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: SvgPicture.asset('assets/icons/coin.svg'),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 20),
-            Container(
-              width: 240,
-              decoration: BoxDecoration(
-                color: ColorPalette.backgroundSectionName,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(12),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: colorScheme
-                        ? ColorPalette.alternativeshadowColor
-                        : ColorPalette.shadowColor,
-                    offset: const Offset(0, 5),
-                    blurRadius: 10,
-                    spreadRadius: 4,
-                  ),
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Инициатива:',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: ColorPalette.fontBaseColor,
-                          fontSize: 20,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(width: 12),
-                      InkWell(
-                        onTap: onStartBattleTap,
-                        child: SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: SvgPicture.asset('assets/icons/battle.svg'),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      InkWell(
-                        onTap: onEndBattleTap,
-                        child: SizedBox(
-                          width: 24,
-                          height: 24,
-                          child:
-                              SvgPicture.asset('assets/icons/end_battle.svg'),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
+        CharbookHeader(
+          charbookIndex: charbookIndex,
+          charbookBox: charbookBox,
+          charbooks: charbooks,
+          colorScheme: colorScheme,
+          onTapSection: onTapSection,
+          onTapCoins: onTapCoins,
+          onStartBattleTap: onStartBattleTap,
+          onEndBattleTap: onEndBattleTap,
         ),
         const SizedBox(height: 20),
         Center(
