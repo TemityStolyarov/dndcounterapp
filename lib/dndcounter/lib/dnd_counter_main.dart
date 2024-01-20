@@ -27,8 +27,6 @@ void main() async {
   Hive.registerAdapter(SpellTypeAdapter());
   await Hive.openBox<CharBook>('demobook');
   Box<CharBook> box = Hive.box<CharBook>('demobook');
-  await Hive.openBox<CharBook>('charbook');
-  Box<CharBook> box = Hive.box<CharBook>('charbook');
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
