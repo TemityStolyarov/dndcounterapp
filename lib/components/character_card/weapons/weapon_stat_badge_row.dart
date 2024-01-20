@@ -28,19 +28,19 @@ class WeaponStatBadgeRow extends StatelessWidget {
             type: WeaponStatBadgeType.dmg,
             label: 'DMG: ${weapon.dice}d${weapon.dmg}',
           ),
-        if (showDmgBuff) const SizedBox(width: 4),
+        if (showDmg) const SizedBox(width: 4),
         if (showDmgBuff)
           WeaponStatBadge(
             type: WeaponStatBadgeType.dmgBuff,
             label: 'DMG: ${_isPositive(weapon.dmgBuff!)}',
           ),
-        if (showKd) const SizedBox(width: 4),
+        if (showDmgBuff) const SizedBox(width: 4),
         if (showKd)
           WeaponStatBadge(
             type: WeaponStatBadgeType.kd,
             label: 'KD: ${_isPositive(weapon.kd!)}',
           ),
-        if (showHit) const SizedBox(width: 4),
+        if (showKd) const SizedBox(width: 4),
         if (showHit)
           WeaponStatBadge(
             type: WeaponStatBadgeType.hit,

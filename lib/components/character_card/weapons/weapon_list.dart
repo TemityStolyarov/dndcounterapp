@@ -1,4 +1,4 @@
-import 'package:dndcounterapp/components/character_card/character_modal/inventory_edit_item_modal.dart';
+import 'package:dndcounterapp/components/character_card/character_modal/inventory_edit_modal.dart';
 import 'package:dndcounterapp/components/character_card/weapons/weapon_list_item.dart';
 import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:dndcounterapp/core/models/weapon.dart';
@@ -44,9 +44,9 @@ class CharacterWeaponList extends StatelessWidget {
       }
     }
     List<Weapon> finalList = [];
-    finalList.addAll(nonContainsDescription);
-    finalList.addAll(containsDescription);
     finalList.addAll(containsLongDescription);
+    finalList.addAll(containsDescription);
+    finalList.addAll(nonContainsDescription);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2.0),
@@ -58,7 +58,7 @@ class CharacterWeaponList extends StatelessWidget {
               index: index,
               onWeaponItemTap: () {
                 final inventoryIndex = inventory.indexOf(finalList[index]);
-                final inventoryEditItemModal = InventoryEditItemModal(
+                final inventoryEditItemModal = InventoryEditModal(
                   charbookBox: charbookBox,
                   charbooks: charbooks,
                   charbookIndex: charbookIndex,

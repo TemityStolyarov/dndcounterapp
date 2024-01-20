@@ -1,4 +1,3 @@
-import 'package:dndcounterapp/components/character_card/character_stat_blocks/stat_badges/mini_button.dart';
 import 'package:dndcounterapp/core/models/character.dart';
 import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:dndcounterapp/core/models/spell.dart';
@@ -39,174 +38,98 @@ String uppercaseFirst(String? string) {
   return result;
 }
 
-List<Widget> convertSpellsToText({
-  required List<Spell> spells,
-  required int index,
-  required Character character,
-  required List<CharBook> charbooks,
-  required Box charbookBox,
-  required int charbookIndex,
-  required VoidCallback onUpdateScreen,
-}) {
-  void onSpellPlusTap(int i) {
-    Spell spell = spells[i];
-    List<Character> charList = charbooks[charbookIndex].chars;
-    charList[index].spells[i] =
-        spell.copyWith(castModifier: spells[i].castModifier! + 1);
-    final CharBook updatedCharbook =
-        charbooks[charbookIndex].copyWith(chars: charList);
-    charbookBox.putAt(charbookIndex, updatedCharbook);
-    onUpdateScreen();
+String tryParseWeaponTypeToString(WeaponType? type) {
+  if (type == WeaponType.active) {
+    return 'a';
   }
-
-  void onSpellMinusTap(int i) {
-    Spell spell = spells[i];
-    List<Character> charList = charbooks[charbookIndex].chars;
-    charList[index].spells[i] =
-        spell.copyWith(castModifier: spells[i].castModifier! - 1);
-    final CharBook updatedCharbook =
-        charbooks[charbookIndex].copyWith(chars: charList);
-    charbookBox.putAt(charbookIndex, updatedCharbook);
-    onUpdateScreen();
+  if (type == WeaponType.passive) {
+    return 'p';
   }
-
-  List<Widget> desc = [];
-  for (int i = 0; i < spells.length; i++) {
-    String spellDesc = '';
-    if (spells[i].dice != null && spells[i].dmg != null) {
-      spellDesc += '${spells[i].dice}d${spells[i].dmg} урона';
-    }
-
-    if (spells[i].dice != null &&
-        spells[i].dmg != null &&
-        spells[i].energyOnCast != null &&
-        spells[i].energyDescription != null) {
-      spellDesc +=
-          ', при применении -${spells[i].energyOnCast} ${spells[i].energyDescription}';
-    }
-
-    if (spells[i].dice == null &&
-        spells[i].dmg == null &&
-        spells[i].energyOnCast != null &&
-        spells[i].energyDescription != null) {
-      spellDesc +=
-          'При применении -${spells[i].energyOnCast} ${spells[i].energyDescription}';
-    }
-
-    if (((spells[i].dice != null && spells[i].dmg != null) ||
-            (spells[i].energyOnCast != null &&
-                spells[i].energyDescription != null)) &&
-        spells[i].description != null &&
-        spells[i].description != '') {
-      spellDesc += ' (${spells[i].description})';
-    }
-
-    if ((spells[i].dice == null &&
-            spells[i].dmg == null &&
-            spells[i].energyOnCast == null &&
-            spells[i].energyDescription == null) &&
-        spells[i].description != null &&
-        spells[i].description != '') {
-      spellDesc += '${spells[i].description}';
-    }
-
-    if (spells[i].cast != null && spells[i].castModifier != null) {
-      desc.add(
-        Row(
-          children: [
-            Text(
-              '${spells[i].name} (${spells[i].cast! + spells[i].castModifier!}/${spells[i].cast})',
-              style: const TextStyle(fontWeight: FontWeight.w500),
-            ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2.0),
-              child: MiniButton(
-                icon: Icons.remove,
-                onTap: () => onSpellMinusTap(i),
-              ),
-            ),
-            const SizedBox(width: 4),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2.0),
-              child: MiniButton(
-                icon: Icons.add,
-                onTap: () => onSpellPlusTap(i),
-              ),
-            ),
-          ],
-        ),
-      );
-    } else {
-      desc.add(
-        Text(
-          spells[i].name,
-          style: const TextStyle(fontWeight: FontWeight.w500),
-        ),
-      );
-    }
-    if (spellDesc.isNotEmpty) {
-      desc.add(Text(spellDesc));
-    }
-    desc.add(const SizedBox(height: 8));
+  if (type == WeaponType.usedWhen) {
+    return 'w';
   }
-  return desc;
+  return 'u';
 }
 
-  String tryParseWeaponTypeToString(WeaponType? type) {
-    if (type == WeaponType.active) {
-      return 'a';
-    }
-    if (type == WeaponType.passive) {
-      return 'p';
-    }
-    if (type == WeaponType.usedWhen) {
-      return 'w';
-    }
-    return 'u';
+String tryParseSpellTypeToString(SpellType? type) {
+  if (type == SpellType.active) {
+    return 'a';
   }
+  if (type == SpellType.passive) {
+    return 'p';
+  }
+  if (type == SpellType.usedWhen) {
+    return 'w';
+  }
+  if (type == SpellType.mechanics) {
+    return 'm';
+  }
+  return 'u';
+}
 
-  String tryParseSpellTypeToString(SpellType? type) {
-    if (type == SpellType.active) {
-      return 'a';
-    }
-    if (type == SpellType.passive) {
-      return 'p';
-    }
-    if (type == SpellType.usedWhen) {
-      return 'w';
-    }
-    if (type == SpellType.mechanics) {
-      return 'm';
-    }
-    return 'u';
+WeaponType? tryParseStringToWeaponType(String text) {
+  if ('a'.contains(text)) {
+    return WeaponType.active;
   }
+  if ('p'.contains(text)) {
+    return WeaponType.passive;
+  }
+  if ('w'.contains(text)) {
+    return WeaponType.usedWhen;
+  }
+  return WeaponType.usual;
+}
 
-  WeaponType? tryParseStringToWeaponType(String text) {
-    if ('a'.contains(text)) {
-      return WeaponType.active;
-    }
-    if ('p'.contains(text)) {
-      return WeaponType.passive;
-    }
-    if ('w'.contains(text)) {
-      return WeaponType.usedWhen;
-    }
-    return WeaponType.usual;
+SpellType? tryParseStringToSpellType(String text) {
+  if ('a'.contains(text)) {
+    return SpellType.active;
   }
+  if ('p'.contains(text)) {
+    return SpellType.passive;
+  }
+  if ('w'.contains(text)) {
+    return SpellType.usedWhen;
+  }
+  if ('m'.contains(text)) {
+    return SpellType.mechanics;
+  }
+  return SpellType.usual;
+}
 
-  SpellType? tryParseStringToSpellType(String text) {
-    if ('a'.contains(text)) {
-      return SpellType.active;
-    }
-    if ('p'.contains(text)) {
-      return SpellType.passive;
-    }
-    if ('w'.contains(text)) {
-      return SpellType.usedWhen;
-    }
-    if ('m'.contains(text)) {
-      return SpellType.mechanics;
-    }
-    return SpellType.usual;
-  }
+void onSpellPlusTap({
+  required int spellIndex,
+  required List<Spell> spells,
+  required List<CharBook> charbooks,
+  required int charbookIndex,
+  required int charIndex,
+  required Box charbookBox,
+  required VoidCallback onUpdateScreen,
+}) {
+  Spell spell = spells[spellIndex];
+  List<Character> charList = charbooks[charbookIndex].chars;
+  charList[charIndex].spells[spellIndex] =
+      spell.copyWith(castModifier: spells[spellIndex].castModifier! + 1);
+  final CharBook updatedCharbook =
+      charbooks[charbookIndex].copyWith(chars: charList);
+  charbookBox.putAt(charbookIndex, updatedCharbook);
+  onUpdateScreen();
+}
+
+void onSpellMinusTap({
+  required int spellIndex,
+  required List<Spell> spells,
+  required List<CharBook> charbooks,
+  required int charbookIndex,
+  required int charIndex,
+  required Box charbookBox,
+  required VoidCallback onUpdateScreen,
+}) {
+  Spell spell = spells[spellIndex];
+  List<Character> charList = charbooks[charbookIndex].chars;
+  charList[charIndex].spells[spellIndex] =
+      spell.copyWith(castModifier: spells[spellIndex].castModifier! - 1);
+  final CharBook updatedCharbook =
+      charbooks[charbookIndex].copyWith(chars: charList);
+  charbookBox.putAt(charbookIndex, updatedCharbook);
+  onUpdateScreen();
+}

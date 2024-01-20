@@ -24,9 +24,7 @@ class UnwrappedCard extends StatelessWidget {
   final VoidCallback onEditItem;
   final VoidCallback onChangeWrap;
   final VoidCallback onInventoryAddModalOpen;
-  final VoidCallback onSpellEditModalOpen;
   final VoidCallback onSpellAddModalOpen;
-  final List<Widget> spellsDescription;
   final VoidCallback onClose;
 
   final VoidCallback onTapStatusKdDebuff;
@@ -63,9 +61,7 @@ class UnwrappedCard extends StatelessWidget {
     required this.onEdit,
     required this.onChangeWrap,
     required this.onInventoryAddModalOpen,
-    required this.onSpellEditModalOpen,
     required this.onSpellAddModalOpen,
-    required this.spellsDescription,
     required this.onClose,
     required this.onTapStatusKdDebuff,
     required this.onTapStatusKdBuff,
@@ -140,7 +136,9 @@ class UnwrappedCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 4),
-            CharacterDescription(character: character),
+            CharacterDescription(
+              character: character,
+            ),
             const SizedBox(height: 2),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4.0),
@@ -190,15 +188,6 @@ class UnwrappedCard extends StatelessWidget {
                   ),
                   const Spacer(),
                   InkWell(
-                    onTap: onSpellEditModalOpen,
-                    child: const Icon(
-                      Icons.edit,
-                      size: 16,
-                      color: ColorPalette.attKD,
-                    ),
-                  ),
-                  const SizedBox(width: 4),
-                  InkWell(
                     onTap: onSpellAddModalOpen,
                     child: const Icon(
                       Icons.add_box_outlined,
@@ -217,59 +206,33 @@ class UnwrappedCard extends StatelessWidget {
               characterIndex: index,
               onEditItem: onEditItem,
             ),
-            // OLD TODO: remove
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(width: 12),
-                SizedBox(
-                  width: 380,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 4),
-                      character.spells.isEmpty
-                          ? const SizedBox.shrink()
-                          : Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 2.0,
-                                horizontal: 4.0,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: spellsDescription,
-                              ),
-                            ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 4.0,
-                          vertical: 12,
-                        ),
-                        child: StatusEffectsRow(
-                          alignment: StatusEffectsRowAlignment.spaceBetween,
-                          character: character,
-                          onTapStatusKdDebuff: onTapStatusKdDebuff,
-                          onTapStatusKdBuff: onTapStatusKdBuff,
-                          onTapStatusRoped: onTapStatusRoped,
-                          onTapStatusDmgBuff: onTapStatusDmgBuff,
-                          onTapStatusFreezed: onTapStatusFreezed,
-                          onTapStatusProvocated: onTapStatusProvocated,
-                          onTapStatusRollBuff: onTapStatusRollBuff,
-                          onTapStatusRollDebuff: onTapStatusRollDebuff,
-                          onClearStatusKdDebuff: onClearStatusKdDebuff,
-                          onClearStatusKdBuff: onClearStatusKdBuff,
-                          onClearStatusRoped: onClearStatusRoped,
-                          onClearStatusDmgBuff: onClearStatusDmgBuff,
-                          onClearStatusFreezed: onClearStatusFreezed,
-                          onClearStatusProvocated: onClearStatusProvocated,
-                          onClearStatusRollBuff: onClearStatusRollBuff,
-                          onClearStatusRollDebuff: onClearStatusRollDebuff,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 6,
+                bottom: 6,
+                left: 80,
+                right: 80,
+              ),
+              child: StatusEffectsRow(
+                alignment: StatusEffectsRowAlignment.spaceBetween,
+                character: character,
+                onTapStatusKdDebuff: onTapStatusKdDebuff,
+                onTapStatusKdBuff: onTapStatusKdBuff,
+                onTapStatusRoped: onTapStatusRoped,
+                onTapStatusDmgBuff: onTapStatusDmgBuff,
+                onTapStatusFreezed: onTapStatusFreezed,
+                onTapStatusProvocated: onTapStatusProvocated,
+                onTapStatusRollBuff: onTapStatusRollBuff,
+                onTapStatusRollDebuff: onTapStatusRollDebuff,
+                onClearStatusKdDebuff: onClearStatusKdDebuff,
+                onClearStatusKdBuff: onClearStatusKdBuff,
+                onClearStatusRoped: onClearStatusRoped,
+                onClearStatusDmgBuff: onClearStatusDmgBuff,
+                onClearStatusFreezed: onClearStatusFreezed,
+                onClearStatusProvocated: onClearStatusProvocated,
+                onClearStatusRollBuff: onClearStatusRollBuff,
+                onClearStatusRollDebuff: onClearStatusRollDebuff,
+              ),
             ),
           ],
         ),

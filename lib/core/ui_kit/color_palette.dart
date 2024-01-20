@@ -68,7 +68,7 @@ class ColorPalette {
 
   static const badgeDmgLabel = Color.fromARGB(255, 127, 28, 6);
   static const badgeDmgBackground = Color(0xFFE9C3A8);
-  static const badgeDmgBuffLabel = Color(0xFF965C19);
+  static const badgeDmgBuffLabel = Color(0xFF6B4518); //Color(0xFF854E0E);
   static const badgeDmgBuffBackground = Color(0xFFE9D3A8);
   static const badgeKdLabel = Color(0xFF414242);
   static const badgeKdBackground = Color(0xFFD9D9D9);

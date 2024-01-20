@@ -1,20 +1,20 @@
 import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
 import 'package:flutter/material.dart';
 
-enum WeaponStatBadgeType {
+enum SpellStatBadgeType {
   dmg(
     colorLabel: ColorPalette.badgeDmgLabel,
     colorBackground: ColorPalette.badgeDmgBackground,
   ),
-  dmgBuff(
+  mechanics(
     colorLabel: ColorPalette.badgeDmgBuffLabel,
     colorBackground: ColorPalette.badgeDmgBuffBackground,
   ),
-  kd(
+  usual(
     colorLabel: ColorPalette.badgeKdLabel,
     colorBackground: ColorPalette.badgeKdBackground,
   ),
-  hit(
+  cast(
     colorLabel: ColorPalette.badgeHitLabel,
     colorBackground: ColorPalette.badgeHitBackground,
   );
@@ -22,20 +22,20 @@ enum WeaponStatBadgeType {
   final Color colorLabel;
   final Color colorBackground;
 
-  const WeaponStatBadgeType({
+  const SpellStatBadgeType({
     required this.colorLabel,
     required this.colorBackground,
   });
 }
 
-class WeaponStatBadge extends StatelessWidget {
-  const WeaponStatBadge({
+class SpellStatBadge extends StatelessWidget {
+  const SpellStatBadge({
     super.key,
     required this.type,
     required this.label,
   });
 
-  final WeaponStatBadgeType type;
+  final SpellStatBadgeType type;
   final String label;
 
   @override

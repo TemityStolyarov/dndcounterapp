@@ -1,9 +1,7 @@
-import 'package:dndcounterapp/components/character_card/character_modal/spell_edit_spell_modal.dart';
 import 'package:dndcounterapp/core/helpers.dart';
 import 'package:dndcounterapp/core/models/character.dart';
 import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:dndcounterapp/core/models/spell.dart';
-import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -12,8 +10,7 @@ class SpellEditModal {
   final List<CharBook> charbooks;
   final int charbookIndex;
   final int index;
-  
-  final VoidCallback onDeleteSpell;
+  final int spellIndex;
   final VoidCallback onEditSpell;
 
   SpellEditModal({
@@ -21,7 +18,7 @@ class SpellEditModal {
     required this.charbooks,
     required this.charbookIndex,
     required this.index,
-    required this.onDeleteSpell,
+    required this.spellIndex,
     required this.onEditSpell,
   });
 
@@ -29,22 +26,288 @@ class SpellEditModal {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        final Character char = charbooks[charbookIndex].chars[index];
+        Character char = Character.empty();
+        late Spell editingSpell;
+        try {
+          char = charbooks[charbookIndex].chars[index];
+          editingSpell = char.spells[spellIndex];
+        } catch (e) {
+          print(e);
+        }
+
+        final name = TextEditingController();
+        name.text = editingSpell.name;
+        final description = TextEditingController();
+        description.text = editingSpell.description ?? '';
+        final dice = TextEditingController();
+        dice.text =
+            editingSpell.dice != null ? editingSpell.dice.toString() : '';
+        final dmg = TextEditingController();
+        dmg.text = editingSpell.dmg != null ? editingSpell.dmg.toString() : '';
+        final cast = TextEditingController();
+        cast.text =
+            editingSpell.cast != null ? editingSpell.cast.toString() : '';
+        final castModifier = TextEditingController();
+        castModifier.text = editingSpell.castModifier != null
+            ? ((editingSpell.cast ?? 0) + editingSpell.castModifier!).toString()
+            : '';
+        final energyOnCast = TextEditingController();
+        energyOnCast.text = editingSpell.energyOnCast != null
+            ? editingSpell.energyOnCast.toString()
+            : '';
+        final energyDescription = TextEditingController();
+        energyDescription.text = editingSpell.energyDescription ?? '';
+        final type = TextEditingController();
+        type.text = tryParseSpellTypeToString(editingSpell.type);
+
         return AlertDialog(
-          title: const Text('Редактирование книги заклинаний'),
-          content: SizedBox(
-            height: 300,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: _spellsToList(
-                  spells: char.spells,
-                  context: context,
+          title: const Text('Редактирование заклинания'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: 490,
+                child: TextField(
+                  autofocus: true,
+                  controller: name,
+                  decoration: const InputDecoration(
+                    labelStyle: TextStyle(fontSize: 14),
+                    labelText: 'Название заклинания',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(12),
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
+              const SizedBox(height: 12),
+              SizedBox(
+                width: 490,
+                child: TextField(
+                  autofocus: true,
+                  controller: description,
+                  maxLines: 6,
+                  decoration: const InputDecoration(
+                    labelStyle: TextStyle(fontSize: 14),
+                    labelText: 'Описание',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(12),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 112,
+                    child: TextField(
+                      autofocus: true,
+                      controller: dice,
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(fontSize: 14),
+                        labelText: 'Кубики',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  SizedBox(
+                    width: 112,
+                    child: TextField(
+                      autofocus: true,
+                      controller: dmg,
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(fontSize: 14),
+                        labelText: 'Урон',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 21),
+                  SizedBox(
+                    width: 112,
+                    child: TextField(
+                      autofocus: true,
+                      controller: castModifier,
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(fontSize: 14),
+                        labelText: 'Использования',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  SizedBox(
+                    width: 112,
+                    child: TextField(
+                      autofocus: true,
+                      controller: cast,
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(fontSize: 14),
+                        labelText: 'Максимум исп.',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 140,
+                    child: TextField(
+                      autofocus: true,
+                      controller: energyOnCast,
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(fontSize: 14),
+                        labelText: 'Энергия',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  SizedBox(
+                    width: 140,
+                    child: TextField(
+                      autofocus: true,
+                      controller: energyDescription,
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(fontSize: 14),
+                        labelText: 'Тег энергии',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  SizedBox(
+                    width: 180,
+                    child: TextField(
+                      autofocus: true,
+                      controller: type,
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(fontSize: 14),
+                        labelText: 'Тип (A/P/W/M/U)',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
           actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                List<Spell> newSpells =
+                    charbooks[charbookIndex].chars[index].spells;
+                newSpells.removeAt(spellIndex);
+
+                Character char = charbooks[charbookIndex].chars[index].copyWith(
+                      spells: newSpells,
+                    );
+
+                List<Character> newCharList = charbooks[charbookIndex].chars;
+                newCharList[index] = char;
+
+                final CharBook updatedCharbook =
+                    charbooks[charbookIndex].copyWith(
+                  chars: newCharList,
+                );
+                charbookBox.putAt(charbookIndex, updatedCharbook);
+
+                _updateScreen();
+                name.dispose();
+                description.dispose();
+                dmg.dispose();
+                dice.dispose();
+                cast.dispose();
+                castModifier.dispose();
+                energyOnCast.dispose();
+                energyDescription.dispose();
+                type.dispose();
+
+                Navigator.of(context).pop();
+              },
+              child: const Text('Удалить'),
+            ),
+            const SizedBox(width: 276),
+            TextButton(
+              onPressed: () {
+                final int modifierPre = castModifier.text.isEmpty
+                    ? 0
+                    : int.tryParse(castModifier.text)!;
+                final int castPre =
+                    cast.text.isEmpty ? 0 : int.parse(cast.text);
+                final int modifier = -castPre + modifierPre;
+                final newSpell = Spell(
+                  name: name.text,
+                  description: description.text,
+                  dmg: dmg.text.isEmpty ? 0 : int.parse(dmg.text),
+                  dice: dice.text.isEmpty ? 0 : int.parse(dice.text),
+                  cast: castPre,
+                  castModifier: castModifier.text.isEmpty ? 0 : modifier,
+                  energyOnCast: energyOnCast.text.isEmpty
+                      ? 0
+                      : int.parse(energyOnCast.text),
+                  energyDescription: energyDescription.text.isEmpty
+                      ? ''
+                      : energyDescription.text,
+                  type: tryParseStringToSpellType(type.text),
+                );
+
+                List<Character> charList = charbooks[charbookIndex].chars;
+                charList[index].spells[spellIndex] = newSpell;
+                final CharBook updatedCharbook =
+                    charbooks[charbookIndex].copyWith(chars: charList);
+                charbookBox.putAt(charbookIndex, updatedCharbook);
+
+                _updateScreen();
+                name.dispose();
+                description.dispose();
+                dmg.dispose();
+                dice.dispose();
+                cast.dispose();
+                castModifier.dispose();
+                energyOnCast.dispose();
+                energyDescription.dispose();
+                type.dispose();
+                Navigator.of(context).pop();
+              },
+              child: const Text('Готово'),
+            ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
@@ -57,135 +320,8 @@ class SpellEditModal {
     );
   }
 
-  List<Widget> _spellsToList({
-    required List<Spell> spells,
-    required BuildContext context,
-  }) {
-    List<Widget> list = [];
-
-    for (int i = 0; i < spells.length; i++) {
-      if (list.isNotEmpty) list.add(const SizedBox(height: 14));
-
-      final Widget card = Container(
-        width: 500,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            color: ColorPalette.cubeRolling.withOpacity(0.05)),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            children: [
-              SizedBox(
-                width: 370,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Wrap(
-                      children: [
-                        Text('${i + 1}. '),
-                        Text(
-                          spells[i].name,
-                          style: const TextStyle(fontWeight: FontWeight.w500),
-                        ),
-                        if (spells[i].dice != null &&
-                            spells[i].dmg != null &&
-                            spells[i].cast != null &&
-                            spells[i].castModifier != null)
-                          Text(
-                              ' (${spells[i].cast! + spells[i].castModifier!}/${spells[i].cast}, ${spells[i].dice}d${spells[i].dmg} DMG)'),
-                        if (spells[i].dice != null &&
-                            spells[i].dmg != null &&
-                            spells[i].cast == null)
-                          Text(' (${spells[i].dice}d${spells[i].dmg} DMG)'),
-                        if (spells[i].dice == null &&
-                            spells[i].dmg == null &&
-                            spells[i].cast != null &&
-                            spells[i].castModifier != null)
-                          Text(
-                              ' (${spells[i].cast! + spells[i].castModifier!}/${spells[i].cast})'),
-                      ],
-                    ),
-                    if (spells[i].energyOnCast != null &&
-                        spells[i].energyDescription != null)
-                      const SizedBox(height: 4),
-                    if (spells[i].energyOnCast != null &&
-                        spells[i].energyDescription != null)
-                      Text(
-                          'При применении -${spells[i].energyOnCast} ${spells[i].energyDescription}'),
-                    const SizedBox(height: 4),
-                    uppercaseFirst(spells[i].description).isNotEmpty
-                        ? Text(uppercaseFirst(spells[i].description))
-                        : const SizedBox.shrink(),
-                  ],
-                ),
-              ),
-              const Spacer(),
-              InkWell(
-                onTap: () {
-                  Navigator.of(context).pop();
-                  final spellEditSpellModal = SpellEditSpellModal(
-                                        charbookBox: charbookBox,
-                    charbooks: charbooks,
-                    charbookIndex: charbookIndex,
-                    index: index,
-                    spellIndex: i,
-                    onEditSpell: onEditSpell,
-                  );
-                  spellEditSpellModal.show(context);
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: ColorPalette.cubeRolling.withOpacity(0.75),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(
-                      Icons.edit_outlined,
-                      color: Colors.white,
-                      size: 18,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 12),
-              InkWell(
-                onTap: () {
-                                    List<Character> charList = charbooks[charbookIndex].chars;
-                  charList[index].spells.removeAt(i);
-                  final CharBook updatedCharbook =
-                      charbooks[charbookIndex].copyWith(chars: charList);
-                  charbookBox.putAt(charbookIndex, updatedCharbook);
-
-                  _onDelete();
-                  Navigator.of(context).pop();
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: ColorPalette.cubeRolling.withOpacity(0.75),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(
-                      Icons.delete_outline,
-                      color: Colors.white,
-                      size: 18,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-      list.add(card);
-    }
-    return list;
-  }
-
-  void _onDelete() {
-    onDeleteSpell();
-    print('Spell deleted!');
+  void _updateScreen() {
+    onEditSpell();
+    print('Spell edited!');
   }
 }

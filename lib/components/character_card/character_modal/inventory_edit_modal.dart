@@ -1,25 +1,27 @@
+import 'dart:convert';
+
 import 'package:dndcounterapp/core/helpers.dart';
 import 'package:dndcounterapp/core/models/character.dart';
 import 'package:dndcounterapp/core/models/charbook.dart';
-import 'package:dndcounterapp/core/models/spell.dart';
+import 'package:dndcounterapp/core/models/weapon.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class SpellEditSpellModal {
+class InventoryEditModal {
   final Box charbookBox;
   final List<CharBook> charbooks;
   final int charbookIndex;
   final int index;
-  final int spellIndex;
-  final VoidCallback onEditSpell;
+  final int itemIndex;
+  final VoidCallback onEditItem;
 
-  SpellEditSpellModal({
+  InventoryEditModal({
     required this.charbookBox,
     required this.charbooks,
     required this.charbookIndex,
     required this.index,
-    required this.spellIndex,
-    required this.onEditSpell,
+    required this.itemIndex,
+    required this.onEditItem,
   });
 
   void show(BuildContext context) {
@@ -27,37 +29,44 @@ class SpellEditSpellModal {
       context: context,
       builder: (BuildContext context) {
         Character char = Character.empty();
-        late Spell editingSpell;
+        late Weapon editingItem;
         try {
           char = charbooks[charbookIndex].chars[index];
-          editingSpell = char.spells[spellIndex];
+          editingItem = char.inventory[itemIndex];
         } catch (e) {
           print(e);
         }
 
         final name = TextEditingController();
-        name.text = editingSpell.name;
+        name.text = editingItem.name;
         final description = TextEditingController();
-        description.text = editingSpell.description ?? '';
+        description.text = editingItem.description ?? '';
         final dice = TextEditingController();
-        dice.text =
-            editingSpell.dice != null ? editingSpell.dice.toString() : '';
+        dice.text = editingItem.dice != null ? editingItem.dice.toString() : '';
         final dmg = TextEditingController();
-        dmg.text = editingSpell.dmg != null ? editingSpell.dmg.toString() : '';
-        final cast = TextEditingController();
-        cast.text =
-            editingSpell.cast != null ? editingSpell.cast.toString() : '';
-        final energyOnCast = TextEditingController();
-        energyOnCast.text = editingSpell.energyOnCast != null
-            ? editingSpell.energyOnCast.toString()
+        dmg.text = editingItem.dmg != null ? editingItem.dmg.toString() : '';
+        final dmgBuff = TextEditingController();
+        dmgBuff.text =
+            editingItem.dmgBuff != null ? editingItem.dmgBuff.toString() : '';
+        final kd = TextEditingController();
+        kd.text = editingItem.kd != null ? editingItem.kd.toString() : '';
+        final kdPierceBuff = TextEditingController();
+        kdPierceBuff.text = editingItem.kdPierceBuff != null
+            ? editingItem.kdPierceBuff.toString()
             : '';
-        final energyDescription = TextEditingController();
-        energyDescription.text = editingSpell.energyDescription ?? '';
         final type = TextEditingController();
-        type.text = tryParseSpellTypeToString(editingSpell.type);
+        type.text = tryParseWeaponTypeToString(editingItem.type);
+        final amount = TextEditingController();
+        amount.text =
+            editingItem.amount != null ? editingItem.amount.toString() : '1';
+        final ctrJSON = TextEditingController();
+        ctrJSON.text = jsonEncode(charbooks[charbookIndex]
+            .chars[index]
+            .inventory[itemIndex]
+            .toJson());
 
         return AlertDialog(
-          title: const Text('Редактирование заклинания'),
+          title: const Text('Редактирование предмета'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -68,7 +77,7 @@ class SpellEditSpellModal {
                   controller: name,
                   decoration: const InputDecoration(
                     labelStyle: TextStyle(fontSize: 14),
-                    labelText: 'Название заклинания',
+                    labelText: 'Название предмета',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(12),
@@ -83,7 +92,7 @@ class SpellEditSpellModal {
                 child: TextField(
                   autofocus: true,
                   controller: description,
-                  maxLines: 6,
+                  maxLines: 5,
                   decoration: const InputDecoration(
                     labelStyle: TextStyle(fontSize: 14),
                     labelText: 'Описание',
@@ -136,10 +145,10 @@ class SpellEditSpellModal {
                     width: 180,
                     child: TextField(
                       autofocus: true,
-                      controller: cast,
+                      controller: dmgBuff,
                       decoration: const InputDecoration(
                         labelStyle: TextStyle(fontSize: 14),
-                        labelText: 'Использования',
+                        labelText: 'Бонус к урону',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(12),
@@ -154,13 +163,13 @@ class SpellEditSpellModal {
               Row(
                 children: [
                   SizedBox(
-                    width: 100,
+                    width: 233,
                     child: TextField(
                       autofocus: true,
-                      controller: energyOnCast,
+                      controller: kd,
                       decoration: const InputDecoration(
                         labelStyle: TextStyle(fontSize: 14),
-                        labelText: 'Энергия',
+                        labelText: 'Бонус к КД',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(12),
@@ -169,32 +178,15 @@ class SpellEditSpellModal {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 24),
                   SizedBox(
-                    width: 180,
+                    width: 233,
                     child: TextField(
                       autofocus: true,
-                      controller: energyDescription,
+                      controller: kdPierceBuff,
                       decoration: const InputDecoration(
                         labelStyle: TextStyle(fontSize: 14),
-                        labelText: 'Описание энергии',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(12),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  SizedBox(
-                    width: 180,
-                    child: TextField(
-                      autofocus: true,
-                      controller: type,
-                      decoration: const InputDecoration(
-                        labelStyle: TextStyle(fontSize: 14),
-                        labelText: 'Тип (A/P/W/M/U)',
+                        labelText: 'Бонус к попаданию',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(12),
@@ -205,17 +197,72 @@ class SpellEditSpellModal {
                   ),
                 ],
               ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 233,
+                    child: TextField(
+                      autofocus: true,
+                      controller: type,
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(fontSize: 14),
+                        labelText: 'Тип (A/P/W/U)',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 24),
+                  SizedBox(
+                    width: 233,
+                    child: TextField(
+                      autofocus: true,
+                      controller: amount,
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(fontSize: 14),
+                        labelText: 'Количество',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                width: 490,
+                child: TextField(
+                  autofocus: true,
+                  controller: ctrJSON,
+                  decoration: const InputDecoration(
+                    labelStyle: TextStyle(fontSize: 14),
+                    labelText: 'JSON-код',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(12),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                List<Spell> newSpells =
-                    charbooks[charbookIndex].chars[index].spells;
-                newSpells.removeAt(spellIndex);
+                List<Weapon> newInventory =
+                    charbooks[charbookIndex].chars[index].inventory;
+                newInventory.removeAt(itemIndex);
 
                 Character char = charbooks[charbookIndex].chars[index].copyWith(
-                      spells: newSpells,
+                      inventory: newInventory,
                     );
 
                 List<Character> newCharList = charbooks[charbookIndex].chars;
@@ -231,10 +278,11 @@ class SpellEditSpellModal {
                 name.dispose();
                 description.dispose();
                 dmg.dispose();
+                dmgBuff.dispose();
                 dice.dispose();
-                cast.dispose();
-                energyOnCast.dispose();
-                energyDescription.dispose();
+                kd.dispose();
+                kdPierceBuff.dispose();
+                amount.dispose();
                 type.dispose();
 
                 Navigator.of(context).pop();
@@ -244,24 +292,23 @@ class SpellEditSpellModal {
             const SizedBox(width: 276),
             TextButton(
               onPressed: () {
-                final newSpell = Spell(
+                final editedItem = Weapon(
                   name: name.text,
                   description: description.text,
                   dmg: dmg.text.isEmpty ? null : int.parse(dmg.text),
                   dice: dice.text.isEmpty ? null : int.parse(dice.text),
-                  cast: cast.text.isEmpty ? null : int.parse(cast.text),
-                  castModifier: char.spells[spellIndex].castModifier ?? 0,
-                  energyOnCast: energyOnCast.text.isEmpty
+                  kd: kd.text.isEmpty ? null : int.parse(kd.text),
+                  amount: amount.text.isEmpty ? null : int.parse(amount.text),
+                  dmgBuff:
+                      dmgBuff.text.isEmpty ? null : int.parse(dmgBuff.text),
+                  kdPierceBuff: kdPierceBuff.text.isEmpty
                       ? null
-                      : int.parse(energyOnCast.text),
-                  energyDescription: energyDescription.text.isEmpty
-                      ? null
-                      : energyDescription.text,
-                  type: tryParseStringToSpellType(type.text),
+                      : int.parse(kdPierceBuff.text),
+                  type: tryParseStringToWeaponType(type.text),
                 );
 
                 List<Character> charList = charbooks[charbookIndex].chars;
-                charList[index].spells[spellIndex] = newSpell;
+                charList[index].inventory[itemIndex] = editedItem;
                 final CharBook updatedCharbook =
                     charbooks[charbookIndex].copyWith(chars: charList);
                 charbookBox.putAt(charbookIndex, updatedCharbook);
@@ -270,11 +317,13 @@ class SpellEditSpellModal {
                 name.dispose();
                 description.dispose();
                 dmg.dispose();
+                dmgBuff.dispose();
                 dice.dispose();
-                cast.dispose();
-                energyOnCast.dispose();
-                energyDescription.dispose();
+                kd.dispose();
+                kdPierceBuff.dispose();
+                amount.dispose();
                 type.dispose();
+
                 Navigator.of(context).pop();
               },
               child: const Text('Готово'),
@@ -292,7 +341,7 @@ class SpellEditSpellModal {
   }
 
   void _updateScreen() {
-    onEditSpell();
-    print('Spell edited!');
+    onEditItem();
+    print('Item edited!');
   }
 }

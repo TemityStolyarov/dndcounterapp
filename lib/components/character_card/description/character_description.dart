@@ -12,7 +12,7 @@ class CharacterDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return character.description == ''
+    return character.description == '' && character.mechanics == ''
         ? const SizedBox.shrink()
         : Padding(
             padding: const EdgeInsets.all(4.0),

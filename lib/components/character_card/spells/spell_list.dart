@@ -1,5 +1,6 @@
-import 'package:dndcounterapp/components/character_card/character_modal/spell_edit_spell_modal.dart';
+import 'package:dndcounterapp/components/character_card/character_modal/spell_edit_modal.dart';
 import 'package:dndcounterapp/components/character_card/spells/spell_list_item.dart';
+import 'package:dndcounterapp/core/helpers.dart';
 import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:dndcounterapp/core/models/spell.dart';
 import 'package:flutter/material.dart';
@@ -31,22 +32,24 @@ class CharacterSpellList extends StatelessWidget {
     List<Spell> containsDescription = [];
     List<Spell> containsLongDescription = [];
     List<Spell> nonContainsDescription = [];
+    List<Spell> energy = [];
     for (int index = 0; index < spells.length; index++) {
-      if (spells[index].description == null ||
+      if (spells[index].type == SpellType.mechanics) {
+        energy.add(spells[index]);
+      } else if (spells[index].description == null ||
           spells[index].description!.isEmpty) {
         nonContainsDescription.add(spells[index]);
+      } else if (spells[index].description!.length > 40) {
+        containsLongDescription.add(spells[index]);
       } else {
-        if (spells[index].description!.length > 35) {
-          containsLongDescription.add(spells[index]);
-        } else {
-          containsDescription.add(spells[index]);
-        }
+        containsDescription.add(spells[index]);
       }
     }
     List<Spell> finalList = [];
-    finalList.addAll(nonContainsDescription);
-    finalList.addAll(containsDescription);
+    finalList.addAll(energy);
     finalList.addAll(containsLongDescription);
+    finalList.addAll(containsDescription);
+    finalList.addAll(nonContainsDescription);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2.0),
@@ -58,7 +61,7 @@ class CharacterSpellList extends StatelessWidget {
               index: index,
               onSpellItemTap: () {
                 final inventoryIndex = spells.indexOf(finalList[index]);
-                final inventoryEditSpellModal = SpellEditSpellModal(
+                final inventoryEditSpellModal = SpellEditModal(
                   charbookBox: charbookBox,
                   charbooks: charbooks,
                   charbookIndex: charbookIndex,
@@ -67,6 +70,30 @@ class CharacterSpellList extends StatelessWidget {
                   onEditSpell: onEditItem,
                 );
                 inventoryEditSpellModal.show(context);
+              },
+              onSpellMinusTap: () {
+                final inventoryIndex = spells.indexOf(finalList[index]);
+                onSpellMinusTap(
+                  spellIndex: inventoryIndex,
+                  spells: spells,
+                  charbooks: charbooks,
+                  charbookIndex: charbookIndex,
+                  charIndex: characterIndex,
+                  charbookBox: charbookBox,
+                  onUpdateScreen: onEditItem,
+                );
+              },
+              onSpellPlusTap: () {
+                final inventoryIndex = spells.indexOf(finalList[index]);
+                onSpellPlusTap(
+                  spellIndex: inventoryIndex,
+                  spells: spells,
+                  charbooks: charbooks,
+                  charbookIndex: charbookIndex,
+                  charIndex: characterIndex,
+                  charbookBox: charbookBox,
+                  onUpdateScreen: onEditItem,
+                );
               },
             ),
         ],

@@ -25,7 +25,6 @@ class CharacterCard extends StatefulWidget {
   final VoidCallback onChangingModifierValue;
   final VoidCallback onInventoryAddModalOpen;
   final VoidCallback onSpellAddModalOpen;
-  final VoidCallback onSpellEditModalOpen;
   final VoidCallback onUpdateScreen;
 
   final VoidCallback onTapStatusKdDebuff;
@@ -54,7 +53,6 @@ class CharacterCard extends StatefulWidget {
     required this.onChangingModifierValue,
     required this.onInventoryAddModalOpen,
     required this.onSpellAddModalOpen,
-    required this.onSpellEditModalOpen,
     required this.onUpdateScreen,
     required this.onTapStatusKdDebuff,
     required this.onTapStatusKdBuff,
@@ -161,18 +159,6 @@ class _CharacterCardState extends State<CharacterCard> {
                   onChangeWrap: onChangeWrap,
                   onInventoryAddModalOpen: widget.onInventoryAddModalOpen,
                   onSpellAddModalOpen: widget.onSpellAddModalOpen,
-                  onSpellEditModalOpen: widget.onSpellEditModalOpen,
-                  spellsDescription: convertSpellsToText(
-                    spells: widget.charbooks[widget.charbookIndex]
-                        .chars[widget.index].spells,
-                    index: widget.index,
-                    character: widget
-                        .charbooks[widget.charbookIndex].chars[widget.index],
-                    charbookBox: widget.charbookBox,
-                    charbookIndex: widget.charbookIndex,
-                    charbooks: widget.charbooks,
-                    onUpdateScreen: widget.onUpdateScreen,
-                  ),
                   onTapStatusKdDebuff: widget.onTapStatusKdDebuff,
                   onTapStatusKdBuff: widget.onTapStatusKdBuff,
                   onTapStatusRoped: widget.onTapStatusRoped,
