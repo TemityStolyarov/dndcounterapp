@@ -1,7 +1,7 @@
 import 'package:dndcounterapp/components/character_card/character_stat_blocks/stat_badges/mini_button.dart';
 import 'package:dndcounterapp/components/character_card/spells/spell_stat_badge_row.dart';
 import 'package:dndcounterapp/core/models/spell.dart';
-import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
+import 'package:dndcounterapp/core/colors/color_palette.dart';
 import 'package:flutter/material.dart';
 
 class ChatacterSpellListItem extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:dndcounterapp/core/models/character.dart';
-import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
+import 'package:dndcounterapp/core/colors/color_palette.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

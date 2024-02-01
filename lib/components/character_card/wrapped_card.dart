@@ -3,7 +3,7 @@ import 'package:dndcounterapp/components/character_card/character_stat_blocks/ch
 import 'package:dndcounterapp/components/character_card/character_stat_blocks/character_card_wrapped_header.dart';
 import 'package:dndcounterapp/components/character_card/character_stat_blocks/status_effects/status_effects_row.dart';
 import 'package:dndcounterapp/core/models/character.dart';
-import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
+import 'package:dndcounterapp/core/colors/color_palette.dart';
 import 'package:flutter/material.dart';
 
 class WrappedCard extends StatelessWidget {

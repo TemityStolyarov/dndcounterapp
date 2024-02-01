@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "596696137075",
+    "firebase_url": "https://crit-dnd-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "crit-dnd",
+    "storage_bucket": "crit-dnd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:596696137075:android:a0e6958662208f008e9906",
+        "android_client_info": {
+          "package_name": "com.example.dndcounterapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfBD1dipzCRXYraD0nM05mAX3BUL3djpc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
