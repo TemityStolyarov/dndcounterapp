@@ -12,27 +12,22 @@ class ErrorBubble extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
-      content: Container(
-        decoration: const BoxDecoration(
-          color: ColorPalette.cardColor,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(
-              Icons.cancel,
-              color: ColorPalette.critUnlucky,
-              size: 40,
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(
+            Icons.cancel_rounded,
+            color: ColorPalette.critUnlucky,
+            size: 40,
+          ),
+          const SizedBox(height: 12),
+          Text(
+            errorMessage,
+            style: const TextStyle(
+              color: ColorPalette.fontAltColor,
             ),
-            const SizedBox(height: 12),
-            Text(
-              errorMessage,
-              style: const TextStyle(
-                color: ColorPalette.critUnlucky,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
