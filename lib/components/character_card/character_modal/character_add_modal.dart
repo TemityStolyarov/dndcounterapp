@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dndcounterapp/core/helpers.dart';
 import 'package:dndcounterapp/core/models/character.dart';
 import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:flutter/material.dart';
@@ -281,7 +282,7 @@ class CharacterAddModal {
                     wisdom: int.parse(ctrWIS.text),
                     hp: int.parse(ctrATL.text),
                     hpModifier: 0,
-                    kd: int.parse(ctrAGL.text),
+                    kd: 10 + modifier(int.parse(ctrAGL.text)),
                     description: ctrDesc.text,
                     mechanics: ctrMech.text,
                     inventory: [],

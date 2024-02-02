@@ -84,6 +84,17 @@ class DiceRow extends StatelessWidget {
           Column(
             children: [
               const Text(
+                'd100',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              Dice(d: 100, colorScheme: colorScheme),
+            ],
+          ),
+          const SizedBox(width: 20),
+          Column(
+            children: [
+              const Text(
                 'd20',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
