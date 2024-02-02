@@ -1,7 +1,7 @@
 import 'package:dndcounterapp/components/chat_bubble/in_chat_bubble.dart';
 import 'package:dndcounterapp/components/chat_bubble/out_chat_bubble.dart';
 import 'package:dndcounterapp/core/colors/color_palette.dart';
-import 'package:dndcounterapp/pages/auth_page/error_bubble.dart';
+import 'package:dndcounterapp/components/error_bubble/error_bubble.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(
-              vertical: 64,
+              vertical: 32,
               horizontal: 32,
             ),
             child: Container(
@@ -112,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: InChatBubble(
                           backgroundColor: ColorPalette.cubeColor,
                           child: Text(
-                            'Рад приветствовать тебя! Ты же тот самый, напомни-ка..',
+                            'О, знакомое лицо! Ты же тот самый..',
                             style: TextStyle(
                               color: ColorPalette.fontAltColor,
                               fontSize: 16,
@@ -187,11 +187,16 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  OutChatBubble(
-                    backgroundColor: ColorPalette.cardColor,
-                    child: InkWell(
-                      onTap: doLogin,
-                      child: const Text(
+                  InkWell(
+                    onTap: doLogin,
+                    hoverColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    overlayColor: const MaterialStatePropertyAll(
+                      Colors.transparent,
+                    ),
+                    child: const OutChatBubble(
+                      backgroundColor: ColorPalette.cardColor,
+                      child: Text(
                         'А теперь тащи мне мое любимое пиво!',
                         style: TextStyle(
                           color: ColorPalette.fontBaseColor,
@@ -200,7 +205,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 208),
+                  const SizedBox(height: 176),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

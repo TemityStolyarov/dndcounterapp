@@ -40,7 +40,7 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(
-              vertical: 64,
+              vertical: 32,
               horizontal: 32,
             ),
             child: Container(
@@ -157,7 +157,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 208),
+                  const SizedBox(height: 176),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
