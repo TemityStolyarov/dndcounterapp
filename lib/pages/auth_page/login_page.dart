@@ -1,7 +1,7 @@
 import 'package:dndcounterapp/components/chat_bubble/in_chat_bubble.dart';
 import 'package:dndcounterapp/components/chat_bubble/out_chat_bubble.dart';
 import 'package:dndcounterapp/core/colors/color_palette.dart';
-import 'package:dndcounterapp/components/error_bubble/error_bubble.dart';
+import 'package:dndcounterapp/components/bubbles/error_bubble.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +24,9 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  void recoveryPassword() {}
+  void recoveryPassword() {
+    Navigator.pushNamed(context, '/recovery');
+  }
 
   void doLogin() async {
     showDialog(
@@ -56,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
         errorDialog('Такого нет в списках');
       } else if (e.code == 'invalid-credential') {
         print(e.code);
-        errorDialog('Логин или пароль введены неверно');
+        errorDialog('Почта или пароль введены неверно');
       } else {
         print(e.code);
         errorDialog('Что-то пошло не так');
@@ -74,6 +76,8 @@ class _LoginPageState extends State<LoginPage> {
       },
     );
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   const SizedBox(height: 16),
                   const Text(
-                    'Ты бодрым шагом входишь в уже знакомую тебе таверну:',
+                    'Ты бодрым шагом входишь в уже знакомую таверну:',
                     style: TextStyle(
                       color: ColorPalette.fontBaseColor,
                       fontSize: 14,
@@ -137,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                           autofocus: true,
                           controller: emailController,
                           decoration: const InputDecoration(
-                            labelText: 'Логин',
+                            labelText: 'Почта',
                             labelStyle: TextStyle(fontSize: 14),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(

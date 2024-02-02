@@ -1,30 +1,28 @@
+import 'package:dndcounterapp/components/bubbles/confirm_bubble.dart';
+import 'package:flutter/material.dart';
 import 'package:dndcounterapp/components/chat_bubble/in_chat_bubble.dart';
 import 'package:dndcounterapp/components/chat_bubble/out_chat_bubble.dart';
 import 'package:dndcounterapp/components/bubbles/error_bubble.dart';
 import 'package:dndcounterapp/core/colors/color_palette.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+class RecoveryPage extends StatefulWidget {
+  const RecoveryPage({super.key});
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<RecoveryPage> createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _RegisterPageState extends State<RecoveryPage> {
   final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  bool textObscure = true;
 
   @override
   void dispose() {
     emailController.dispose();
-    passwordController.dispose();
     super.dispose();
   }
 
-  void doRegister() async {
+  void doRecovery() async {
     showDialog(
       context: context,
       builder: (context) {
@@ -37,24 +35,24 @@ class _RegisterPageState extends State<RegisterPage> {
     );
 
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await FirebaseAuth.instance.sendPasswordResetEmail(
         email: emailController.text,
-        password: passwordController.text,
       );
 
       Navigator.pop(context);
+
+      confirmDialog(
+        'Сообщение с письмом для восстановления направлено на почту ${emailController.text}',
+      );
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
 
-      if (e.code == 'invalid-email') {
+      if (e.code == 'missing-email') {
         print(e.code);
-        errorDialog('Указана неверная почта');
-      } else if (e.code == 'user-not-found') {
+        errorDialog('Почта не указана');
+      } else if (e.code == 'invalid-email') {
         print(e.code);
-        errorDialog('Такого нет в списках');
-      } else if (e.code == 'invalid-credential') {
-        print(e.code);
-        errorDialog('Почта или пароль введены неверно');
+        errorDialog('Неверный формат почты');
       } else {
         print(e.code);
         errorDialog('Что-то пошло не так: ${e.code}');
@@ -68,6 +66,17 @@ class _RegisterPageState extends State<RegisterPage> {
       builder: (context) {
         return ErrorBubble(
           errorMessage: errorMessage,
+        );
+      },
+    );
+  }
+
+  void confirmDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return ConfirmBubble(
+          message: message,
         );
       },
     );
@@ -98,13 +107,24 @@ class _RegisterPageState extends State<RegisterPage> {
                 children: [
                   const SizedBox(height: 16),
                   const Text(
-                    'Ты осторожно подходишь к стойке регистрации:',
+                    'Ты хватаешься за голову:',
                     style: TextStyle(
                       color: ColorPalette.fontBaseColor,
                       fontSize: 14,
                     ),
                   ),
-                  const SizedBox(height: 48),
+                  const SizedBox(height: 24),
+                  const OutChatBubble(
+                    backgroundColor: ColorPalette.cardColor,
+                    child: Text(
+                      'О нет, я забыл пароль!',
+                      style: TextStyle(
+                        color: ColorPalette.fontBaseColor,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
                   Stack(
                     children: [
                       const Padding(
@@ -115,7 +135,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: InChatBubble(
                           backgroundColor: ColorPalette.cubeColor,
                           child: Text(
-                            'Добро пожаловать! Представься, пожалуйста, я занесу тебя в списки',
+                            'Давай восстановлю тебе доступ! Напомни свою почту',
                             style: TextStyle(
                               color: ColorPalette.fontAltColor,
                               fontSize: 16,
@@ -149,49 +169,12 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 16),
-                        TextField(
-                          autofocus: true,
-                          controller: passwordController,
-                          obscureText: textObscure,
-                          decoration: InputDecoration(
-                            labelText: 'Пароль',
-                            suffixIcon: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: InkWell(
-                                onTapDown: (details) {
-                                  setState(() {
-                                    textObscure = false;
-                                  });
-                                },
-                                onTapUp: (details) {
-                                  setState(() {
-                                    textObscure = true;
-                                  });
-                                },
-                                child: Icon(
-                                  textObscure
-                                      ? Icons.remove_red_eye_outlined
-                                      : Icons.remove_red_eye_rounded,
-                                  color: ColorPalette.fontAltColor,
-                                ),
-                              ),
-                            ),
-                            labelStyle: const TextStyle(fontSize: 14),
-                            border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(12),
-                              ),
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                   ),
                   const SizedBox(height: 16),
                   InkWell(
-                    onTap: doRegister,
+                    onTap: doRecovery,
                     hoverColor: Colors.transparent,
                     splashColor: Colors.transparent,
                     overlayColor: const MaterialStatePropertyAll(
@@ -200,7 +183,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: const OutChatBubble(
                       backgroundColor: ColorPalette.cardColor,
                       child: Text(
-                        'Вперед к приключениям!',
+                        'Ну как там, получается?',
                         style: TextStyle(
                           color: ColorPalette.fontBaseColor,
                           fontSize: 16,
@@ -213,7 +196,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        'Уже играл с нами? Тогда ',
+                        'Вспомнил пароль? Тогда ',
                         style: TextStyle(
                           color: ColorPalette.fontAltColor,
                           fontSize: 14,
@@ -254,3 +237,27 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 }
+
+
+
+// try {
+//       FirebaseAuth.instance.sendPasswordResetEmail(email: emailController.text);
+//       confirmDialog(
+//           'Сообщение с письмом для восстановления направлено на почту ${emailController.text.isEmpty ? '<пустая почта>' : emailController.text}');
+//     } on FirebaseAuthException catch (e) {
+//       Navigator.pop(context);
+
+//       if (e.code == 'invalid-email') {
+//         print(e.code);
+//         errorDialog('Указана неверная почта');
+//       } else if (e.code == 'user-not-found') {
+//         print(e.code);
+//         errorDialog('Такого нет в списках');
+//       } else if (e.code == 'invalid-credential') {
+//         print(e.code);
+//         errorDialog('Почта или пароль введены неверно');
+//       } else {
+//         print(e.code);
+//         errorDialog('Что-то пошло не так');
+//       }
+//     }

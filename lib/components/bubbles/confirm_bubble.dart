@@ -1,10 +1,10 @@
 import 'package:dndcounterapp/core/colors/color_palette.dart';
 import 'package:flutter/material.dart';
 
-class ErrorBubble extends StatelessWidget {
-  const ErrorBubble({super.key, required this.errorMessage});
+class ConfirmBubble extends StatelessWidget {
+  const ConfirmBubble({super.key, required this.message});
 
-  final String errorMessage;
+  final String message;
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +16,13 @@ class ErrorBubble extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           const Icon(
-            Icons.cancel_rounded,
-            color: ColorPalette.critUnlucky,
+            Icons.check_circle_rounded,
+            color: ColorPalette.attCharisma,
             size: 40,
           ),
           const SizedBox(height: 12),
           Text(
-            errorMessage,
+            message,
             style: const TextStyle(
               color: ColorPalette.fontAltColor,
             ),

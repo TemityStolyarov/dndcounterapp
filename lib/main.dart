@@ -6,6 +6,7 @@ import 'package:dndcounterapp/pages/admin_page.dart';
 import 'package:dndcounterapp/pages/auth_page/auth_page.dart';
 import 'package:dndcounterapp/pages/auth_page/login_page.dart';
 import 'package:dndcounterapp/pages/auth_page/register_page.dart';
+import 'package:dndcounterapp/pages/recovery_page.dart';
 import 'package:dndcounterapp/pages/user_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -50,6 +51,7 @@ class DndCounterApp extends StatelessWidget {
         '/user': (context) => const UserPage(),
         '/admin': (context) => const AdminPage(),
         '/auth': (context) => const AuthPage(),
+        '/recovery': (context) => const RecoveryPage(),
       },
       initialRoute: '/auth',
     );
