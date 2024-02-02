@@ -5,6 +5,9 @@ class ColorPalette {
   static const backgroundColor50 = Color.fromRGBO(235, 235, 235, 0.5);
   static const backgroundColor30 = Color.fromRGBO(235, 235, 235, 0.3);
 
+  static const fontBaseColor = Color.fromRGBO(48, 49, 49, 1);
+  static const fontAltColor = Color.fromRGBO(84, 84, 84, 1);
+
   static const alternativeBackgroundColor = Color(0xFF93856C);
   static const backgroundSectionName = Color.fromARGB(238, 227, 213, 192);
   static const disabledBackgroundColor = Color.fromRGBO(224, 224, 224, 0.95);
@@ -30,7 +33,6 @@ class ColorPalette {
   static const critLuckyCubeColor = Color.fromARGB(239, 253, 236, 201);
   static const critUnlucky = Color.fromARGB(255, 123, 0, 0);
   static const critUnluckyCubeColor = Color.fromARGB(218, 250, 145, 145);
-  static const fontBaseColor = Color.fromRGBO(48, 49, 49, 1);
   static const cubeRolling = Color.fromARGB(255, 120, 120, 120);
   static const cubeColor = Color.fromARGB(255, 215, 215, 215);
 

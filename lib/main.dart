@@ -1,19 +1,11 @@
-import 'dart:math';
-
-import 'package:dndcounterapp/components/character_card/character_modal/charbook_add_modal.dart';
-import 'package:dndcounterapp/components/character_card/character_modal/charbook_edit_modal.dart';
-import 'package:dndcounterapp/components/character_card/character_modal/coins_modal.dart';
 import 'package:dndcounterapp/components/charbook/charbook_header.dart';
 import 'package:dndcounterapp/components/charbook/charbook_widget.dart';
-import 'package:dndcounterapp/components/dice_row/dice_row.dart';
-import 'package:dndcounterapp/core/models/character.dart';
 import 'package:dndcounterapp/core/models/charbook.dart';
-import 'package:dndcounterapp/core/models/spell.dart';
-import 'package:dndcounterapp/core/models/weapon.dart';
 import 'package:dndcounterapp/core/colors/color_palette.dart';
 import 'package:dndcounterapp/pages/admin_page.dart';
-import 'package:dndcounterapp/pages/login_page.dart';
-import 'package:dndcounterapp/pages/register_page.dart';
+import 'package:dndcounterapp/pages/auth_page/auth_page.dart';
+import 'package:dndcounterapp/pages/auth_page/login_page.dart';
+import 'package:dndcounterapp/pages/auth_page/register_page.dart';
 import 'package:dndcounterapp/pages/user_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -29,16 +21,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // await Hive.initFlutter();
-  // Hive.registerAdapter(CharBookAdapter());
-  // Hive.registerAdapter(CharacterAdapter());
-  // Hive.registerAdapter(WeaponAdapter());
-  // Hive.registerAdapter(SpellAdapter());
-  // Hive.registerAdapter(WeaponTypeAdapter());
-  // Hive.registerAdapter(SpellTypeAdapter());
-  // await Hive.openBox<CharBook>('charbook');
-  // Box<CharBook> box = Hive.box<CharBook>('charbook');
-
   runApp(const DndCounterApp());
 }
 
@@ -52,7 +34,7 @@ class DndCounterApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Inter',
         colorScheme: const ColorScheme.light().copyWith(
-          primary: Colors.brown,
+          primary: ColorPalette.fontBaseColor, //Colors.brown,
         ),
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: {
@@ -67,8 +49,9 @@ class DndCounterApp extends StatelessWidget {
         '/register': (context) => const RegisterPage(),
         '/user': (context) => const UserPage(),
         '/admin': (context) => const AdminPage(),
+        '/auth': (context) => const AuthPage(),
       },
-      initialRoute: '/login',
+      initialRoute: '/auth',
     );
   }
 }

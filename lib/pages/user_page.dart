@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class UserPage extends StatelessWidget {
@@ -5,12 +6,14 @@ class UserPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser!;
+
     return Scaffold(
       body: ElevatedButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/login');
+          FirebaseAuth.instance.signOut();
         },
-        child: const Text('Logout'),
+        child: Text('Logout from ${user.email!}'),
       ),
     );
   }
