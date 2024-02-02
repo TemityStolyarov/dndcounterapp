@@ -1,7 +1,6 @@
 import 'package:dndcounterapp/components/character_card/character_stat_blocks/stat_badges/mini_button.dart';
 import 'package:dndcounterapp/components/character_card/character_stat_blocks/stat_badges/stat_badge_ar.dart';
 import 'package:dndcounterapp/components/character_card/character_stat_blocks/stat_badges/stat_badge_hp.dart';
-import 'package:dndcounterapp/core/helpers.dart';
 import 'package:dndcounterapp/core/models/character.dart';
 import 'package:dndcounterapp/core/models/weapon.dart';
 import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
@@ -125,8 +124,7 @@ class CharacterCardHeader extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               StatBadgeAR(
-                info:
-                    '${character.kd + _findKD(character.inventory) + modifier(character.agility)} AR',
+                info: '${character.kd + _findKD(character.inventory)} AR',
                 color: ColorPalette.attKD,
               ),
             ],
