@@ -6,14 +6,14 @@ class UserPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser!;
+    final _user = FirebaseAuth.instance.currentUser!;
 
     return Scaffold(
       body: ElevatedButton(
         onPressed: () {
           FirebaseAuth.instance.signOut();
         },
-        child: Text('Logout from ${user.email!}'),
+        child: Text('Logout from ${_user.email!}'),
       ),
     );
   }

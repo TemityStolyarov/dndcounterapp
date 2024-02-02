@@ -2,6 +2,8 @@ import 'package:dndcounterapp/components/chat_bubble/in_chat_bubble.dart';
 import 'package:dndcounterapp/components/chat_bubble/out_chat_bubble.dart';
 import 'package:dndcounterapp/components/bubbles/error_bubble.dart';
 import 'package:dndcounterapp/core/colors/color_palette.dart';
+import 'package:dndcounterapp/core/data/user_repository.dart';
+import 'package:dndcounterapp/core/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +17,9 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  final userRepository = UserRepository();
+
   bool textObscure = true;
 
   @override
@@ -41,8 +46,6 @@ class _RegisterPageState extends State<RegisterPage> {
         email: emailController.text,
         password: passwordController.text,
       );
-
-      Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
 
@@ -59,6 +62,21 @@ class _RegisterPageState extends State<RegisterPage> {
         print(e.code);
         errorDialog('Что-то пошло не так: ${e.code}');
       }
+    }
+
+    try {
+      final user = UserModel(
+        email: emailController.text,
+        nickname: emailController.text,
+      );
+      await userRepository.createUser(user);
+
+      Navigator.pop(context);
+      Navigator.pushNamed(context, '/auth');
+    } catch (e) {
+      Navigator.pop(context);
+      print(e);
+      errorDialog('Что-то пошло не так: ${e.toString()}');
     }
   }
 
