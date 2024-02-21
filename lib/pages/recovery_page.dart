@@ -1,8 +1,8 @@
-import 'package:dndcounterapp/components/bubbles/confirm_bubble.dart';
+import 'package:dndcounterapp/components/bubble/confirm_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:dndcounterapp/components/chat_bubble/in_chat_bubble.dart';
 import 'package:dndcounterapp/components/chat_bubble/out_chat_bubble.dart';
-import 'package:dndcounterapp/components/bubbles/error_bubble.dart';
+import 'package:dndcounterapp/components/bubble/error_bubble.dart';
 import 'package:dndcounterapp/core/colors/color_palette.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
