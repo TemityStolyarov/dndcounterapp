@@ -20,6 +20,26 @@
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
+        },
+        {
+            "name": "storybook",
+            "program": "lib/storybook/storybook_app.dart",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "storybook (profile mode)",
+            "program": "lib/storybook/storybook_app.dart",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "storybook (release mode)",
+            "program": "lib/storybook/storybook_app.dart",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
         }
     ]
 }

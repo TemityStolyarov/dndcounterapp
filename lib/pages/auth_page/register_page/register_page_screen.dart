@@ -1,100 +1,28 @@
 import 'package:dndcounterapp/components/chat_bubble/in_chat_bubble.dart';
 import 'package:dndcounterapp/components/chat_bubble/out_chat_bubble.dart';
-import 'package:dndcounterapp/components/bubble/error_bubble.dart';
 import 'package:dndcounterapp/core/colors/color_palette.dart';
-import 'package:dndcounterapp/core/data/user_repository.dart';
-import 'package:dndcounterapp/core/models/user.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+class RegisterPageScreen extends StatefulWidget {
+  const RegisterPageScreen({
+    super.key,
+    required this.emailController,
+    required this.passwordController,
+    required this.doRegister,
+    required this.goToAuth,
+  });
+
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
+  final VoidCallback doRegister;
+  final VoidCallback goToAuth;
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<RegisterPageScreen> createState() => _RegisterPageScreenState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-
-  final userRepository = UserRepository();
-
+class _RegisterPageScreenState extends State<RegisterPageScreen> {
   bool textObscure = true;
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
-
-  void doRegister() async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Center(
-          child: CircularProgressIndicator(
-            color: ColorPalette.cardColor,
-          ),
-        );
-      },
-    );
-
-    try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
-      );
-    } on FirebaseAuthException catch (e) {
-      Navigator.pop(context);
-
-      if (e.code == 'invalid-email') {
-        print(e.code);
-        errorDialog('Указана неверная почта');
-      } else if (e.code == 'user-not-found') {
-        print(e.code);
-        errorDialog('Такого нет в списках');
-      } else if (e.code == 'invalid-credential') {
-        print(e.code);
-        errorDialog('Почта или пароль введены неверно');
-      } else {
-        print(e.code);
-        errorDialog('Что-то пошло не так: ${e.code}');
-      }
-    }
-
-    try {
-      final user = UserModel(
-        email: emailController.text,
-        nickname: emailController.text,
-      );
-      await userRepository.createUser(user);
-
-      Navigator.pop(context);
-      Navigator.pushNamed(context, '/auth');
-    } catch (e) {
-      Navigator.pop(context);
-      print(e);
-      errorDialog('Что-то пошло не так: ${e.toString()}');
-    }
-  }
-
-  void errorDialog(String errorMessage) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return ErrorBubble(
-          errorMessage: errorMessage,
-        );
-      },
-    );
-  }
-
-  void goToAuth() {
-    Navigator.pop(context);
-    //Navigator.pushNamedAndRemoveUntil(context, '/auth', (route) => true);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +84,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       children: [
                         TextField(
                           autofocus: true,
-                          controller: emailController,
+                          controller: widget.emailController,
                           decoration: const InputDecoration(
                             labelText: 'Почта',
                             labelStyle: TextStyle(fontSize: 14),
@@ -170,7 +98,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         const SizedBox(height: 16),
                         TextField(
                           autofocus: true,
-                          controller: passwordController,
+                          controller: widget.passwordController,
                           obscureText: textObscure,
                           decoration: InputDecoration(
                             labelText: 'Пароль',
@@ -209,7 +137,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   const SizedBox(height: 16),
                   InkWell(
-                    onTap: doRegister,
+                    onTap: widget.doRegister,
                     hoverColor: Colors.transparent,
                     splashColor: Colors.transparent,
                     overlayColor: const MaterialStatePropertyAll(
@@ -238,7 +166,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                       ),
                       InkWell(
-                        onTap: goToAuth,
+                        onTap: widget.goToAuth,
                         hoverColor: Colors.transparent,
                         splashColor: Colors.transparent,
                         overlayColor: const MaterialStatePropertyAll(

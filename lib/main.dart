@@ -5,7 +5,7 @@ import 'package:dndcounterapp/core/colors/color_palette.dart';
 import 'package:dndcounterapp/pages/admin_page.dart';
 import 'package:dndcounterapp/pages/auth_page/auth_page.dart';
 import 'package:dndcounterapp/pages/auth_page/login_page.dart';
-import 'package:dndcounterapp/pages/auth_page/register_page.dart';
+import 'package:dndcounterapp/pages/auth_page/register_page/register_page.dart';
 import 'package:dndcounterapp/pages/recovery_page.dart';
 import 'package:dndcounterapp/pages/user_page.dart';
 import 'package:flutter/material.dart';
