@@ -3,10 +3,10 @@ import 'package:dndcounterapp/components/charbook/charbook_widget.dart';
 import 'package:dndcounterapp/core/models/charbook.dart';
 import 'package:dndcounterapp/core/colors/color_palette.dart';
 import 'package:dndcounterapp/pages/admin_page.dart';
-import 'package:dndcounterapp/pages/auth_page/auth_page.dart';
-import 'package:dndcounterapp/pages/auth_page/login_page.dart';
-import 'package:dndcounterapp/pages/auth_page/register_page/register_page.dart';
-import 'package:dndcounterapp/pages/recovery_page.dart';
+import 'package:dndcounterapp/pages/login_page/check_login.dart';
+import 'package:dndcounterapp/pages/login_page/login_page.dart';
+import 'package:dndcounterapp/pages/register_page/register_page.dart';
+import 'package:dndcounterapp/pages/recovery_page/recovery_page.dart';
 import 'package:dndcounterapp/pages/user_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -53,7 +53,7 @@ class DndCounterApp extends StatelessWidget {
         '/register': (context) => const RegisterPage(),
         '/user': (context) => const UserPage(),
         '/admin': (context) => const AdminPage(),
-        '/auth': (context) => const AuthPage(),
+        '/checklogin': (context) => const CheckLogin(),
         '/recovery': (context) => const RecoveryPage(),
       },
       initialRoute: '/auth',

@@ -1,3 +1,5 @@
+import 'package:dndcounterapp/storybook/screens/login_page_screen_story.dart';
+import 'package:dndcounterapp/storybook/screens/recovery_page_screen_story.dart';
 import 'package:dndcounterapp/storybook/screens/register_page_screen_story.dart';
 import 'package:dndcounterapp/storybook/widgets/dice_story.dart';
 import 'package:flutter/material.dart';
@@ -23,16 +25,23 @@ class StorybookApp extends StatelessWidget {
         },
         stories: [
           Story(
+            name: 'Screens/Login Page',
+            builder: (context) => const LoginPageScreenStory(),
+          ),
+          Story(
+            name: 'Screens/Recovery Page',
+            builder: (context) => const RecoveryPageScreenStory(),
+          ),
+          Story(
             name: 'Screens/Register Page',
-            // description: 'Demo Counter app with about dialog.',
             // builder:(context) =>
             // title: context.knobs.text(label: 'Title', initial: 'Counter'),
             //   enabled: context.knobs.boolean(label: 'Enabled', initial: true),
-            builder: (context) => const RegisterPageStory(),
+            builder: (context) => const RegisterPageScreenStory(),
           ),
           Story(
             name: 'Widgets/Dice',
-            description: 'One unit of rolling cubes',
+            // description: 'One unit of rolling cubes',
             builder: (context) => DiceStory(knobs: context.knobs),
           ),
         ],

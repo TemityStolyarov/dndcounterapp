@@ -2,7 +2,7 @@ import 'package:dndcounterapp/components/bubble/error_bubble.dart';
 import 'package:dndcounterapp/core/colors/color_palette.dart';
 import 'package:dndcounterapp/core/data/user_repository.dart';
 import 'package:dndcounterapp/core/models/user.dart';
-import 'package:dndcounterapp/pages/auth_page/register_page/register_page_screen.dart';
+import 'package:dndcounterapp/pages/register_page/register_page_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -69,7 +69,7 @@ class _RegisterPageState extends State<RegisterPage> {
       await userRepository.createUser(user);
 
       Navigator.pop(context);
-      Navigator.pushNamed(context, '/auth');
+      Navigator.pushNamed(context, '/checklogin');
     } catch (e) {
       Navigator.pop(context);
       print(e);
@@ -90,7 +90,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void goToAuth() {
     Navigator.pop(context);
-    //Navigator.pushNamedAndRemoveUntil(context, '/auth', (route) => true);
+    //Navigator.pushNamedAndRemoveUntil(context, '/checklogin', (route) => true);
   }
 
   @override

@@ -1,14 +1,15 @@
-import 'package:dndcounterapp/pages/auth_page/register_page/register_page_screen.dart';
+import 'package:dndcounterapp/pages/register_page/register_page_screen.dart';
 import 'package:flutter/material.dart';
 
-class RegisterPageStory extends StatefulWidget {
-  const RegisterPageStory({super.key});
+class RegisterPageScreenStory extends StatefulWidget {
+  const RegisterPageScreenStory({super.key});
 
   @override
-  State<RegisterPageStory> createState() => _RegisterPageStoryState();
+  State<RegisterPageScreenStory> createState() =>
+      _RegisterPageScreenStoryState();
 }
 
-class _RegisterPageStoryState extends State<RegisterPageStory> {
+class _RegisterPageScreenStoryState extends State<RegisterPageScreenStory> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
