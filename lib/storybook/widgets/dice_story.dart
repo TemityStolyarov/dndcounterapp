@@ -9,15 +9,17 @@ class DiceStory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dice(
-      d: knobs.sliderInt(
-        label: 'D?',
-        initial: 6,
-        max: 20,
-        min: 2,
-      ),
-      colorScheme: knobs.boolean(
-        label: 'Color Scheme',
+    return Material(
+      child: Dice(
+        d: knobs.sliderInt(
+          label: 'D?',
+          initial: 6,
+          max: 20,
+          min: 2,
+        ),
+        colorScheme: knobs.boolean(
+          label: 'Color Scheme',
+        ),
       ),
     );
   }

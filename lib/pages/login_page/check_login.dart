@@ -1,5 +1,5 @@
 import 'package:dndcounterapp/pages/login_page/login_page.dart';
-import 'package:dndcounterapp/pages/user_page.dart';
+import 'package:dndcounterapp/pages/user_page/user_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

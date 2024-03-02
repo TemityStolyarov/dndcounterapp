@@ -7,7 +7,7 @@ import 'package:dndcounterapp/pages/login_page/check_login.dart';
 import 'package:dndcounterapp/pages/login_page/login_page.dart';
 import 'package:dndcounterapp/pages/register_page/register_page.dart';
 import 'package:dndcounterapp/pages/recovery_page/recovery_page.dart';
-import 'package:dndcounterapp/pages/user_page.dart';
+import 'package:dndcounterapp/pages/user_page/user_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'dart:convert';
@@ -16,6 +16,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 void main() async {
+  // window.document.onContextMenu.listen((evt) => evt.preventDefault());
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
@@ -56,7 +57,7 @@ class DndCounterApp extends StatelessWidget {
         '/checklogin': (context) => const CheckLogin(),
         '/recovery': (context) => const RecoveryPage(),
       },
-      initialRoute: '/auth',
+      initialRoute: '/checklogin',
     );
   }
 }

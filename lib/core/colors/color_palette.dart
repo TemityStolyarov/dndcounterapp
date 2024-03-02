@@ -19,10 +19,10 @@ class ColorPalette {
   static const accentColor = Color.fromARGB(255, 255, 211, 78);
   static const accentActiveColor = Color.fromARGB(255, 255, 197, 23);
 
-  static const attStrength = Color.fromARGB(255, 208, 68, 68);
-  static const attAgility = Color.fromARGB(255, 77, 163, 79);
+  static const attStrength = Color(0xFFD04444);
+  static const attAgility = Color(0xFF4DA34F);
   static const attIntelligence = Color(0xFF0E72AB);
-  static const attAthletics = Color.fromARGB(255, 185, 119, 21);
+  static const attAthletics = Color(0xFFB97715);
   static const attCharisma = Color(0xFF87B527);
   static const attWisdom = Color(0xFF4AA5A5);
 
