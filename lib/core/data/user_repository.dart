@@ -42,7 +42,7 @@ class UserRepository {
     }
   }
 
-  Future<TableDataModel> getTableData(String userId) async {
+  Future<List<TableDataModel>> getTableData(String userId) async {
     try {
       // Получение данных пользователя из Firestore
       QuerySnapshot querySnapshot =
@@ -53,12 +53,16 @@ class UserRepository {
         throw Exception('err1'); //TODO
       }
 
-      // Получение данных пользователя
-      Map<String, dynamic> tableData =
-          querySnapshot.docs.first.data() as Map<String, dynamic>;
-      final tablesData = TableDataModel.fromJson(tableData);
+      List<Map<String, dynamic>> tableData = querySnapshot.docs
+          .map((table) => table.data() as Map<String, dynamic>)
+          .toList();
 
-      return tablesData;
+      List<TableDataModel> tables = [];
+      for (Map<String, dynamic> table in tableData) {
+        tables.add(TableDataModel.fromJson(table));
+      }
+
+      return tables;
     } catch (error) {
       // Обработка ошибок
       throw Exception('err2'); //TODO

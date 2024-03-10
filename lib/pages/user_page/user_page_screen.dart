@@ -1,7 +1,7 @@
+import 'package:dndcounterapp/components/ttx_appbar/ttx_appbar.dart';
 import 'package:dndcounterapp/core/colors/color_palette.dart';
-import 'package:dndcounterapp/core/data/user_repository.dart';
-import 'package:dndcounterapp/core/models/table_data_model.dart';
 import 'package:dndcounterapp/core/models/user_data_model.dart';
+import 'package:dndcounterapp/pages/table_page/table_page.dart';
 import 'package:flutter/material.dart';
 
 class UserPageScreen extends StatelessWidget {
@@ -16,53 +16,18 @@ class UserPageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userRepository = UserRepository();
-
     return Scaffold(
       backgroundColor: ColorPalette.backgroundColor,
-      body: FutureBuilder(
-        future: userRepository.getTableData(userData.userId),
-        builder: (context, AsyncSnapshot<TableDataModel> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
-          }
-
-          if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          }
-
-          final TableDataModel tablesData = snapshot.data!;
-
-          return Column(
-            children: [
-              Text(
-                tablesData.name.toString(),
-              ),
-            ],
-          );
-        },
-      ),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        shadowColor: Colors.transparent,
-        elevation: 0,
-        surfaceTintColor: Colors.transparent,
-        foregroundColor: ColorPalette.fontBaseColor,
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(Icons.panorama_fish_eye_outlined),
-              tooltip: userData.nickname,
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-            );
-          },
-        ),
+      body: Stack(
+        children: [
+          TablePage(userId: userData.userId),
+          const TTxAppBar(),
+        ],
       ),
       drawer: Drawer(
         child: Column(
           mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(
@@ -79,9 +44,9 @@ class UserPageScreen extends StatelessWidget {
             const Divider(
               height: 0,
             ),
-            InkWell(
-              onTap: () => print('Settings page is unavailible'),
-              child: const Padding(
+            const InkWell(
+              onTap: null,
+              child: Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: 16.0,
                   vertical: 10,
@@ -89,9 +54,17 @@ class UserPageScreen extends StatelessWidget {
                 child: SizedBox(
                   child: Row(
                     children: [
-                      Text('Настройки'),
+                      Text(
+                        'Настройки',
+                        style: TextStyle(
+                          color: ColorPalette.attKD,
+                        ),
+                      ),
                       Spacer(),
-                      Icon(Icons.settings_rounded),
+                      Icon(
+                        Icons.settings_rounded,
+                        color: ColorPalette.attKD,
+                      ),
                     ],
                   ),
                 ),
