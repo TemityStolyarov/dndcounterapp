@@ -1,4 +1,4 @@
-import 'package:dndcounterapp/core/models/userdata.dart';
+import 'package:dndcounterapp/core/models/user_data_model.dart';
 import 'package:dndcounterapp/pages/user_page/user_page_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -14,9 +14,11 @@ class UserPageScreenStory extends StatelessWidget {
     });
 
     return UserPageScreen(
-      linkedTables: user.linkedTables,
-      nickname: user.nickname,
-      userEmail: user.email,
+      userData: UserDataModelConverted(
+          email: user.email,
+          linkedTables: [],
+          nickname: 'Nickname',
+          userId: 'uid'),
       signOut: () => print('Logged out!'),
     );
   }

@@ -1,5 +1,5 @@
 class UserDataModel {
-  final List<String> linkedTables;
+  final List<dynamic> linkedTables;
   final String email;
   final String nickname;
 
@@ -24,4 +24,18 @@ class UserDataModel {
       linkedTables: json['linked_tables'],
     );
   }
+}
+
+class UserDataModelConverted {
+    final List<dynamic> linkedTables;
+  final String email;
+  final String nickname;
+  final String userId;
+
+  UserDataModelConverted({
+    required this.userId, 
+    required this.linkedTables,
+    required this.email,
+    required this.nickname,
+  });
 }
