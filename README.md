@@ -9,9 +9,9 @@
 <details>
   <summary>Dart/Flutter info</summary>
 
-  Flutter: `3.10.6 (stable)`
-  Dart: `3.0.6 `
-  DevTools: `2.23.1`
+  - Flutter: `3.10.6 (stable)`
+  - Dart: `3.0.6 `
+  - DevTools: `2.23.1`
 </details>
 
 
