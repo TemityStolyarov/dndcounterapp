@@ -1,5 +1,5 @@
 import 'package:dndcounterapp/components/ttx_appbar/ttx_appbar.dart';
-import 'package:dndcounterapp/core/colors/color_palette.dart';
+import 'package:dndcounterapp/core/colors/ttx_theme.dart';
 import 'package:dndcounterapp/core/models/user_data_model.dart';
 import 'package:dndcounterapp/pages/table_page/table_page.dart';
 import 'package:flutter/material.dart';
@@ -16,15 +16,20 @@ class UserPageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = userData.lightTheme ? ColorTheme.light : ColorTheme.dark;
     return Scaffold(
-      backgroundColor: ColorPalette.backgroundColor,
+      backgroundColor: theme.backgroundColorSecondary,
       body: Stack(
         children: [
-          TablePage(userId: userData.userId),
-          const TTxAppBar(),
+          TablePage(
+            userId: userData.userId,
+            theme: theme,
+          ),
+          TTxAppBar(theme: theme),
         ],
       ),
       drawer: Drawer(
+        backgroundColor: theme.backgroundColorSecondary,
         child: Column(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,16 +43,17 @@ class UserPageScreen extends StatelessWidget {
                 child: Text(
                   '${userData.nickname} (${userData.email})',
                   overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: theme.fontColorPrimary),
                 ),
               ),
             ),
             const Divider(
               height: 0,
             ),
-            const InkWell(
+            InkWell(
               onTap: null,
               child: Padding(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   horizontal: 16.0,
                   vertical: 10,
                 ),
@@ -57,13 +63,13 @@ class UserPageScreen extends StatelessWidget {
                       Text(
                         'Настройки',
                         style: TextStyle(
-                          color: ColorPalette.attKD,
+                          color: theme.fontColorLabel,
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Icon(
                         Icons.settings_rounded,
-                        color: ColorPalette.attKD,
+                        color: theme.fontColorLabel,
                       ),
                     ],
                   ),
@@ -72,30 +78,36 @@ class UserPageScreen extends StatelessWidget {
             ),
             InkWell(
               onTap: signOut,
-              child: const Padding(
-                padding: EdgeInsets.symmetric(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
                   horizontal: 16.0,
                   vertical: 10,
                 ),
                 child: SizedBox(
                   child: Row(
                     children: [
-                      Text('Выйти'),
-                      Spacer(),
-                      Icon(Icons.output_rounded),
+                      Text(
+                        'Выйти',
+                        style: TextStyle(color: theme.fontColorPrimary),
+                      ),
+                      const Spacer(),
+                      Icon(
+                        Icons.output_rounded,
+                        color: theme.fontColorPrimary,
+                      ),
                     ],
                   ),
                 ),
               ),
             ),
             const Spacer(),
-            const Padding(
-              padding: EdgeInsets.all(16.0),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
               child: Center(
                 child: Text(
                   'v2.0.22.1',
                   style: TextStyle(
-                    color: ColorPalette.attKD,
+                    color: theme.fontColorLabel,
                     fontSize: 10,
                   ),
                 ),

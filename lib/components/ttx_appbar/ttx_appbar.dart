@@ -1,9 +1,13 @@
+import 'package:dndcounterapp/core/colors/ttx_theme.dart';
 import 'package:flutter/material.dart';
 
 class TTxAppBar extends StatelessWidget {
   const TTxAppBar({
     super.key,
+    required this.theme,
   });
+
+  final TTxTheme theme;
 
   @override
   Widget build(BuildContext context) {
@@ -15,20 +19,21 @@ class TTxAppBar extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(
-            height: 24,
-            width: 24,
+            height: 32,
+            width: 32,
             child: InkWell(
               onTap: () {
                 Scaffold.of(context).openDrawer();
               },
-              radius: 20,
+              radius: 32,
               splashColor: Colors.transparent,
               focusColor: Colors.transparent,
               hoverColor: Colors.transparent,
               highlightColor: Colors.transparent,
-              child: const Icon(
+              child: Icon(
                 Icons.account_circle_rounded,
-                size: 28,
+                size: 32,
+                color: theme.fontColorLabel,
               ),
             ),
           ),

@@ -16,7 +16,7 @@ class UserPage extends StatelessWidget {
       future: userRepository.getUserData(user.email!),
       builder: (context, AsyncSnapshot<UserDataModelConverted> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return const CircularProgressIndicator(); // TODO
         }
 
         if (snapshot.hasError) {

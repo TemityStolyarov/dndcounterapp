@@ -59,7 +59,7 @@ class StorybookApp extends StatelessWidget {
           ),
           Story(
             name: 'Screens/User Page',
-            builder: (context) => const UserPageScreenStory(),
+            builder: (context) => UserPageScreenStory(knobs: context.knobs),
           ),
           Story(
             name: 'Widgets/Dice',

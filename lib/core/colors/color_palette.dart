@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+@Deprecated('Upgraded to TTxTheme')
 class ColorPalette {
   static const backgroundColor = Color.fromRGBO(235, 235, 235, 1);
   static const backgroundColor50 = Color.fromRGBO(235, 235, 235, 0.5);
