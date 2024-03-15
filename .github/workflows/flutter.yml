@@ -18,7 +18,8 @@ jobs:
           channel: 'stable'
       - name: Checking version
         run: flutter --version
-
+      - name: Set the correct Node version using nvm
+        run: cd functions && nvm install && nvm use
       - name: Installing dependencies
         run: flutter pub get
 
@@ -32,7 +33,7 @@ jobs:
           publish_dir: ./build/web
       
       - name: Deploy to Firebase Hosting
-        uses: docker://w9jds/firebase-action:master
+        uses: w9jds/firebase-action@v12.9.0
         with:
           args: deploy --only hosting
         env:
