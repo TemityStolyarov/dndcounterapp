@@ -35,7 +35,7 @@ jobs:
           publish_dir: ./build/web
       
       - name: Deploy to Firebase Hosting
-        uses: w9jds/firebase-action@v1.4.0
+        uses: firebase-action@v1.4.0
         with:
           args: deploy --only hosting
         env:
