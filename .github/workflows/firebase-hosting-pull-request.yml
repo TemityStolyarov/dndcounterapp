@@ -13,7 +13,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: flutter web --release --no-tree-shake-icons
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.10.6'
+          channel: 'stable'
+
+      - name: Checking version
+        run: flutter --version
+
+      - name: Installing dependencies
+        run: flutter pub get
+
+      - name: Building web app
+        run: flutter build web --release --no-tree-shake-icons
+
+      - name: Deploy settings up
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.TOKEN }}
+          publish_dir: ./build/web
+        
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
