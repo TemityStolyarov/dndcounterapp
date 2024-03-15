@@ -38,7 +38,7 @@ jobs:
       - name: Deploy to Firebase Hosting
         uses: w9jds/firebase-action@v1.4.0
         with:
-          node-version: ${{ [20.11.0] }}
+          node-version: 20.11.0
           args: deploy --only hosting
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
