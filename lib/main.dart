@@ -8,6 +8,7 @@ import 'package:dndcounterapp/pages/login_page/login_page.dart';
 import 'package:dndcounterapp/pages/register_page/register_page.dart';
 import 'package:dndcounterapp/pages/recovery_page/recovery_page.dart';
 import 'package:dndcounterapp/pages/user_page/user_page.dart';
+import 'package:dndcounterapp/storybook/storybook_app.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'dart:convert';
@@ -56,6 +57,7 @@ class DndCounterApp extends StatelessWidget {
         '/admin': (context) => const AdminPage(),
         '/': (context) => const CheckLogin(),
         '/recovery': (context) => const RecoveryPage(),
+        '/testing': (context) => const StorybookApp(),
       },
       initialRoute: '/',
     );

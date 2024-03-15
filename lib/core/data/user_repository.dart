@@ -44,7 +44,7 @@ class UserRepository {
         linkedTables: ['test_table_id'],
         email: 'imweiixxi@gmail.com',
         nickname: 'Артем',
-        lightTheme: true,
+        lightTheme: false,
       );
       logger.t(
           '##GET UserDataModelConverted: \n${userDataModelConverted.userId},\n${userDataModelConverted.linkedTables},\n${userDataModelConverted.email},\n${userDataModelConverted.nickname},\n${userDataModelConverted.lightTheme}');
@@ -84,7 +84,7 @@ class UserRepository {
             visibleForSelect: true,
             data: '[]')
       ];
-      logger.t(tables.toString());
+      logger.i(tables);
       return tables;
     } catch (error) {
       // Обработка ошибок

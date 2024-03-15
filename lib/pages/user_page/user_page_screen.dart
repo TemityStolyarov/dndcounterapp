@@ -4,7 +4,7 @@ import 'package:dndcounterapp/core/models/user_data_model.dart';
 import 'package:dndcounterapp/pages/table_page/table_page.dart';
 import 'package:flutter/material.dart';
 
-class UserPageScreen extends StatelessWidget {
+class UserPageScreen extends StatefulWidget {
   const UserPageScreen({
     super.key,
     required this.signOut,
@@ -15,19 +15,37 @@ class UserPageScreen extends StatelessWidget {
   final UserDataModelConverted userData;
 
   @override
+  State<UserPageScreen> createState() => _UserPageScreenState();
+}
+
+class _UserPageScreenState extends State<UserPageScreen> {
+  bool isDefault = true;
+  
+  @override
   Widget build(BuildContext context) {
-    final theme = userData.lightTheme ? ColorTheme.light : ColorTheme.dark;
+    final theme =
+        widget.userData.lightTheme ? ColorTheme.light : ColorTheme.dark;
+
     return Scaffold(
       backgroundColor: theme.backgroundColorSecondary,
-      body: Stack(
-        children: [
-          TablePage(
-            userId: userData.userId,
-            theme: theme,
-          ),
-          TTxAppBar(theme: theme),
-        ],
+      appBar: PreferredSize(
+        preferredSize: const Size(1000, 48),
+        child: TTxAppBar(
+          theme: theme,
+          isDefault: isDefault,
+          onTap: () {
+            setState(() {
+              isDefault = !isDefault;
+            });
+          },
+        ),
       ),
+      body: isDefault
+          ? TablePage(
+              userId: widget.userData.userId,
+              theme: theme,
+            )
+          : const Placeholder(),
       drawer: Drawer(
         backgroundColor: theme.backgroundColorSecondary,
         child: Column(
@@ -41,7 +59,7 @@ class UserPageScreen extends StatelessWidget {
               ),
               child: SizedBox(
                 child: Text(
-                  '${userData.nickname} (${userData.email})',
+                  '${widget.userData.nickname} (${widget.userData.email})',
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(color: theme.fontColorPrimary),
                 ),
@@ -77,7 +95,7 @@ class UserPageScreen extends StatelessWidget {
               ),
             ),
             InkWell(
-              onTap: signOut,
+              onTap: widget.signOut,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16.0,

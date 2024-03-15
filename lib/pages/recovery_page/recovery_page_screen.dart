@@ -71,10 +71,15 @@ class RecoveryPageScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Image.asset(
-                        'assets/images/logo.png',
-                        isAntiAlias: true,
-                        scale: 2,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/testing');
+                        },
+                        child: Image.asset(
+                          'assets/images/logo.png',
+                          isAntiAlias: true,
+                          scale: 2,
+                        ),
                       ),
                     ],
                   ),

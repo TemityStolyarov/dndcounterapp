@@ -42,7 +42,7 @@ class _TTxSwitchState extends State<TTxSwitch> {
               label: 'Столы',
               theme: widget.theme,
             ),
-            const SizedBox(width: 2),
+            const SizedBox(width: 3),
             TTxSwitchButton(
               isDefault: !widget.isDefault,
               onTap: widget.isDefault ? widget.onTap : null,

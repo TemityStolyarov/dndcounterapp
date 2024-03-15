@@ -33,7 +33,7 @@ class TablePage extends StatelessWidget {
 
         return TablePageScreen(
           theme: theme,
-          tablesData: tablesData.toString(),
+          tablesData: tablesData,
         );
       },
     );

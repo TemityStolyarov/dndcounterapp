@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:dndcounterapp/core/colors/ttx_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -24,8 +23,8 @@ class TTxSwitchButton extends StatelessWidget {
       onTap: onTap,
       borderRadius: borderRadius,
       child: Container(
-        width: 250,
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+        width: 120,
+        padding: const EdgeInsets.symmetric(vertical: 6),
         decoration: BoxDecoration(
           borderRadius: borderRadius,
           color: isDefault ? theme.backgroundColorPrimary : Colors.transparent,

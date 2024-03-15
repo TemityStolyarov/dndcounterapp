@@ -1,8 +1,8 @@
-import 'package:dndcounterapp/components/ttx_switch/ttx_switch.dart';
 import 'package:dndcounterapp/core/colors/ttx_theme.dart';
+import 'package:dndcounterapp/core/models/table_data_model.dart';
 import 'package:flutter/material.dart';
 
-class TablePageScreen extends StatefulWidget {
+class TablePageScreen extends StatelessWidget {
   const TablePageScreen({
     super.key,
     required this.theme,
@@ -10,14 +10,8 @@ class TablePageScreen extends StatefulWidget {
   });
 
   final TTxTheme theme;
-  final String tablesData;
+  final List<TableDataModel> tablesData;
 
-  @override
-  State<TablePageScreen> createState() => _TablePageScreenState();
-}
-
-class _TablePageScreenState extends State<TablePageScreen> {
-  bool isDefault = true;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,26 +20,13 @@ class _TablePageScreenState extends State<TablePageScreen> {
         horizontal: 16,
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TTxSwitch(
-                isDefault: isDefault,
-                theme: widget.theme,
-                onTap: () {
-                  setState(() {
-                    isDefault = !isDefault;
-                  });
-                },
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          SelectableText(
-            widget.tablesData,
-            style: TextStyle(color: widget.theme.fontColorPrimary),
-          ),
+          for (TableDataModel table in tablesData)
+            Text(
+              table.name,
+              style: TextStyle(color: theme.fontColorPrimary),
+            ),
         ],
       ),
     );
