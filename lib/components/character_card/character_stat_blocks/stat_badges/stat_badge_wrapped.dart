@@ -1,4 +1,4 @@
-import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
+import 'package:dndcounterapp/core/colors/color_palette.dart';
 import 'package:flutter/material.dart';
 
 class StatBadgeWrapped extends StatelessWidget {

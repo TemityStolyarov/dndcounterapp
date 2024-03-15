@@ -1,6 +1,6 @@
 import 'package:dndcounterapp/components/character_card/weapons/weapon_stat_badge_row.dart';
 import 'package:dndcounterapp/core/models/weapon.dart';
-import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
+import 'package:dndcounterapp/core/colors/color_palette.dart';
 import 'package:flutter/material.dart';
 
 class ChatacterWeaponListItem extends StatelessWidget {

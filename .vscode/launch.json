@@ -7,7 +7,10 @@
         {
             "name": "dndcounterapp",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "args": [
+                "--web-port=51972"
+            ]
         },
         {
             "name": "dndcounterapp (profile mode)",
@@ -17,6 +20,29 @@
         },
         {
             "name": "dndcounterapp (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "storybook",
+            "program": "lib/storybook/storybook_app.dart",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--web-port=51972"
+            ]
+        },
+        {
+            "name": "storybook (profile mode)",
+            "program": "lib/storybook/storybook_app.dart",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "storybook (release mode)",
+            "program": "lib/storybook/storybook_app.dart",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"

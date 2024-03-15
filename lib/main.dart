@@ -1,45 +1,72 @@
-import 'dart:math';
-
-import 'package:dndcounterapp/components/character_card/character_modal/charbook_add_modal.dart';
-import 'package:dndcounterapp/components/character_card/character_modal/charbook_edit_modal.dart';
-import 'package:dndcounterapp/components/character_card/character_modal/coins_modal.dart';
 import 'package:dndcounterapp/components/charbook/charbook_header.dart';
 import 'package:dndcounterapp/components/charbook/charbook_widget.dart';
-import 'package:dndcounterapp/components/dice_row/dice_row.dart';
-import 'package:dndcounterapp/core/models/character.dart';
 import 'package:dndcounterapp/core/models/charbook.dart';
-import 'package:dndcounterapp/core/models/spell.dart';
-import 'package:dndcounterapp/core/models/weapon.dart';
-import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
+import 'package:dndcounterapp/core/colors/color_palette.dart';
+import 'package:dndcounterapp/pages/admin_page.dart';
+import 'package:dndcounterapp/pages/login_page/check_login.dart';
+import 'package:dndcounterapp/pages/login_page/login_page.dart';
+import 'package:dndcounterapp/pages/register_page/register_page.dart';
+import 'package:dndcounterapp/pages/recovery_page/recovery_page.dart';
+import 'package:dndcounterapp/pages/user_page/user_page.dart';
+import 'package:dndcounterapp/storybook/storybook_app.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'dart:convert';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
 void main() async {
+  // window.document.onContextMenu.listen((evt) => evt.preventDefault());
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Hive.initFlutter();
-  Hive.registerAdapter(CharBookAdapter());
-  Hive.registerAdapter(CharacterAdapter());
-  Hive.registerAdapter(WeaponAdapter());
-  Hive.registerAdapter(SpellAdapter());
-  Hive.registerAdapter(WeaponTypeAdapter());
-  Hive.registerAdapter(SpellTypeAdapter());
-  await Hive.openBox<CharBook>('charbook');
-  Box<CharBook> box = Hive.box<CharBook>('charbook');
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    theme: ThemeData(
+  runApp(const DndCounterApp());
+}
+
+class DndCounterApp extends StatelessWidget {
+  const DndCounterApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
         fontFamily: 'Inter',
-        colorScheme: const ColorScheme.light().copyWith(primary: Colors.brown)),
-    home: MainApp(box: box),
-  ));
+        colorScheme: const ColorScheme.light().copyWith(
+          primary: ColorPalette.fontBaseColor, //Colors.brown,
+        ),
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: {
+            TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+            TargetPlatform.windows: CupertinoPageTransitionsBuilder(),
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+            TargetPlatform.fuchsia: CupertinoPageTransitionsBuilder(),
+            TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
+            TargetPlatform.linux: CupertinoPageTransitionsBuilder(),
+          },
+        ),
+      ),
+      routes: {
+        '/login': (context) => const LoginPage(),
+        '/register': (context) => const RegisterPage(),
+        '/user': (context) => const UserPage(),
+        '/admin': (context) => const AdminPage(),
+        '/': (context) => const CheckLogin(),
+        '/recovery': (context) => const RecoveryPage(),
+        '/testing': (context) => const StorybookApp(),
+      },
+      initialRoute: '/',
+    );
+  }
 }
 
 class MainApp extends StatefulWidget {
-  final Box<CharBook> box;
-  const MainApp({super.key, required this.box});
+  // final Box<CharBook> box;
+  const MainApp({super.key});
 
   @override
   State<MainApp> createState() => _MainAppState();
@@ -58,14 +85,14 @@ class _MainAppState extends State<MainApp> {
 
   @override
   void dispose() async {
-    await widget.box.close();
+    // await widget.box.close();
     super.dispose();
   }
 
   void _updateCards() {
-    setState(() {
-      charbooks = widget.box.values.toList();
-    });
+    // setState(() {
+    //   charbooks = widget.box.values.toList();
+    // });
   }
 
   @override
@@ -79,140 +106,141 @@ class _MainAppState extends State<MainApp> {
       backgroundColor: colorScheme
           ? ColorPalette.alternativeBackgroundColor
           : ColorPalette.backgroundColor,
-      appBar: PreferredSize(
-        preferredSize: const Size(0, 100),
-        child: DiceRow(
-          json: json,
-          box: widget.box,
-          onImport: _updateCards,
-          charBooks: charbooks,
-          colorScheme: colorScheme,
-        ),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: Column(
-                children: [
-                  for (int charbookIndex = 0;
-                      charbookIndex < charbooks.length;
-                      charbookIndex++)
-                    _CharbookCard(
-                      charbookIndex: charbookIndex,
-                      charbooks: charbooks,
-                      charbookBox: widget.box,
-                      colorScheme: colorScheme,
-                      onStartBattleTap: () {
-                        List<Character> presavedChars =
-                            charbooks[charbookIndex].chars;
-                        List<Character> battableChars = [];
-                        List<Character> unbattableChars = [];
-                        for (int index = 0;
-                            index < presavedChars.length;
-                            index++) {
-                          if (presavedChars[index].isEnabled == true) {
-                            presavedChars[index] =
-                                presavedChars[index].copyWith(
-                              initiativeBeforeBattle: index,
-                              initiative: Random().nextInt(20) + 1,
-                            );
-                          } else {
-                            presavedChars[index] =
-                                presavedChars[index].copyWith(
-                              initiativeBeforeBattle: index,
-                              initiative: -1,
-                            );
-                          }
+      body: const Text('Hello World'),
+      // appBar: PreferredSize(
+      //   preferredSize: const Size(0, 100),
+      //   // child: DiceRow(
+      //   //   json: json,
+      //   //   // box: widget.box,
+      //   //   onImport: _updateCards,
+      //   //   charBooks: charbooks,
+      //   //   colorScheme: colorScheme,
+      //   // ),
+      // ),
+      // body: Column(
+      //   children: [
+      // Expanded(
+      //   child: SingleChildScrollView(
+      //     padding: const EdgeInsets.symmetric(horizontal: 40),
+      // child: Column(
+      //   children: [
+      //     for (int charbookIndex = 0;
+      //         charbookIndex < charbooks.length;
+      //         charbookIndex++)
+      // _CharbookCard(
+      //   charbookIndex: charbookIndex,
+      //   charbooks: charbooks,
+      //   charbookBox: widget.box,
+      //   colorScheme: colorScheme,
+      //   onStartBattleTap: () {
+      //     List<Character> presavedChars =
+      //         charbooks[charbookIndex].chars;
+      //     List<Character> battableChars = [];
+      //     List<Character> unbattableChars = [];
+      //     for (int index = 0;
+      //         index < presavedChars.length;
+      //         index++) {
+      //       if (presavedChars[index].isEnabled == true) {
+      //         presavedChars[index] =
+      //             presavedChars[index].copyWith(
+      //           initiativeBeforeBattle: index,
+      //           initiative: Random().nextInt(20) + 1,
+      //         );
+      //       } else {
+      //         presavedChars[index] =
+      //             presavedChars[index].copyWith(
+      //           initiativeBeforeBattle: index,
+      //           initiative: -1,
+      //         );
+      //       }
 
-                          if (presavedChars[index].isEnabled) {
-                            battableChars.add(presavedChars[index]);
-                          } else {
-                            unbattableChars.add(presavedChars[index]);
-                          }
-                        }
-                        List<Character> sortingResult = [];
-                        battableChars.sort((a, b) {
-                          return a.initiative!.compareTo(b.initiative!);
-                        });
-                        sortingResult.addAll(battableChars.reversed);
-                        sortingResult.addAll(unbattableChars);
-                        CharBook result = charbooks[charbookIndex].copyWith(
-                          chars: sortingResult,
-                        );
-                        widget.box.putAt(charbookIndex, result);
-                        _updateCards();
-                      },
-                      onEndBattleTap: () {
-                        List<Character> presavedChars =
-                            charbooks[charbookIndex].chars;
-                        List<Character> sortingResult = [];
-                        for (Character char in presavedChars) {
-                          final nulledInitChar = char.copyWith(
-                            initiative: -1,
-                          );
-                          sortingResult.add(nulledInitChar);
-                        }
-                        sortingResult.sort((a, b) {
-                          return a.initiativeBeforeBattle!
-                              .compareTo(b.initiativeBeforeBattle!);
-                        });
-                        CharBook result = charbooks[charbookIndex].copyWith(
-                          chars: sortingResult,
-                        );
-                        widget.box.putAt(charbookIndex, result);
-                        _updateCards();
-                      },
-                      onTapCoins: () {
-                        final coinsModal = CoinsModal(
-                          charbookBox: widget.box,
-                          charbooks: charbooks,
-                          charbookIndex: charbookIndex,
-                          onCoinsUpdate: _updateCards,
-                        );
-                        coinsModal.show(context);
-                      },
-                      onTapSection: () {
-                        final sectionEditModal = CharbookEditModal(
-                          box: widget.box,
-                          charbookIndex: charbookIndex,
-                          onUpdateScreen: _updateCards,
-                        );
-                        sectionEditModal.show(context);
-                      },
-                      onUpdateScreen: _updateCards,
-                    ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: 40,
-                      top: 40,
-                    ),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: FloatingActionButton(
-                        onPressed: () {
-                          final charbookAddModal = CharbookAddModal(
-                            box: widget.box,
-                            onAdd: _updateCards,
-                          );
-                          charbookAddModal.show(context);
-                        },
-                        tooltip: 'Добавить раздел',
-                        backgroundColor: ColorPalette.cardColor,
-                        child: const Icon(
-                          Icons.add,
-                          color: ColorPalette.alternativeshadowColor,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+      //       if (presavedChars[index].isEnabled) {
+      //         battableChars.add(presavedChars[index]);
+      //       } else {
+      //         unbattableChars.add(presavedChars[index]);
+      //       }
+      //     }
+      //     List<Character> sortingResult = [];
+      //     battableChars.sort((a, b) {
+      //       return a.initiative!.compareTo(b.initiative!);
+      //     });
+      //     sortingResult.addAll(battableChars.reversed);
+      //     sortingResult.addAll(unbattableChars);
+      //     CharBook result = charbooks[charbookIndex].copyWith(
+      //       chars: sortingResult,
+      //     );
+      //     widget.box.putAt(charbookIndex, result);
+      //     _updateCards();
+      //   },
+      //   onEndBattleTap: () {
+      //     List<Character> presavedChars =
+      //         charbooks[charbookIndex].chars;
+      //     List<Character> sortingResult = [];
+      //     for (Character char in presavedChars) {
+      //       final nulledInitChar = char.copyWith(
+      //         initiative: -1,
+      //       );
+      //       sortingResult.add(nulledInitChar);
+      //     }
+      //     sortingResult.sort((a, b) {
+      //       return a.initiativeBeforeBattle!
+      //           .compareTo(b.initiativeBeforeBattle!);
+      //     });
+      //     CharBook result = charbooks[charbookIndex].copyWith(
+      //       chars: sortingResult,
+      //     );
+      //     widget.box.putAt(charbookIndex, result);
+      //     _updateCards();
+      //   },
+      //   onTapCoins: () {
+      //     final coinsModal = CoinsModal(
+      //       charbookBox: widget.box,
+      //       charbooks: charbooks,
+      //       charbookIndex: charbookIndex,
+      //       onCoinsUpdate: _updateCards,
+      //     );
+      //     coinsModal.show(context);
+      //   },
+      //   onTapSection: () {
+      //     final sectionEditModal = CharbookEditModal(
+      //       box: widget.box,
+      //       charbookIndex: charbookIndex,
+      //       onUpdateScreen: _updateCards,
+      //     );
+      //     sectionEditModal.show(context);
+      //   },
+      //   onUpdateScreen: _updateCards,
+      // ),
+      // Padding(
+      //   padding: const EdgeInsets.only(
+      //     bottom: 40,
+      //     top: 40,
+      //   ),
+      //   child: Align(
+      //     alignment: Alignment.bottomRight,
+      //     child: FloatingActionButton(
+      //       onPressed: () {
+      //         final charbookAddModal = CharbookAddModal(
+      //           box: widget.box,
+      //           onAdd: _updateCards,
+      //         );
+      //         charbookAddModal.show(context);
+      //       },
+      //       tooltip: 'Добавить раздел',
+      //       backgroundColor: ColorPalette.cardColor,
+      //       child: const Icon(
+      //         Icons.add,
+      //         color: ColorPalette.alternativeshadowColor,
+      //       ),
+      //     ),
+      //   ),
+      // ),
+      // ],
+      //         ),
+      //       ),
+      //     ),
+      //   ],
+      // ),
     );
   }
 }

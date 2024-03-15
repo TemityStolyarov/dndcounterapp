@@ -1,7 +1,7 @@
 import 'package:dndcounterapp/components/character_card/character_modal/input_output_modal.dart';
 import 'package:dndcounterapp/components/dice_row/dice.dart';
 import 'package:dndcounterapp/core/models/charbook.dart';
-import 'package:dndcounterapp/core/ui_kit/color_palette.dart';
+import 'package:dndcounterapp/core/colors/color_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
