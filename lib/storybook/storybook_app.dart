@@ -4,6 +4,7 @@ import 'package:dndcounterapp/storybook/screens/recovery_page_screen_story.dart'
 import 'package:dndcounterapp/storybook/screens/register_page_screen_story.dart';
 import 'package:dndcounterapp/storybook/screens/user_page_screen_story.dart';
 import 'package:dndcounterapp/storybook/widgets/dice_story.dart';
+import 'package:dndcounterapp/storybook/widgets/table_card_story.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
@@ -61,10 +62,14 @@ class StorybookApp extends StatelessWidget {
             name: 'Screens/User Page',
             builder: (context) => UserPageScreenStory(knobs: context.knobs),
           ),
+          // ---------------------------------------------------------------------
           Story(
             name: 'Widgets/Dice',
-            // description: 'One unit of rolling cubes',
             builder: (context) => DiceStory(knobs: context.knobs),
+          ),
+          Story(
+            name: 'Widgets/TableCard',
+            builder: (context) => TableCardStory(knobs: context.knobs),
           ),
         ],
       );

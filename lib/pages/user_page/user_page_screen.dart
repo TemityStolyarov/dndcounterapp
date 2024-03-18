@@ -2,6 +2,7 @@ import 'package:dndcounterapp/components/ttx_appbar/ttx_appbar.dart';
 import 'package:dndcounterapp/core/colors/ttx_theme.dart';
 import 'package:dndcounterapp/core/models/user_data_model.dart';
 import 'package:dndcounterapp/pages/table_page/table_page.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class UserPageScreen extends StatefulWidget {
@@ -20,16 +21,17 @@ class UserPageScreen extends StatefulWidget {
 
 class _UserPageScreenState extends State<UserPageScreen> {
   bool isDefault = true;
-  
+
   @override
   Widget build(BuildContext context) {
+    const version = 'v2.1.11.0-024';
     final theme =
         widget.userData.lightTheme ? ColorTheme.light : ColorTheme.dark;
 
     return Scaffold(
       backgroundColor: theme.backgroundColorSecondary,
       appBar: PreferredSize(
-        preferredSize: const Size(1000, 48),
+        preferredSize: const Size(1000, 64),
         child: TTxAppBar(
           theme: theme,
           isDefault: isDefault,
@@ -41,12 +43,14 @@ class _UserPageScreenState extends State<UserPageScreen> {
         ),
       ),
       body: isDefault
-          ? TablePage(
-              userId: widget.userData.userId,
-              theme: theme,
+          ? Center(
+              child: TablePage(
+                userId: widget.userData.userId,
+                theme: theme,
+              ),
             )
           : const Placeholder(),
-      drawer: Drawer(
+      endDrawer: Drawer(
         backgroundColor: theme.backgroundColorSecondary,
         child: Column(
           mainAxisSize: MainAxisSize.max,
@@ -95,6 +99,30 @@ class _UserPageScreenState extends State<UserPageScreen> {
               ),
             ),
             InkWell(
+              onTap: () => Navigator.pushNamed(context, '/testing'),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 10,
+                ),
+                child: SizedBox(
+                  child: Row(
+                    children: [
+                      Text(
+                        'Storybook',
+                        style: TextStyle(color: theme.fontColorPrimary),
+                      ),
+                      const Spacer(),
+                      Icon(
+                        Icons.text_fields_sharp,
+                        color: theme.fontColorPrimary,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            InkWell(
               onTap: widget.signOut,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -123,7 +151,7 @@ class _UserPageScreenState extends State<UserPageScreen> {
               padding: const EdgeInsets.all(16.0),
               child: Center(
                 child: Text(
-                  'v2.0.22.1',
+                  version,
                   style: TextStyle(
                     color: theme.fontColorLabel,
                     fontSize: 10,

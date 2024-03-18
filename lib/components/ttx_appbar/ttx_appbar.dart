@@ -17,18 +17,26 @@ class TTxAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 8,
+      padding: const EdgeInsets.only(
+        left: 16,
+        right: 16,
+        top: 16,
+        bottom: 16,
       ),
       child: Row(
         children: [
+          TTxSwitch(
+            isDefault: isDefault,
+            theme: theme,
+            onTap: onTap,
+          ),
+          const Spacer(),
           SizedBox(
             height: 32,
             width: 32,
             child: InkWell(
               onTap: () {
-                Scaffold.of(context).openDrawer();
+                Scaffold.of(context).openEndDrawer();
               },
               radius: 32,
               splashColor: Colors.transparent,
@@ -48,13 +56,6 @@ class TTxAppBar extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 16),
-          TTxSwitch(
-            isDefault: isDefault,
-            theme: theme,
-            onTap: onTap,
-          ),
-          const Spacer(),
         ],
       ),
     );
