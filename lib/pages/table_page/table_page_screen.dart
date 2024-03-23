@@ -15,25 +15,66 @@ class TablePageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 0,
-        horizontal: 16,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          for (TableDataModel table in tablesData) ...[
-            TableCard(
-              tableName: table.name,
-              tableDesc: table.description,
-              tableImg: table.image,
-              theme: theme,
+    final int length = tablesData.length + 1;
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        int crossAxisCount = 1; // По умолчанию 2 элемента в строке
+
+        // Изменение количества элементов в строке в зависимости от ширины экрана
+        if (constraints.maxWidth > 800) {
+          crossAxisCount = 2;
+        }
+        if (constraints.maxWidth > 1200) {
+          crossAxisCount = 3;
+        }
+
+        return Padding(
+          padding: const EdgeInsets.only(
+            top: 0,
+            bottom: 16,
+            left: 16,
+            right: 0,
+          ),
+          child: GridView.builder(
+            itemCount: length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              crossAxisSpacing: 0,
+              mainAxisSpacing: 16,
+              childAspectRatio: constraints.maxWidth / crossAxisCount / 250,
             ),
-            const SizedBox(height: 16),
-          ],
-        ],
-      ),
+            itemBuilder: (BuildContext context, int index) {
+              if (index == tablesData.length) {
+                return TableCardAdd(theme: theme);
+              }
+              return TableCard(
+                tableName: tablesData[index].name,
+                tableDesc: tablesData[index].description,
+                tableImg: tablesData[index].image,
+                theme: theme,
+                constraintsWidth: constraints.maxWidth,
+                crossAxisCount: crossAxisCount,
+              );
+            },
+          ),
+        );
+      },
+
+      //   return Wrap(
+      //     children: [
+      //       for (TableDataModel table in tablesData) ...[
+      //         TableCard(
+      //           tableName: table.name,
+      //           tableDesc: table.description,
+      //           tableImg: table.image,
+      //           theme: theme,
+      //           constraintsWidth: constraints.maxWidth,
+      //         ),
+      //         const SizedBox(height: 16),
+      //       ],
+      //     ],
+      //   );
+      // },
     );
   }
 }

@@ -25,11 +25,16 @@ class TableCardStory extends StatelessWidget {
           initial:
               'https://i.postimg.cc/34nczVqG/photo-2024-02-26-20-39-48.jpg',
         ),
-        theme:
-            knobs.options(label: 'Тема', initial: ColorTheme.light, options: [
-          Option(label: 'Светлая', value: ColorTheme.light),
-          Option(label: 'Темная', value: ColorTheme.dark),
-        ]),
+        theme: knobs.options(
+          label: 'Тема',
+          initial: ColorTheme.light,
+          options: [
+            Option(label: 'Светлая', value: ColorTheme.light),
+            Option(label: 'Темная', value: ColorTheme.dark),
+          ],
+        ),
+        constraintsWidth: 400,
+        crossAxisCount: 3,
       ),
     );
   }

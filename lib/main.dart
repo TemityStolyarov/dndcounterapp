@@ -54,7 +54,7 @@ class DndCounterApp extends StatelessWidget {
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
         '/user': (context) => const UserPage(),
-        '/admin': (context) => const AdminPage(),
+        '/admin': (context) => const AdminPage(), // TODO: remove
         '/': (context) => const CheckLogin(),
         '/recovery': (context) => const RecoveryPage(),
         '/testing': (context) => const StorybookApp(),
