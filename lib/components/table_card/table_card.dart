@@ -34,9 +34,10 @@ class TableCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(6.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(6),
@@ -76,86 +77,37 @@ class TableCard extends StatelessWidget {
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
               ),
+              const Spacer(),
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: theme.backgroundColorPrimary,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      height: 32,
+                      child: Center(child: Text('Изменить')),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: theme.backgroundColorPrimary,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      height: 32,
+                      child: Center(child: Text('Перейти')),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
       ),
     );
-
-    // Container(
-    //   width: 400,
-    //   decoration: BoxDecoration(
-    //     color: theme.backgroundColorTretriary,
-    //     borderRadius: BorderRadius.circular(8),
-    //   ),
-    //   child: Padding(
-    //     padding: const EdgeInsets.all(6),
-    //     child: Row(
-    //       mainAxisSize: MainAxisSize.min,
-    //       crossAxisAlignment: CrossAxisAlignment.start,
-    //       children: [
-    //         SizedBox(
-    //           width: 80,
-    //           height: 80,
-    //           child: ClipRRect(
-    //             borderRadius: BorderRadius.circular(6),
-    //             child: Image.network(
-    //               tableImg,
-    //               fit: BoxFit.cover,
-    //               isAntiAlias: true,
-    //               errorBuilder: (context, error, stackTrace) {
-    //                 return DecoratedBox(
-    //                   decoration: BoxDecoration(
-    //                     borderRadius: BorderRadius.circular(6),
-    //                     color: theme.backgroundColorPrimary,
-    //                   ),
-    //                 );
-    //               },
-    //             ),
-    //           ),
-    //         ),
-    //         const SizedBox(width: 10),
-    //         Expanded(
-    //           child: Column(
-    //             mainAxisSize: MainAxisSize.min,
-    //             crossAxisAlignment: CrossAxisAlignment.start,
-    //             children: [
-    //               Row(
-    //                 children: [
-    //                   Expanded(
-    //                     child: Text(
-    //                       tableName,
-    //                       style: style.copyWith(
-    //                         fontWeight: FontWeight.w500,
-    //                       ),
-    //                       overflow: TextOverflow.ellipsis,
-    //                     ),
-    //                   ),
-    //                   Icon(
-    //                     Icons.check_rounded,
-    //                     color: theme.fontColorLabel,
-    //                     size: 20,
-    //                   ),
-    //                 ],
-    //               ),
-    //               const SizedBox(height: 4),
-    //               Text(
-    //                 tableDesc,
-    //                 style: style.copyWith(
-    //                   fontSize: 12,
-    //                   height: 16 / 12,
-    //                 ),
-    //                 maxLines: 3,
-    //                 overflow: TextOverflow.ellipsis,
-    //               ),
-    //             ],
-    //           ),
-    //         ),
-    //         const SizedBox(width: 4),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }
 

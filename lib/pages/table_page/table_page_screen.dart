@@ -18,9 +18,8 @@ class TablePageScreen extends StatelessWidget {
     final int length = tablesData.length + 1;
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        int crossAxisCount = 1; // По умолчанию 2 элемента в строке
+        int crossAxisCount = 1;
 
-        // Изменение количества элементов в строке в зависимости от ширины экрана
         if (constraints.maxWidth > 800) {
           crossAxisCount = 2;
         }
@@ -41,7 +40,7 @@ class TablePageScreen extends StatelessWidget {
               crossAxisCount: crossAxisCount,
               crossAxisSpacing: 0,
               mainAxisSpacing: 16,
-              childAspectRatio: constraints.maxWidth / crossAxisCount / 250,
+              childAspectRatio: constraints.maxWidth / crossAxisCount / 300,
             ),
             itemBuilder: (BuildContext context, int index) {
               if (index == tablesData.length) {
@@ -59,22 +58,6 @@ class TablePageScreen extends StatelessWidget {
           ),
         );
       },
-
-      //   return Wrap(
-      //     children: [
-      //       for (TableDataModel table in tablesData) ...[
-      //         TableCard(
-      //           tableName: table.name,
-      //           tableDesc: table.description,
-      //           tableImg: table.image,
-      //           theme: theme,
-      //           constraintsWidth: constraints.maxWidth,
-      //         ),
-      //         const SizedBox(height: 16),
-      //       ],
-      //     ],
-      //   );
-      // },
     );
   }
 }
