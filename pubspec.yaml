@@ -1,7 +1,8 @@
 name: dndcounterapp
 description: Character book and more!
 publish_to: 'none'
-version: 0.21.0
+version: 1.10.0
+#alt: v2.1.10.0
 
 environment:
   sdk: '>=3.0.6 <4.0.0'
@@ -37,5 +38,7 @@ flutter:
           weight: 400
         - asset: assets/fonts/Inter-Medium.ttf
           weight: 500
+        - asset: assets/fonts/Inter-SemiBold.ttf
+          weight: 600
         - asset: assets/fonts/Inter-Bold.ttf
           weight: 700
